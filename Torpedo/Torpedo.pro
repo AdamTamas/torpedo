@@ -10,10 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    torpedomodel.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    torpedomodel.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
