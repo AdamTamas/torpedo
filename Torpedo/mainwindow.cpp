@@ -55,7 +55,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * 200 / areaSize) + 10 , (j * 200 / areaSize) + 10); // elmozdítjuk a rajzpontot a megfelelő mezőre
 
-            // mező kirajzolása a játékos függvényében
+            // hajó felrajzolása
             if ( _model.getField(i, j).shipID )
             {
                 painter.fillRect(_shipGraphics,QBrush(Qt::black));
@@ -65,4 +65,14 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
     }
     
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{       
+    if (event->key() == Qt::Key_N && QApplication::keyboardModifiers() == Qt::ControlModifier)
+    {
+        // lekezeljük a Ctrl+N kombinációt
+        _model.newGame();
+        update();
+    }
 }

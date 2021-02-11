@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "torpedomodel.h"
-#include <stdlib.h> 
+#include "torpedomodel.h" 
 
 class MainWindow : public QMainWindow
 {
@@ -15,6 +14,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     QVector<QLineF> _tableGraphicsOwn; // saját mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat

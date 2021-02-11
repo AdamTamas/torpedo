@@ -13,9 +13,16 @@ public:
         int shipID;
         bool isShot;
     };
+    struct Ship {
+        bool isDestroyed;
+        int size;
+        int hitPoint;
+        int ID;
+    };
     Torpedomodel();
     virtual ~Torpedomodel();
     void newGame();
+    void randomTable(Area** _gameTable, Ship* ships, int shipNum);
     Area getField(int x, int y) const; // játékmező lekérdezése
 
 private:
