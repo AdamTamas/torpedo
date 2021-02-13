@@ -4,17 +4,16 @@
 #include <QVector>
 #include <QString>
 
-static int areaSize = 8;
 class Torpedomodel : public QObject
 {
     Q_OBJECT
 public:
+    int areaSize;
     struct Area {
         int shipID;
         bool isShot;
     };
     struct Ship {
-        bool isDestroyed;
         int size;
         int hitPoint;
         int ID;
@@ -22,11 +21,16 @@ public:
     Torpedomodel();
     virtual ~Torpedomodel();
     void newGame();
-    void randomTable(Area** _gameTable, Ship* ships, int shipNum);
-    Area getField(int x, int y) const; // játékmező lekérdezése
+    void randomTable(std::vector<std::vector<Torpedomodel::Area>> &t);
+    Area getField(int x, int y) const; // saját játékmező lekérdezése
+    Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
+    void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
 
 private:
-    Area** _gameTable; // játéktábla
+    std::vector<std::vector<Area>> _gameTable; // saját játéktábla
+    std::vector<std::vector<Area>> _enemyGameTable; // ellenfél játéktábla
+    std::vector<Ship> _ships; // játéktábla
+    int _shipNum;
 };
 
 #endif // TORPEDOMODEL_H

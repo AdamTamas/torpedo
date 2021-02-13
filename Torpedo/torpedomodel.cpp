@@ -1,55 +1,58 @@
 #include "torpedomodel.h"
 #include <stdlib.h>
 
+
 Torpedomodel::Torpedomodel()
-{    
-    _gameTable = new Area*[areaSize];
-    for (int i = 0; i < areaSize; ++i)
+{
+    areaSize = 8;
+    initTable(_gameTable);
+    initTable(_enemyGameTable);
+    //saját hajók listája
+    _shipNum = 4;
+    for(int i = 0; i < _shipNum; i++)
     {
-        _gameTable[i] = new Area[areaSize];
+        Ship s;
+        s.ID = i+1;
+        s.hitPoint = i+2;
+        s.size = i+2;
+        _ships.push_back(s);
     }
 
 }
 
 Torpedomodel::~Torpedomodel()
 {
-    delete[] _gameTable;
 }
 
 void Torpedomodel::newGame()
 {
-    //saját hajók listája
-    int shipNum = 5;
-    Ship ships[shipNum];
-    for(int i = 2; i < shipNum; i++)
-    {
-        Ship s;
-        s.ID = i-1;
-        s.hitPoint = i;
-        s.size = i;
-        s.isDestroyed = false;
-        ships[i-2] = s;
-    }
-    // üres tábla létrehozása
-    for (int i = 0; i < areaSize; ++i)
-        for (int j = 0; j < areaSize; ++j)
-        { 
-            Area a;
-            a.shipID = 0;
-            a.isShot = rand() % 2;
-            _gameTable[i][j] = a;
-        }
-    Torpedomodel::randomTable(_gameTable, ships, shipNum);
+
+    randomTable(_gameTable);
+    randomTable(_enemyGameTable);
 }
+
 Torpedomodel::Area Torpedomodel::getField(int x, int y) const
 {
     return _gameTable[x][y];
 }
 
-void Torpedomodel::randomTable(Area** _gameTable, Ship* ships, int shipNum)
+Torpedomodel::Area Torpedomodel::getEnemyField(int x, int y) const
 {
+    return _enemyGameTable[x][y];
+}
 
-    for (int i = 0; i < shipNum; i++)
+void Torpedomodel::randomTable(std::vector<std::vector<Torpedomodel::Area>> &t)
+{
+    for (int i = 0; i < areaSize; i++)
+    {
+        for (int j = 0; j < areaSize; j++)
+        {
+            t[i][j].isShot = rand() % 2;
+            t[i][j].shipID = 0;
+        }
+    }
+
+    for (size_t i = 0; i < _ships.size(); i++)
     {
         bool notPlaced = true;
         while (notPlaced)
@@ -63,14 +66,14 @@ void Torpedomodel::randomTable(Area** _gameTable, Ship* ships, int shipNum)
             bool canBePlaced = true;
             if (orientation == 0)
             {
-                for (int j = 0; j < ships[i].size-1; j++)
+                for (int j = 0; j < _ships[i].size-1; j++)
                 {
                     endrow++;
                 }
             }
             else
             {
-                for (int j = 0; j < ships[i].size-1; j++)
+                for (int j = 0; j < _ships[i].size-1; j++)
                 {
                     endcolumn++;
                 }
@@ -85,7 +88,7 @@ void Torpedomodel::randomTable(Area** _gameTable, Ship* ships, int shipNum)
             if(canBePlaced)
                 for(int row = startrow; row <= endrow; row++)
                     for(int col = startcolumn; col <= endcolumn; col++)
-                        if(_gameTable[row][col].shipID != 0)
+                        if(t[row][col].shipID != 0)
                             canBePlaced = false;
 
             // ha le lehet rakni, akkor elhelyezzük a hajót
@@ -95,12 +98,27 @@ void Torpedomodel::randomTable(Area** _gameTable, Ship* ships, int shipNum)
                 {
                     for(int col = startcolumn; col <= endcolumn; col++)
                     {
-                        _gameTable[row][col].shipID = ships[i].ID;
+                        t[row][col].shipID = _ships[i].ID;
                     }
                 }
             notPlaced = false;
             }
         }
     }
+}
 
+void Torpedomodel::initTable(std::vector<std::vector<Torpedomodel::Area>> &t)
+{
+    for (int i = 0; i < areaSize; ++i)
+    {
+        std::vector<Area> tmpVec;
+        for (int j = 0; j < areaSize; ++j)
+        {
+            Area a;
+            a.shipID = 0;
+            a.isShot = rand() % 2;
+            tmpVec.push_back(a);
+        }
+        t.push_back(tmpVec);
+    }
 }
