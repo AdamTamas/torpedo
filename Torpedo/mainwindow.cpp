@@ -49,8 +49,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.drawLines(_tableGraphicsOwn); // tábla kirajzolása
     painter.drawLines(_tableGraphicsEnemy); // tábla kirajzolása
 
-    // TODO generalizálni a 2 tába felrajzolását
-    // ellenfél tábla hajók és lövések felrajzolása
+    // saját tábla hajók és lövések felrajzolása
     for(int i = 0; i < _model.areaSize; i++)
     {
         for(int j = 0; j < _model.areaSize; j++)
@@ -82,11 +81,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * 200 / _model.areaSize) + 220 , (j * 200 / _model.areaSize) + 10); // elmozdítjuk a rajzpontot a megfelelő mezőre
             Torpedomodel::Area a = _model.getEnemyField(i, j);
-            // hajó felrajzolása
-            if ( a.shipID && !a.isShot)
-            {
-                painter.fillRect(_shipGraphics,QBrush(Qt::black)); // hajógrafika kiválasztása
-            }
+            // lövések felrajzolása
             if ( a.shipID && a.isShot)
             {
                 painter.fillRect(_shipGraphics,QBrush(Qt::darkRed)); // hajógrafika kiválasztása
@@ -106,6 +101,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         // lekezeljük a Ctrl+N kombinációt
         _model.newGame();
+        update();
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    // az event->pos() megadja az egérpozíciót, ami QPoint típusú, ebbõl kiszámolható, melyik mezőn vagyunk:
+    int x = (event->pos().x() - 220) * _model.areaSize / 200;
+    int y = (event->pos().y() - 10) * _model.areaSize / 200;
+
+    if(x < _model.areaSize && x >= 0 && y < _model.areaSize && y >= 0)
+    {
+        _model.stepGame(x, y); // játék léptetése
         update();
     }
 }

@@ -25,6 +25,7 @@ public:
     Area getField(int x, int y) const; // saját játékmező lekérdezése
     Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
     void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
+    void stepGame(int x, int y);
 
 private:
     std::vector<std::vector<Area>> _gameTable; // saját játéktábla

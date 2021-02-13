@@ -15,6 +15,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     QVector<QLineF> _tableGraphicsOwn; // saját mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat

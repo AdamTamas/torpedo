@@ -47,7 +47,7 @@ void Torpedomodel::randomTable(std::vector<std::vector<Torpedomodel::Area>> &t)
     {
         for (int j = 0; j < areaSize; j++)
         {
-            t[i][j].isShot = rand() % 2;
+            t[i][j].isShot = false;
             t[i][j].shipID = 0;
         }
     }
@@ -116,9 +116,33 @@ void Torpedomodel::initTable(std::vector<std::vector<Torpedomodel::Area>> &t)
         {
             Area a;
             a.shipID = 0;
-            a.isShot = rand() % 2;
+            a.isShot = false;
             tmpVec.push_back(a);
         }
         t.push_back(tmpVec);
     }
 }
+
+void Torpedomodel::stepGame(int x, int y)
+{
+    if(!_enemyGameTable[x][y].isShot)
+    {
+        _enemyGameTable[x][y].isShot = true;
+        bool foundShot = false;
+        while(!foundShot)
+        {
+            int randX = rand() % areaSize;
+            int randY = rand() % areaSize;
+            if(!_gameTable[randX][randY].isShot)
+            {
+                _gameTable[randX][randY].isShot = true;
+                if(_gameTable[randX][randY].shipID != 0)
+                {
+                    _ships[_gameTable[randX][randY].shipID-1].hitPoint--;
+                }
+                foundShot = true;
+            }
+        }
+    }
+}
+
