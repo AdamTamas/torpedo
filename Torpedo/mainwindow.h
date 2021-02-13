@@ -19,6 +19,7 @@ protected:
 private:
     QVector<QLineF> _tableGraphicsOwn; // saját mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
     QVector<QLineF> _tableGraphicsEnemy; // ellenfél mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
+    QVector<QLineF> _missGraphics; // kereszt grafikája (ha nem találtunk)
     QRectF _shipGraphics;
     Torpedomodel _model; // a játékot megvalósító modell
 

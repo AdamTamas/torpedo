@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     }
     // hajógrafika
     _shipGraphics = QRectF(0, 0, 200 / areaSize, 200 / areaSize);
+    _missGraphics.append(QLineF(3, 3, (200 / areaSize) - 3, (200 / areaSize) - 3));
+    _missGraphics.append(QLineF(3, (200 / areaSize) - 3, (200 / areaSize) - 3, 3));
 
 }
 
@@ -54,12 +56,19 @@ void MainWindow::paintEvent(QPaintEvent *)
         {
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * 200 / areaSize) + 10 , (j * 200 / areaSize) + 10); // elmozdítjuk a rajzpontot a megfelelő mezőre
-
+            Torpedomodel::Area a = _model.getField(i, j);
             // hajó felrajzolása
-            if ( _model.getField(i, j).shipID )
+            if ( a.shipID && !a.isShot)
             {
-                painter.fillRect(_shipGraphics,QBrush(Qt::black));
-                painter.drawRect(_shipGraphics); // hajógrafika kiválasztása
+                painter.fillRect(_shipGraphics,QBrush(Qt::black)); // hajógrafika kiválasztása
+            }
+            if ( a.shipID && a.isShot)
+            {
+                painter.fillRect(_shipGraphics,QBrush(Qt::red)); // hajógrafika kiválasztása
+            }
+            if ( !a.shipID && a.isShot )
+            {
+                painter.drawLines(_missGraphics);           // miss kirajzolása
             }
             painter.restore(); // visszatöltjük a korábbi állapotot
         }

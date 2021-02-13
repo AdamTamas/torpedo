@@ -36,7 +36,7 @@ void Torpedomodel::newGame()
         { 
             Area a;
             a.shipID = 0;
-            a.isShot = false;
+            a.isShot = rand() % 2;
             _gameTable[i][j] = a;
         }
     Torpedomodel::randomTable(_gameTable, ships, shipNum);
@@ -83,8 +83,8 @@ void Torpedomodel::randomTable(Area** _gameTable, Ship* ships, int shipNum)
 
             // ellenőrizzük, hogy foglalt-e egy hely
             if(canBePlaced)
-                for(int row = startrow; row <= endrow && row < areaSize; row++)
-                    for(int col = startcolumn; col <= endcolumn && col < areaSize; col++)
+                for(int row = startrow; row <= endrow; row++)
+                    for(int col = startcolumn; col <= endcolumn; col++)
                         if(_gameTable[row][col].shipID != 0)
                             canBePlaced = false;
 
