@@ -41,6 +41,12 @@ Torpedomodel::Area Torpedomodel::getEnemyField(int x, int y) const
     return _enemyGameTable[x][y];
 }
 
+
+Torpedomodel::Ship Torpedomodel::getShipByID(int ID)  const
+{
+    return _ships[ID-1];
+}
+
 void Torpedomodel::randomTable(std::vector<std::vector<Torpedomodel::Area>> &t)
 {
     for (int i = 0; i < areaSize; i++)

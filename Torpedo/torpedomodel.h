@@ -24,6 +24,7 @@ public:
     void randomTable(std::vector<std::vector<Torpedomodel::Area>> &t);
     Area getField(int x, int y) const; // saját játékmező lekérdezése
     Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
+    Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
     void stepGame(int x, int y);
 

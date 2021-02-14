@@ -62,9 +62,13 @@ void MainWindow::paintEvent(QPaintEvent *)
             {
                 painter.fillRect(_shipGraphics,QBrush(Qt::black)); // hajógrafika kiválasztása
             }
-            if ( a.shipID && a.isShot)
+            if ( a.shipID && a.isShot && _model.getShipByID(a.shipID).hitPoint)
             {
-                painter.fillRect(_shipGraphics,QBrush(Qt::darkRed)); // hajógrafika kiválasztása
+                painter.fillRect(_shipGraphics,QBrush(Qt::darkRed)); // hajógrafika kiválasztása sárült hajóhoz
+            }
+            if ( a.shipID && a.isShot && !_model.getShipByID(a.shipID).hitPoint)
+            {
+                painter.fillRect(_shipGraphics,QBrush(Qt::red)); // hajógrafika kiválasztása elsűlyedt hajóhoz
             }
             if ( !a.shipID && a.isShot )
             {
