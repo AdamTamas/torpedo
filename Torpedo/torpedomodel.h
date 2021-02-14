@@ -28,6 +28,7 @@ public:
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
     void fillShips(std::vector<Torpedomodel::Ship> &t);
+    void resetShips(std::vector<Torpedomodel::Ship> &t);
     void stepGame(int x, int y);
 
 private:

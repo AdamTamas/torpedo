@@ -19,7 +19,8 @@ Torpedomodel::~Torpedomodel()
 
 void Torpedomodel::newGame()
 {
-
+    resetShips(_ships);
+    resetShips(_enemyShips);
     randomTable(_gameTable);
     randomTable(_enemyGameTable);
 }
@@ -135,6 +136,14 @@ void Torpedomodel::fillShips(std::vector<Torpedomodel::Ship> &t)
         s.hitPoint = i+2;
         s.size = i+2;
         t.push_back(s);
+    }
+}
+
+void Torpedomodel::resetShips(std::vector<Torpedomodel::Ship> &t)
+{
+    for(size_t i = 0; i < t.size(); i++)
+    {
+        t[i].hitPoint = i+2;
     }
 }
 
