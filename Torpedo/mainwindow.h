@@ -23,6 +23,8 @@ private:
     QVector<QLineF> _missGraphics; // kereszt grafikája (ha nem találtunk)
     QRectF _shipGraphics;
     Torpedomodel _model; // a játékot megvalósító modell
+    int _boardHW;
+    int _boardSide;
 
 };
 #endif // MAINWINDOW_H
