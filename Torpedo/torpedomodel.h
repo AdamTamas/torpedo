@@ -25,13 +25,16 @@ public:
     Area getField(int x, int y) const; // saját játékmező lekérdezése
     Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
+    Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
+    void fillShips(std::vector<Torpedomodel::Ship> &t);
     void stepGame(int x, int y);
 
 private:
     std::vector<std::vector<Area>> _gameTable; // saját játéktábla
     std::vector<std::vector<Area>> _enemyGameTable; // ellenfél játéktábla
-    std::vector<Ship> _ships; // játéktábla
+    std::vector<Ship> _ships; // saját hajók
+    std::vector<Ship> _enemyShips; // ellenfél hajói
     int _shipNum;
 };
 

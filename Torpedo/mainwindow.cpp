@@ -86,9 +86,13 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.translate((i * 200 / _model.areaSize) + 220 , (j * 200 / _model.areaSize) + 10); // elmozdítjuk a rajzpontot a megfelelő mezőre
             Torpedomodel::Area a = _model.getEnemyField(i, j);
             // lövések felrajzolása
-            if ( a.shipID && a.isShot)
+            if ( a.shipID && a.isShot && _model.getEnemyShipByID(a.shipID).hitPoint)
             {
-                painter.fillRect(_shipGraphics,QBrush(Qt::darkRed)); // hajógrafika kiválasztása
+                painter.fillRect(_shipGraphics,QBrush(Qt::darkRed)); // hajógrafika kiválasztása sárült hajóhoz
+            }
+            if ( a.shipID && a.isShot && !_model.getEnemyShipByID(a.shipID).hitPoint)
+            {
+                painter.fillRect(_shipGraphics,QBrush(Qt::red)); // hajógrafika kiválasztása elsűlyedt hajóhoz
             }
             if ( !a.shipID && a.isShot )
             {

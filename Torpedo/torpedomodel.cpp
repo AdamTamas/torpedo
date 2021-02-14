@@ -7,17 +7,10 @@ Torpedomodel::Torpedomodel()
     areaSize = 8;
     initTable(_gameTable);
     initTable(_enemyGameTable);
-    //saját hajók listája
+    // hajók listája
     _shipNum = 4;
-    for(int i = 0; i < _shipNum; i++)
-    {
-        Ship s;
-        s.ID = i+1;
-        s.hitPoint = i+2;
-        s.size = i+2;
-        _ships.push_back(s);
-    }
-
+    fillShips(_ships);
+    fillShips(_enemyShips);
 }
 
 Torpedomodel::~Torpedomodel()
@@ -41,10 +34,14 @@ Torpedomodel::Area Torpedomodel::getEnemyField(int x, int y) const
     return _enemyGameTable[x][y];
 }
 
-
 Torpedomodel::Ship Torpedomodel::getShipByID(int ID)  const
 {
     return _ships[ID-1];
+}
+
+Torpedomodel::Ship Torpedomodel::getEnemyShipByID(int ID)  const
+{
+    return _enemyShips[ID-1];
 }
 
 void Torpedomodel::randomTable(std::vector<std::vector<Torpedomodel::Area>> &t)
@@ -129,12 +126,26 @@ void Torpedomodel::initTable(std::vector<std::vector<Torpedomodel::Area>> &t)
     }
 }
 
+void Torpedomodel::fillShips(std::vector<Torpedomodel::Ship> &t)
+{
+    for(int i = 0; i < _shipNum; i++)
+    {
+        Ship s;
+        s.ID = i+1;
+        s.hitPoint = i+2;
+        s.size = i+2;
+        t.push_back(s);
+    }
+}
+
 void Torpedomodel::stepGame(int x, int y)
 {
     if(!_enemyGameTable[x][y].isShot)
     {
         _enemyGameTable[x][y].isShot = true;
         bool foundShot = false;
+        if(_enemyGameTable[x][y].shipID)
+            _enemyShips[_enemyGameTable[x][y].shipID-1].hitPoint--;
         while(!foundShot)
         {
             int randX = rand() % areaSize;
