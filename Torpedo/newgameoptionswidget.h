@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QPushButton>
+#include <QComboBox>
 #include <QListWidget>
 
 class newgameoptionswidget : public QDialog // Új játékhoz beállítások ablak
@@ -14,8 +15,16 @@ public:
     explicit newgameoptionswidget(QWidget *parent = 0);
 
 protected:
+    std::vector<QComboBox*> _shipQuantitiesComboBoxes;
     QPushButton* _okButton;
     QPushButton* _cancelButton;
+
+
+private:
+    int _maxShipSize = 5;
+    int _maxShipQuantity = 3;
+    int _maxBoardSize = 16;
 };
+
 
 #endif // NEWGAMEOPTIONSWIDGET_H
