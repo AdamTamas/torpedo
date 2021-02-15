@@ -47,15 +47,7 @@ Torpedomodel::Ship Torpedomodel::getEnemyShipByID(int ID)  const
 
 void Torpedomodel::randomTable(std::vector<std::vector<Torpedomodel::Area>> &t)
 {
-    for (int i = 0; i < areaSize; i++)
-    {
-        for (int j = 0; j < areaSize; j++)
-        {
-            t[i][j].isShot = false;
-            t[i][j].shipID = 0;
-        }
-    }
-
+    resetTable(t);
     for (size_t i = 0; i < _ships.size(); i++)
     {
         bool notPlaced = true;
@@ -124,6 +116,18 @@ void Torpedomodel::initTable(std::vector<std::vector<Torpedomodel::Area>> &t)
             tmpVec.push_back(a);
         }
         t.push_back(tmpVec);
+    }
+}
+
+void Torpedomodel::resetTable(std::vector<std::vector<Torpedomodel::Area>> &t)
+{
+    for (int i = 0; i < areaSize; i++)
+    {
+        for (int j = 0; j < areaSize; j++)
+        {
+            t[i][j].isShot = false;
+            t[i][j].shipID = 0;
+        }
     }
 }
 

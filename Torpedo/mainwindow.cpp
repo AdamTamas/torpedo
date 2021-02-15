@@ -18,26 +18,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     {
         //koordináták (honnan-vízszintes, honnan-függőleges, hova-vízszintes, hova-függőleges)
         //saját tábla vízszintes csíkok
-        _tableGraphicsOwn.append(QLineF(_boardSide, (i * _boardHW / _model.areaSize) + _boardSide,
+        _tableGraphics.append(QLineF(_boardSide, (i * _boardHW / _model.areaSize) + _boardSide,
                                         _boardHW + _boardSide, (i * _boardHW / _model.areaSize) + _boardSide));
         //saját tábla függőleges csíkok
-        _tableGraphicsOwn.append(QLineF((i * _boardHW / _model.areaSize) + _boardSide, _boardSide,
+        _tableGraphics.append(QLineF((i * _boardHW / _model.areaSize) + _boardSide, _boardSide,
                                         (i * _boardHW / _model.areaSize) + _boardSide, _boardHW + _boardSide));
     }
-    // ellenfél táblarácsok
-    for(int i = 0; i <= _model.areaSize; i++)
-    {
-        //ellenfél tábla vízszintes csíkok
-        _tableGraphicsEnemy.append(QLineF(_boardHW + _boardSide*2, (i * _boardHW / _model.areaSize) + _boardSide,
-                                          _boardHW*2 + _boardSide*2, (i * _boardHW / _model.areaSize) + _boardSide));
-        //ellenfél tábla függőleges csíkok
-        _tableGraphicsEnemy.append(QLineF( (i * _boardHW / _model.areaSize) + _boardHW + _boardSide*2, _boardSide,
-                                           (i * _boardHW / _model.areaSize) + _boardHW + _boardSide*2, _boardHW + _boardSide));
-    }
-    // hajógrafika
+
+    // hajó és egyéb kis grafikák
     _shipGraphics = QRectF(0, 0, _boardHW / _model.areaSize, _boardHW / _model.areaSize);
     _missGraphics.append(QLineF(3, 3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3));
     _missGraphics.append(QLineF(3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3, 3));
+    // új játék kezdése első alkalomhoz
     _model.newGame();
 }
 
@@ -49,11 +41,14 @@ void MainWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this); // rajzoló objektum
     painter.setRenderHint(QPainter::Antialiasing); // élsimítás használata
-    painter.scale(width() / (_boardHW*2 + _boardSide*3), height() / (_boardHW + _boardSide*2)); // skálázás
+    painter.scale(width() / (float)(_boardHW*2 + _boardSide*3), height() / (float)(_boardHW + _boardSide*2)); // skálázás
 
     painter.setPen(QPen(Qt::black, 1)); // toll beállítása
-    painter.drawLines(_tableGraphicsOwn); // tábla kirajzolása
-    painter.drawLines(_tableGraphicsEnemy); // tábla kirajzolása
+    painter.drawLines(_tableGraphics); // tábla kirajzolása
+    painter.save(); // elmentjük a rajztulajdonságokat
+    painter.translate( _boardHW  + _boardSide ,  0); // elmozdítjuk a rajzpontot a megfelelő mezőre
+    painter.drawLines(_tableGraphics); // ellenfél tábla kirajzolása
+    painter.restore(); // visszatöltjük a korábbi állapotot
 
     // saját tábla hajók és lövések felrajzolása
     for(int i = 0; i < _model.areaSize; i++)
@@ -123,9 +118,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
+    float newWidthUnit = width()/430.0;
+    float newHeightUnit = height()/220.0;
     // az event->pos() megadja az egérpozíciót, ami QPoint típusú, ebbõl kiszámolható, melyik mezőn vagyunk:
-    int x = (event->pos().x() - _boardHW - _boardSide*2) * _model.areaSize / _boardHW;
-    int y = (event->pos().y() - _boardSide) * _model.areaSize / _boardHW;
+    int x = (event->pos().x() - newWidthUnit*(_boardHW + _boardSide*2)) * _model.areaSize / (newWidthUnit*_boardHW);
+    int y = (event->pos().y() - newHeightUnit*_boardSide) * _model.areaSize / (newHeightUnit*_boardHW);
+
+
 
     if(x < _model.areaSize && x >= 0 && y < _model.areaSize && y >= 0)
     {

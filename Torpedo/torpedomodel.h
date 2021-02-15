@@ -21,12 +21,13 @@ public:
     Torpedomodel();
     virtual ~Torpedomodel();
     void newGame();
-    void randomTable(std::vector<std::vector<Torpedomodel::Area>> &t);
     Area getField(int x, int y) const; // saját játékmező lekérdezése
     Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
+    void randomTable(std::vector<std::vector<Torpedomodel::Area>> &t);
     void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
+    void resetTable(std::vector<std::vector<Torpedomodel::Area>> &t);
     void fillShips(std::vector<Torpedomodel::Ship> &t);
     void resetShips(std::vector<Torpedomodel::Ship> &t);
     void stepGame(int x, int y);
