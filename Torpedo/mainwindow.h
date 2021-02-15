@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "torpedomodel.h" 
+#include "newgameoptionswidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +28,6 @@ private:
     Torpedomodel _model; // a játékot megvalósító modell
     int _boardHW; // tábla szélessége és magassága (NxN)
     int _boardSide; // "margó"
-
+    newgameoptionswidget* _saveGameWidget; // a mentést biztosító ablak
 };
 #endif // MAINWINDOW_H

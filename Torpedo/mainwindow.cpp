@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setMinimumSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
+    _saveGameWidget = NULL;
 
     //saját tábla rácsozata
     for(int i = 0; i <= _model.areaSize; i++)
@@ -114,9 +115,16 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {       
+    // lekezeljük a Ctrl+N kombinációt
     if (event->key() == Qt::Key_N && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
-        // lekezeljük a Ctrl+N kombinációt
+        if (_saveGameWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
+        {
+            _saveGameWidget = new newgameoptionswidget();
+
+        }
+        _saveGameWidget->open();
+
         _model.newGame();
         update();
     }
@@ -136,7 +144,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         update();
     }
 }
-
 
 void MainWindow::model_gameWon(int won)
 {

@@ -12,12 +12,14 @@ SOURCES += \
     baseplayer.cpp \
     main.cpp \
     mainwindow.cpp \
+    newgameoptionswidget.cpp \
     torpedomodel.cpp
 
 HEADERS += \
     basebuildingblocks.h \
     baseplayer.h \
     mainwindow.h \
+    newgameoptionswidget.h \
     torpedomodel.h
 
 # Default rules for deployment.
