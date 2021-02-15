@@ -1,8 +1,6 @@
 #ifndef TORPEDOMODEL_H
 #define TORPEDOMODEL_H
 #include <QObject>
-#include <QVector>
-#include <QString>
 #include "baseplayer.h"
 
 class Torpedomodel : public QObject

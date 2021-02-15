@@ -150,10 +150,10 @@ void MainWindow::model_gameWon(int won)
     // az eredmény függvényében jelenítjük meg a győztest
     if (won)
     {
-        QMessageBox::information(this, trUtf8("Torpedo"), trUtf8("Játék vége! Nyertél!"));
+        QMessageBox::information(this, ("Torpedo"), ("Játék vége! Nyertél!"));
         _model.newGame();
     }else{
-        QMessageBox::information(this, trUtf8("Torpedo"), trUtf8("Játék vége! Wesztettél!"));
+        QMessageBox::information(this, ("Torpedo"), ("Játék vége! Wesztettél!"));
         _model.newGame();
     }
 }

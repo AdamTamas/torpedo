@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QComboBox>
-#include <QListWidget>
 
 class newgameoptionswidget : public QDialog // Új játékhoz beállítások ablak
 {
