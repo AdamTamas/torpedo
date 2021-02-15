@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include <QApplication>
 #include "torpedomodel.h"
+#include <math.h>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -121,8 +122,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     float newWidthUnit = width()/430.0;
     float newHeightUnit = height()/220.0;
     // az event->pos() megadja az egérpozíciót, ami QPoint típusú, ebbõl kiszámolható, melyik mezőn vagyunk:
-    int x = (event->pos().x() - newWidthUnit*(_boardHW + _boardSide*2)) * _model.areaSize / (newWidthUnit*_boardHW);
-    int y = (event->pos().y() - newHeightUnit*_boardSide) * _model.areaSize / (newHeightUnit*_boardHW);
+    int x = floor((event->pos().x() - newWidthUnit*(_boardHW + _boardSide*2)) * _model.areaSize / (newWidthUnit*_boardHW));
+    int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _model.areaSize / (newHeightUnit*_boardHW));
 
 
 
