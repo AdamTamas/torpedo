@@ -17,12 +17,11 @@ public:
     Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
-    void randomTable(std::vector<std::vector<Area>> &t);
-    void initTable(std::vector<std::vector<Area>> &t);
-    void resetTable(std::vector<std::vector<Area>> &t);
-    void fillShips(std::vector<Ship> &t);
-    void resetShips(std::vector<Ship> &t);
     void stepGame(int x, int y);
+    void checkGame();
+
+signals:
+    void gameWon(int won); // játékos győzelmének eseménye
 
 private:
     int _shipNum = 4;

@@ -58,5 +58,32 @@ void Torpedomodel::stepGame(int x, int y)
             }
         }
     }
+    checkGame();
 }
 
+void Torpedomodel::checkGame()
+{
+    bool player1won = true;
+    for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása
+    {
+        if (playerTwo.getShipByID(i).hitPoint && player1won)
+        {
+            player1won = false;
+        }
+    }
+    bool player2won = true;
+    for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása
+    {
+        if (playerOne.getShipByID(i).hitPoint && player2won)
+            player2won = false;
+    }
+
+    if (player1won) // ha a játékos
+    {
+        gameWon(1); // esemény kiváltása
+    }
+    else if (player2won) // ha az ellenfél győzött
+    {
+        gameWon(0); // esemény kiváltása
+    }
+}

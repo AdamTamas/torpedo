@@ -17,6 +17,9 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
+private slots:
+    void model_gameWon(int won); // eseménykezelők a modell eseményeire
+
 private:
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
     QVector<QLineF> _missGraphics; // kereszt grafikája (ha nem találtunk)

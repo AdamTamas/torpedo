@@ -30,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _shipGraphics = QRectF(0, 0, _boardHW / _model.areaSize, _boardHW / _model.areaSize);
     _missGraphics.append(QLineF(3, 3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3));
     _missGraphics.append(QLineF(3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3, 3));
+
+
+    // modell eseményeinek feldolgozása
+    connect(&_model, SIGNAL(gameWon(int)), this, SLOT(model_gameWon(int)));
+
     // új játék kezdése első alkalomhoz
     _model.newGame();
 }
@@ -129,5 +134,19 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     {
         _model.stepGame(x, y); // játék léptetése
         update();
+    }
+}
+
+
+void MainWindow::model_gameWon(int won)
+{
+    // az eredmény függvényében jelenítjük meg a győztest
+    if (won)
+    {
+        QMessageBox::information(this, trUtf8("Torpedo"), trUtf8("Játék vége! Nyertél!"));
+        _model.newGame();
+    }else{
+        QMessageBox::information(this, trUtf8("Torpedo"), trUtf8("Játék vége! Wesztettél!"));
+        _model.newGame();
     }
 }
