@@ -3,41 +3,31 @@
 #include <QObject>
 #include <QVector>
 #include <QString>
+#include "baseplayer.h"
 
 class Torpedomodel : public QObject
 {
     Q_OBJECT
 public:
-    int areaSize;
-    struct Area {
-        int shipID;
-        bool isShot;
-    };
-    struct Ship {
-        int size;
-        int hitPoint;
-        int ID;
-    };
+    int areaSize = 8;
     Torpedomodel();
-    virtual ~Torpedomodel();
+    ~Torpedomodel();
     void newGame();
     Area getField(int x, int y) const; // saját játékmező lekérdezése
     Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
-    void randomTable(std::vector<std::vector<Torpedomodel::Area>> &t);
-    void initTable(std::vector<std::vector<Torpedomodel::Area>> &t);
-    void resetTable(std::vector<std::vector<Torpedomodel::Area>> &t);
-    void fillShips(std::vector<Torpedomodel::Ship> &t);
-    void resetShips(std::vector<Torpedomodel::Ship> &t);
+    void randomTable(std::vector<std::vector<Area>> &t);
+    void initTable(std::vector<std::vector<Area>> &t);
+    void resetTable(std::vector<std::vector<Area>> &t);
+    void fillShips(std::vector<Ship> &t);
+    void resetShips(std::vector<Ship> &t);
     void stepGame(int x, int y);
 
 private:
-    std::vector<std::vector<Area>> _gameTable; // saját játéktábla
-    std::vector<std::vector<Area>> _enemyGameTable; // ellenfél játéktábla
-    std::vector<Ship> _ships; // saját hajók
-    std::vector<Ship> _enemyShips; // ellenfél hajói
-    int _shipNum;
+    int _shipNum = 4;
+    baseplayer playerOne = baseplayer(areaSize, _shipNum);
+    baseplayer playerTwo = baseplayer(areaSize, _shipNum);
 };
 
 #endif // TORPEDOMODEL_H

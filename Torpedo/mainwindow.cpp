@@ -59,7 +59,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * _boardHW / _model.areaSize) + _boardSide ,
                               (j * _boardHW / _model.areaSize) + _boardSide); // elmozdítjuk a rajzpontot a megfelelő mezőre
-            Torpedomodel::Area a = _model.getField(i, j);
+            Area a = _model.getField(i, j);
             // hajó felrajzolása
             if ( a.shipID && !a.isShot)
             {
@@ -88,7 +88,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * _boardHW / _model.areaSize) + _boardHW + _boardSide*2,
                               (j * _boardHW / _model.areaSize) + _boardSide); // elmozdítjuk a rajzpontot a megfelelő mezőre
-            Torpedomodel::Area a = _model.getEnemyField(i, j);
+            Area a = _model.getEnemyField(i, j);
             // lövések felrajzolása
             if ( a.shipID && a.isShot && _model.getEnemyShipByID(a.shipID).hitPoint)
             {
@@ -124,8 +124,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     // az event->pos() megadja az egérpozíciót, ami QPoint típusú, ebbõl kiszámolható, melyik mezőn vagyunk:
     int x = floor((event->pos().x() - newWidthUnit*(_boardHW + _boardSide*2)) * _model.areaSize / (newWidthUnit*_boardHW));
     int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _model.areaSize / (newHeightUnit*_boardHW));
-
-
 
     if(x < _model.areaSize && x >= 0 && y < _model.areaSize && y >= 0)
     {
