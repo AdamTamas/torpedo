@@ -3,9 +3,10 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-newgameoptionswidget::newgameoptionswidget(QWidget *parent) :
+newgameoptionswidget::newgameoptionswidget(Torpedomodel* model, QWidget *parent) :
     QDialog(parent)
 {
+    _model = model;
     setFixedSize(300, 200);
     setWindowTitle("Játékbeállítások");
 
@@ -19,12 +20,12 @@ newgameoptionswidget::newgameoptionswidget(QWidget *parent) :
     // pájaméret
     QHBoxLayout* hlayoutBoard = new QHBoxLayout;
     hlayoutBoard->addWidget(new QLabel("Pályaméret:"));
-    QComboBox* comboBoxBoard = new QComboBox;
+    _comboBoxBoard = new QComboBox;
     for(int i = 5; i < _maxBoardSize; i++)
     {
-        comboBoxBoard->addItem(QString::number(i));
+        _comboBoxBoard->addItem(QString::number(i));
     }
-    hlayoutBoard->addWidget(comboBoxBoard);
+    hlayoutBoard->addWidget(_comboBoxBoard);
     vlayout->addLayout(hlayoutBoard);
 
     // combobox hajómennyiségeknek
@@ -40,18 +41,32 @@ newgameoptionswidget::newgameoptionswidget(QWidget *parent) :
         hlayoutShips[i]->addWidget(new QLabel(QString::number(i+2)+" méretű hajó:"));
         hlayoutShips[i]->addWidget(_shipQuantitiesComboBoxes[i]);
         vlayout->addLayout(hlayoutShips[i]);
+
     }
 
     // alsó gombok
     QHBoxLayout* hlayout = new QHBoxLayout();
+    hlayout->addWidget(new QLabel("Online:"));
+    _isOnline = new QCheckBox();
+    hlayout->addWidget(_isOnline);
     hlayout->addWidget(_okButton);
     hlayout->addWidget(_cancelButton);
-
     vlayout->addLayout(hlayout);
 
     setLayout(vlayout);
 
     connect(_okButton, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(_okButton, SIGNAL(clicked()), this, SLOT(_newGameSlot()));
     connect(_cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
-
+void newgameoptionswidget::_newGameSlot()
+{
+    NewGameData data;
+    data.areaSize = _comboBoxBoard->currentText().toInt();
+    for(size_t i = 0; i < _shipQuantitiesComboBoxes.size(); i++)
+    {
+        data.shipNumForSizes[i] = _shipQuantitiesComboBoxes[i]->currentText().toInt();
+    }
+    data.online = _isOnline->isChecked();
+    _model->newGameData(data);
+}

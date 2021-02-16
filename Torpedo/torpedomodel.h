@@ -2,6 +2,7 @@
 #define TORPEDOMODEL_H
 #include <QObject>
 #include "baseplayer.h"
+#include "basebuildingblocks.h"
 
 class Torpedomodel : public QObject
 {
@@ -17,6 +18,7 @@ public:
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void stepGame(int x, int y);
     void checkGame();
+    void newGameData(NewGameData data);
 
 signals:
     void gameWon(int won); // játékos győzelmének eseménye

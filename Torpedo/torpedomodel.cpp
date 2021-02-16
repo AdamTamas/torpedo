@@ -21,6 +21,18 @@ void Torpedomodel::newGame()
     playerTwo.randomTable();
 }
 
+void Torpedomodel::newGameData(NewGameData data)
+{
+    areaSize = data.areaSize;
+    _shipNum = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        _shipNum+= data.shipNumForSizes[i];
+    }
+    playerOne.newField(data);
+    playerTwo.newField(data);
+}
+
 Area Torpedomodel::getField(int x, int y) const
 {
     return playerOne.getField(x,y);

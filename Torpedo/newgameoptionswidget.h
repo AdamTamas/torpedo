@@ -4,6 +4,9 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QComboBox>
+#include <QCheckBox>
+#include "basebuildingblocks.h"
+#include "torpedomodel.h"
 
 class newgameoptionswidget : public QDialog // Új játékhoz beállítások ablak
 {
@@ -11,18 +14,25 @@ class newgameoptionswidget : public QDialog // Új játékhoz beállítások abl
 public:
     // Explicit specifies that the constructor is explicit,
     // it cannot be used for implicit conversions and copy-initialization.
-    explicit newgameoptionswidget(QWidget *parent = 0);
+    explicit newgameoptionswidget(Torpedomodel* model, QWidget *parent = 0);
+
 
 protected:
     std::vector<QComboBox*> _shipQuantitiesComboBoxes;
+    QComboBox* _comboBoxBoard;
+    QCheckBox* _isOnline;
+
     QPushButton* _okButton;
     QPushButton* _cancelButton;
 
+private slots:
+    void _newGameSlot(); // eseménykezelők a modell eseményeire
 
 private:
     int _maxShipSize = 5;
     int _maxShipQuantity = 3;
     int _maxBoardSize = 16;
+    Torpedomodel* _model;
 };
 
 

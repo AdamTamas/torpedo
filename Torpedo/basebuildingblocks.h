@@ -8,7 +8,14 @@ struct Area {
 struct Ship {
     int size;
     int hitPoint;
-    int ID;
+    int
+    ID;
+};
+
+struct NewGameData {
+    int areaSize;
+    int shipNumForSizes[4];
+    bool online;
 };
 
 #endif // BASEBUILDINGBLOCKS_H

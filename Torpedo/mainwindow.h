@@ -14,6 +14,7 @@ public:
     ~MainWindow();
 
 protected:
+    void setGraphics();
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -28,6 +29,6 @@ private:
     Torpedomodel _model; // a játékot megvalósító modell
     int _boardHW; // tábla szélessége és magassága (NxN)
     int _boardSide; // "margó"
-    newgameoptionswidget* _saveGameWidget; // a mentést biztosító ablak
+    newgameoptionswidget* _newGameOptionsWidget; // a mentést biztosító ablak
 };
 #endif // MAINWINDOW_H

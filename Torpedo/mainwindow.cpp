@@ -13,24 +13,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setMinimumSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
-    _saveGameWidget = NULL;
+    _newGameOptionsWidget = NULL;
 
-    //saját tábla rácsozata
-    for(int i = 0; i <= _model.areaSize; i++)
-    {
-        //koordináták (honnan-vízszintes, honnan-függőleges, hova-vízszintes, hova-függőleges)
-        //saját tábla vízszintes csíkok
-        _tableGraphics.append(QLineF(_boardSide, (i * _boardHW / _model.areaSize) + _boardSide,
-                                        _boardHW + _boardSide, (i * _boardHW / _model.areaSize) + _boardSide));
-        //saját tábla függőleges csíkok
-        _tableGraphics.append(QLineF((i * _boardHW / _model.areaSize) + _boardSide, _boardSide,
-                                        (i * _boardHW / _model.areaSize) + _boardSide, _boardHW + _boardSide));
-    }
+    setGraphics();
 
-    // hajó és egyéb kis grafikák
-    _shipGraphics = QRectF(0, 0, _boardHW / _model.areaSize, _boardHW / _model.areaSize);
-    _missGraphics.append(QLineF(3, 3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3));
-    _missGraphics.append(QLineF(3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3, 3));
 
 
     // modell eseményeinek feldolgozása
@@ -44,8 +30,30 @@ MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::setGraphics()
+{
+    _tableGraphics.clear();
+    //saját tábla rácsozata
+    for(int i = 0; i <= _model.areaSize; i++)
+    {
+        //koordináták (honnan-vízszintes, honnan-függőleges, hova-vízszintes, hova-függőleges)
+        //saját tábla vízszintes csíkok
+        _tableGraphics.append(QLineF(_boardSide, (i * _boardHW / _model.areaSize) + _boardSide,
+                                        _boardHW + _boardSide, (i * _boardHW / _model.areaSize) + _boardSide));
+        //saját tábla függőleges csíkok
+        _tableGraphics.append(QLineF((i * _boardHW / _model.areaSize) + _boardSide, _boardSide,
+                                        (i * _boardHW / _model.areaSize) + _boardSide, _boardHW + _boardSide));
+    }
+
+    // hajó és egyéb kis grafikák
+    _shipGraphics = QRectF(0, 0, (_boardHW / _model.areaSize)+1, (_boardHW / _model.areaSize)+1);
+    _missGraphics.clear();
+    _missGraphics.append(QLineF(3, 3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3));
+    _missGraphics.append(QLineF(3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3, 3));
+}
 void MainWindow::paintEvent(QPaintEvent *)
 {
+    setGraphics();
     QPainter painter(this); // rajzoló objektum
     painter.setRenderHint(QPainter::Antialiasing); // élsimítás használata
     painter.scale(width() / (float)(_boardHW*2 + _boardSide*3), height() / (float)(_boardHW + _boardSide*2)); // skálázás
@@ -118,15 +126,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // lekezeljük a Ctrl+N kombinációt
     if (event->key() == Qt::Key_N && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
-        if (_saveGameWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
+        if (_newGameOptionsWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
         {
-            _saveGameWidget = new newgameoptionswidget();
+            _newGameOptionsWidget = new newgameoptionswidget(&_model);
 
         }
-        _saveGameWidget->open();
-
-        _model.newGame();
-        update();
+        _newGameOptionsWidget->open();
     }
 }
 
@@ -153,7 +158,7 @@ void MainWindow::model_gameWon(int won)
         QMessageBox::information(this, ("Torpedo"), ("Játék vége! Nyertél!"));
         _model.newGame();
     }else{
-        QMessageBox::information(this, ("Torpedo"), ("Játék vége! Wesztettél!"));
+        QMessageBox::information(this, ("Torpedo"), ("Játék vége! Vesztettél!"));
         _model.newGame();
     }
 }

@@ -2,8 +2,12 @@
 
 baseplayer::baseplayer(int areaSize, int shipNum)
 {
-    _areaSize = areaSize;
-    _shipNum = shipNum;
+    _data.areaSize = areaSize;
+    for(int i = 0; i < shipNum; i++)
+    {
+        _data.shipNumForSizes[i] = 1;
+    }
+    _data.online = false;
     initTable();
     fillShips();
 }
@@ -21,13 +25,13 @@ Ship baseplayer::getShipByID(int ID) const
 void baseplayer::randomTable()
 {
     resetTable();
-    for (int i = 0; i < _shipNum; i++)
+    for (size_t i = 0; i < _ships.size(); i++)
     {
         bool notPlaced = true;
         while (notPlaced)
         {
-            int startcolumn = rand() % _areaSize;
-            int startrow = rand() % _areaSize;
+            int startcolumn = rand() % _data.areaSize;
+            int startrow = rand() % _data.areaSize;
             int endrow = startrow;
             int endcolumn = startcolumn;
             int orientation = rand() % 2;
@@ -47,7 +51,7 @@ void baseplayer::randomTable()
                 }
             }
             // ellenőrizzük, kilógunk-e a tábláról
-            if(endrow > _areaSize - 1 || endcolumn > _areaSize - 1)
+            if(endrow > _data.areaSize - 1 || endcolumn > _data.areaSize - 1)
             {
                 canBePlaced = false;
             }
@@ -77,10 +81,10 @@ void baseplayer::randomTable()
 
 void baseplayer::initTable()
 {
-    for (int i = 0; i < _areaSize; ++i)
+    for (int i = 0; i < _data.areaSize; ++i)
     {
         std::vector<Area> tmpVec;
-        for (int j = 0; j < _areaSize; ++j)
+        for (int j = 0; j < _data.areaSize; ++j)
         {
             Area a;
             a.shipID = 0;
@@ -93,9 +97,9 @@ void baseplayer::initTable()
 
 void baseplayer::resetTable()
 {
-    for (int i = 0; i < _areaSize; i++)
+    for (int i = 0; i < _data.areaSize; i++)
     {
-        for (int j = 0; j < _areaSize; j++)
+        for (int j = 0; j < _data.areaSize; j++)
         {
             _gameTable[i][j].isShot = false;
             _gameTable[i][j].shipID = 0;
@@ -105,28 +109,40 @@ void baseplayer::resetTable()
 
 void baseplayer::fillShips()
 {
-    for(int i = 0; i < _shipNum; i++)
-    {
-        Ship s;
-        s.ID = i+1;
-        s.hitPoint = i+2;
-        s.size = i+2;
-        _ships.push_back(s);
-    }
+    int ID = 1;
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < _data.shipNumForSizes[i]; j++)
+            {
+                Ship s;
+                s.ID = ID;
+                s.hitPoint = i+2;
+                s.size = i+2;
+                _ships.push_back(s);
+                ID++;
+            }
 }
 
 void baseplayer::resetShips()
 {
     for(size_t i = 0; i < _ships.size(); i++)
     {
-        _ships[i].hitPoint = i+2;
+        _ships[i].hitPoint = _ships[i].size;
     }
 }
-
 
 void baseplayer::getShot(int x, int y)
 {
     _gameTable[x][y].isShot = true;
     if(_gameTable[x][y].shipID)
         _ships[_gameTable[x][y].shipID-1].hitPoint--;
+}
+
+void baseplayer::newField(NewGameData data)
+{
+    _gameTable.clear();
+    _ships.clear();
+    _data = data;
+    initTable();
+    fillShips();
+    randomTable();
 }

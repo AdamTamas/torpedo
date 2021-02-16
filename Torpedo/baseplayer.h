@@ -15,13 +15,13 @@ public:
     void fillShips();
     void resetShips();
     void getShot(int x, int y);
+    void newField(NewGameData data);
 
 private:
 
     std::vector<std::vector<Area>> _gameTable; // saját játéktábla
     std::vector<Ship> _ships; // saját hajók
-    int _areaSize;
-    int _shipNum;
+    NewGameData _data;
 };
 
 #endif // BASEPLAYER_H
