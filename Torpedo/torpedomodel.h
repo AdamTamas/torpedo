@@ -12,21 +12,22 @@ public:
     Torpedomodel();
     ~Torpedomodel();
     void newGame();
-    Area getField(int x, int y) const; // saját játékmező lekérdezése
-    Area getEnemyField(int x, int y) const; // ellenséges játékmező lekérdezése
+    Area getField(Coordinate c) const; // saját játékmező lekérdezése
+    Area getEnemyField(Coordinate c) const; // ellenséges játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
-    void stepGame(int x, int y);
+    void stepGame(Coordinate c);
     void checkGame();
     void newGameData(NewGameData data);
 
 signals:
     void gameWon(int won); // játékos győzelmének eseménye
+    void needNewGraphics(); // játékos győzelmének eseménye
 
 private:
     int _shipNum = 4;
-    baseplayer playerOne = baseplayer(areaSize, _shipNum);
-    baseplayer playerTwo = baseplayer(areaSize, _shipNum);
+    baseplayer* playerOne;
+    baseplayer* playerTwo;
 };
 
 #endif // TORPEDOMODEL_H

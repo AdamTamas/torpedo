@@ -1,12 +1,13 @@
 #include "torpedomodel.h"
 #include <stdlib.h>
+#include "cpuplayer.h"
 
 Torpedomodel::Torpedomodel()
 {
     areaSize = 8;
     _shipNum = 4;
-    playerOne = baseplayer(areaSize, _shipNum);
-    playerTwo = baseplayer(areaSize, _shipNum);
+    playerOne = new baseplayer(areaSize, _shipNum);
+    playerTwo = new cpuplayer(areaSize, _shipNum);
 }
 
 Torpedomodel::~Torpedomodel()
@@ -15,10 +16,10 @@ Torpedomodel::~Torpedomodel()
 
 void Torpedomodel::newGame()
 {
-    playerOne.resetShips();
-    playerTwo.resetShips();
-    playerOne.randomTable();
-    playerTwo.randomTable();
+    playerOne->resetShips();
+    playerTwo->resetShips();
+    playerOne->randomTable();
+    playerTwo->randomTable();
 }
 
 void Torpedomodel::newGameData(NewGameData data)
@@ -29,46 +30,37 @@ void Torpedomodel::newGameData(NewGameData data)
     {
         _shipNum+= data.shipNumForSizes[i];
     }
-    playerOne.newField(data);
-    playerTwo.newField(data);
+    playerOne->newField(data);
+    playerTwo->newField(data);
+    needNewGraphics();
 }
 
-Area Torpedomodel::getField(int x, int y) const
+Area Torpedomodel::getField(Coordinate c) const
 {
-    return playerOne.getField(x,y);
+    return playerOne->getField(c);
 }
 
-Area Torpedomodel::getEnemyField(int x, int y) const
+Area Torpedomodel::getEnemyField(Coordinate c) const
 {
-    return playerTwo.getField(x,y);
+    return playerTwo->getField(c);
 }
 
 Ship Torpedomodel::getShipByID(int ID)  const
 {
-    return playerOne.getShipByID(ID);
+    return playerOne->getShipByID(ID);
 }
 
 Ship Torpedomodel::getEnemyShipByID(int ID)  const
 {
-    return playerTwo.getShipByID(ID);
+    return playerTwo->getShipByID(ID);
 }
 
-void Torpedomodel::stepGame(int x, int y)
+void Torpedomodel::stepGame(Coordinate c)
 {
-    if(!playerTwo.getField(x,y).isShot)
+    if(!playerTwo->getField(c).isShot)
     {
-        playerTwo.getShot(x,y);
-        bool foundShot = false;
-        while(!foundShot)
-        {
-            int randX = rand() % areaSize;
-            int randY = rand() % areaSize;
-            if(!playerOne.getField(randX, randY).isShot)
-            {
-                playerOne.getShot(randX, randY);
-                foundShot = true;
-            }
-        }
+        playerTwo->getShot(c);
+        playerOne->getShot(playerTwo->makeShot());
     }
     checkGame();
 }
@@ -78,7 +70,7 @@ void Torpedomodel::checkGame()
     bool player1won = true;
     for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása
     {
-        if (playerTwo.getShipByID(i).hitPoint && player1won)
+        if (playerTwo->getShipByID(i).hitPoint && player1won)
         {
             player1won = false;
         }
@@ -86,7 +78,7 @@ void Torpedomodel::checkGame()
     bool player2won = true;
     for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása
     {
-        if (playerOne.getShipByID(i).hitPoint && player2won)
+        if (playerOne->getShipByID(i).hitPoint && player2won)
             player2won = false;
     }
 

@@ -21,6 +21,7 @@ protected:
 
 private slots:
     void model_gameWon(int won); // eseménykezelők a modell eseményeire
+    void model_needNewGraphics(); // eseménykezelők a modell eseményeire
 
 private:
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
@@ -30,5 +31,6 @@ private:
     int _boardHW; // tábla szélessége és magassága (NxN)
     int _boardSide; // "margó"
     newgameoptionswidget* _newGameOptionsWidget; // a mentést biztosító ablak
+    bool _newGameStarted;
 };
 #endif // MAINWINDOW_H

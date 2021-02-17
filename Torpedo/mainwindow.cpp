@@ -14,13 +14,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
     _newGameOptionsWidget = NULL;
-
     setGraphics();
 
-
-
-    // modell eseményeinek feldolgozása
+    // model eseményeinek feldolgozása
     connect(&_model, SIGNAL(gameWon(int)), this, SLOT(model_gameWon(int)));
+    connect(&_model, SIGNAL(needNewGraphics()), this, SLOT(model_needNewGraphics()));
 
     // új játék kezdése első alkalomhoz
     _model.newGame();
@@ -51,9 +49,9 @@ void MainWindow::setGraphics()
     _missGraphics.append(QLineF(3, 3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3));
     _missGraphics.append(QLineF(3, (_boardHW / _model.areaSize) - 3, (_boardHW / _model.areaSize) - 3, 3));
 }
+
 void MainWindow::paintEvent(QPaintEvent *)
 {
-    setGraphics();
     QPainter painter(this); // rajzoló objektum
     painter.setRenderHint(QPainter::Antialiasing); // élsimítás használata
     painter.scale(width() / (float)(_boardHW*2 + _boardSide*3), height() / (float)(_boardHW + _boardSide*2)); // skálázás
@@ -73,7 +71,8 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * _boardHW / _model.areaSize) + _boardSide ,
                               (j * _boardHW / _model.areaSize) + _boardSide); // elmozdítjuk a rajzpontot a megfelelő mezőre
-            Area a = _model.getField(i, j);
+            Coordinate c; c.x = i; c.y = j;
+            Area a = _model.getField(c);
             // hajó felrajzolása
             if ( a.shipID && !a.isShot)
             {
@@ -102,7 +101,8 @@ void MainWindow::paintEvent(QPaintEvent *)
             painter.save(); // elmentjük a rajztulajdonságokat
             painter.translate((i * _boardHW / _model.areaSize) + _boardHW + _boardSide*2,
                               (j * _boardHW / _model.areaSize) + _boardSide); // elmozdítjuk a rajzpontot a megfelelő mezőre
-            Area a = _model.getEnemyField(i, j);
+            Coordinate c; c.x = i; c.y = j;
+            Area a = _model.getEnemyField(c);
             // lövések felrajzolása
             if ( a.shipID && a.isShot && _model.getEnemyShipByID(a.shipID).hitPoint)
             {
@@ -145,7 +145,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
     if(x < _model.areaSize && x >= 0 && y < _model.areaSize && y >= 0)
     {
-        _model.stepGame(x, y); // játék léptetése
+        Coordinate c; c.x = x; c.y = y;
+        _model.stepGame(c); // játék léptetése
         update();
     }
 }
@@ -162,3 +163,5 @@ void MainWindow::model_gameWon(int won)
         _model.newGame();
     }
 }
+void MainWindow::model_needNewGraphics()
+{ setGraphics(); }

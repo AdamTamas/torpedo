@@ -1,10 +1,16 @@
 #ifndef BASEBUILDINGBLOCKS_H
 #define BASEBUILDINGBLOCKS_H
 
+struct Coordinate {
+    int x;
+    int y;
+};
+
 struct Area {
     int shipID;
     bool isShot;
 };
+
 struct Ship {
     int size;
     int hitPoint;

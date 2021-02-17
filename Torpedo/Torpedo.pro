@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     baseplayer.cpp \
+    cpuplayer.cpp \
     main.cpp \
     mainwindow.cpp \
     newgameoptionswidget.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
     basebuildingblocks.h \
     baseplayer.h \
+    cpuplayer.h \
     mainwindow.h \
     newgameoptionswidget.h \
     torpedomodel.h

@@ -8,13 +8,13 @@ baseplayer::baseplayer(int areaSize, int shipNum)
         _data.shipNumForSizes[i] = 1;
     }
     _data.online = false;
-    initTable();
+    initTable(_gameTable);
     fillShips();
 }
 
-Area baseplayer::getField(int x, int y) const
+Area baseplayer::getField(Coordinate c) const
 {
-    return _gameTable[x][y];
+    return _gameTable[c.x][c.y];
 }
 
 Ship baseplayer::getShipByID(int ID) const
@@ -24,7 +24,7 @@ Ship baseplayer::getShipByID(int ID) const
 
 void baseplayer::randomTable()
 {
-    resetTable();
+    resetTable(_gameTable);
     for (size_t i = 0; i < _ships.size(); i++)
     {
         bool notPlaced = true;
@@ -79,7 +79,7 @@ void baseplayer::randomTable()
     }
 }
 
-void baseplayer::initTable()
+void baseplayer::initTable(std::vector<std::vector<Area>> &t)
 {
     for (int i = 0; i < _data.areaSize; ++i)
     {
@@ -91,18 +91,18 @@ void baseplayer::initTable()
             a.isShot = false;
             tmpVec.push_back(a);
         }
-        _gameTable.push_back(tmpVec);
+        t.push_back(tmpVec);
     }
 }
 
-void baseplayer::resetTable()
+void baseplayer::resetTable(std::vector<std::vector<Area>> &t)
 {
     for (int i = 0; i < _data.areaSize; i++)
     {
         for (int j = 0; j < _data.areaSize; j++)
         {
-            _gameTable[i][j].isShot = false;
-            _gameTable[i][j].shipID = 0;
+            t[i][j].isShot = false;
+            t[i][j].shipID = 0;
         }
     }
 }
@@ -130,11 +130,11 @@ void baseplayer::resetShips()
     }
 }
 
-void baseplayer::getShot(int x, int y)
+void baseplayer::getShot(Coordinate c)
 {
-    _gameTable[x][y].isShot = true;
-    if(_gameTable[x][y].shipID)
-        _ships[_gameTable[x][y].shipID-1].hitPoint--;
+    _gameTable[c.x][c.y].isShot = true;
+    if(_gameTable[c.x][c.y].shipID)
+        _ships[_gameTable[c.x][c.y].shipID-1].hitPoint--;
 }
 
 void baseplayer::newField(NewGameData data)
@@ -142,7 +142,8 @@ void baseplayer::newField(NewGameData data)
     _gameTable.clear();
     _ships.clear();
     _data = data;
-    initTable();
+    initTable(_gameTable);
     fillShips();
     randomTable();
 }
+

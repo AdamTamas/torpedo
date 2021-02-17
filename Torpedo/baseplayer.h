@@ -7,18 +7,18 @@ class baseplayer
 {
 public:
     baseplayer(int areaSize, int shipNum);
-    Area getField(int x, int y) const; // saját játékmező lekérdezése
+    Area getField(Coordinate c) const; // saját játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void randomTable();
-    void initTable();
-    void resetTable();
+    void initTable(std::vector<std::vector<Area>> &t);
+    virtual void resetTable(std::vector<std::vector<Area>> &t);
     void fillShips();
     void resetShips();
-    void getShot(int x, int y);
+    void getShot(Coordinate c);
     void newField(NewGameData data);
+    virtual Coordinate makeShot(){Coordinate a; a.x = 0; a.y = 0; return a;};
 
-private:
-
+protected:
     std::vector<std::vector<Area>> _gameTable; // saját játéktábla
     std::vector<Ship> _ships; // saját hajók
     NewGameData _data;
