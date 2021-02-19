@@ -8,7 +8,7 @@ baseplayer::baseplayer(int areaSize, int shipNum)
         _data.shipNumForSizes[i] = 1;
     }
     _data.online = false;
-    initTable(_gameTable);
+    initTable();
     fillShips();
 }
 
@@ -24,7 +24,7 @@ Ship baseplayer::getShipByID(int ID) const
 
 void baseplayer::randomTable()
 {
-    resetTable(_gameTable);
+    resetTable();
     for (size_t i = 0; i < _ships.size(); i++)
     {
         bool notPlaced = true;
@@ -79,7 +79,7 @@ void baseplayer::randomTable()
     }
 }
 
-void baseplayer::initTable(std::vector<std::vector<Area>> &t)
+void baseplayer::initTable()
 {
     for (int i = 0; i < _data.areaSize; ++i)
     {
@@ -91,18 +91,18 @@ void baseplayer::initTable(std::vector<std::vector<Area>> &t)
             a.isShot = false;
             tmpVec.push_back(a);
         }
-        t.push_back(tmpVec);
+        _gameTable.push_back(tmpVec);
     }
 }
 
-void baseplayer::resetTable(std::vector<std::vector<Area>> &t)
+void baseplayer::resetTable()
 {
     for (int i = 0; i < _data.areaSize; i++)
     {
         for (int j = 0; j < _data.areaSize; j++)
         {
-            t[i][j].isShot = false;
-            t[i][j].shipID = 0;
+            _gameTable[i][j].isShot = false;
+            _gameTable[i][j].shipID = 0;
         }
     }
 }
@@ -142,7 +142,7 @@ void baseplayer::newField(NewGameData data)
     _gameTable.clear();
     _ships.clear();
     _data = data;
-    initTable(_gameTable);
+    initTable();
     fillShips();
     randomTable();
 }

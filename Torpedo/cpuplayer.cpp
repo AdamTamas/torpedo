@@ -2,7 +2,7 @@
 
 cpuplayer::cpuplayer(int areaSize, int shipNum) : baseplayer(areaSize, shipNum)
 {
-    initTable(_enemyGameTable);
+    initTable();
 }
 
 Coordinate cpuplayer::makeShot()
@@ -24,7 +24,30 @@ Coordinate cpuplayer::makeShot()
     return c;
 }
 
-void cpuplayer::resetTable(std::vector<std::vector<Area>> &t)
+
+void cpuplayer::initTable()
+{
+    initOneTable(_gameTable);
+    initOneTable(_enemyGameTable);
+}
+
+void cpuplayer::initOneTable(std::vector<std::vector<Area>> &t)
+{
+    for (int i = 0; i < _data.areaSize; ++i)
+    {
+        std::vector<Area> tmpVec;
+        for (int j = 0; j < _data.areaSize; ++j)
+        {
+            Area a;
+            a.shipID = 0;
+            a.isShot = false;
+            tmpVec.push_back(a);
+        }
+        t.push_back(tmpVec);
+    }
+}
+
+void cpuplayer::resetTable()
 {
     resetOneTable(_gameTable);
     resetOneTable(_enemyGameTable);

@@ -10,8 +10,8 @@ public:
     Area getField(Coordinate c) const; // saját játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void randomTable();
-    void initTable(std::vector<std::vector<Area>> &t);
-    virtual void resetTable(std::vector<std::vector<Area>> &t);
+    virtual void initTable();
+    virtual void resetTable();
     void fillShips();
     void resetShips();
     void getShot(Coordinate c);
