@@ -12,7 +12,10 @@ Coordinate cpuplayer::makeShot()
     while(!foundShot)
     {
         int randX = rand() % _data.areaSize;
-        int randY = rand() % _data.areaSize;
+        //rácsos lövés
+        int randY = ((rand() % _data.areaSize)/2)*2+randX%2;
+        if(randY > _data.areaSize)
+            continue;
         if(!_enemyGameTable[randX][randY].isShot)
         {
             c.x = randX;
