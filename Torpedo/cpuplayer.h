@@ -1,6 +1,7 @@
 #ifndef CPUPLAYER_H
 #define CPUPLAYER_H
 #include "baseplayer.h"
+#include <map>
 
 class cpuplayer : public baseplayer
 {
@@ -11,9 +12,11 @@ public:
     void initOneTable(std::vector<std::vector<Area>> &t);
     virtual void resetTable() override;
     void resetOneTable(std::vector<std::vector<Area>> &t);
+    virtual void shotResponse(bool hit) override;
 
 protected:
     std::vector<std::vector<Area>> _enemyGameTable; // saját játéktábla
+    std::map<Coordinate, bool> _priorityShots;
 };
 
 #endif // CPUPLAYER_H

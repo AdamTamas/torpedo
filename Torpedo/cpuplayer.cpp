@@ -7,8 +7,18 @@ cpuplayer::cpuplayer(int areaSize, int shipNum) : baseplayer(areaSize, shipNum)
 
 Coordinate cpuplayer::makeShot()
 {
+    for (auto x : _priorityShots)
+    {
+        if(x.second && !_enemyGameTable[x.first.x][x.first.y].isShot)
+        {
+            _lastShot = x.first;
+            _priorityShots[x.first] = false;
+            _enemyGameTable[x.first.x][x.first.y].isShot = true;
+            return x.first;
+        }
+    }
+
     bool foundShot = false;
-    Coordinate c;
     while(!foundShot)
     {
         int randX = rand() % _data.areaSize;
@@ -18,18 +28,19 @@ Coordinate cpuplayer::makeShot()
             continue;
         if(!_enemyGameTable[randX][randY].isShot)
         {
-            c.x = randX;
-            c.y = randY;
+            _lastShot.x = randX;
+            _lastShot.y = randY;
             foundShot = true;
             _enemyGameTable[randX][randY].isShot = true;
         }
     }
-    return c;
+    return _lastShot;
 }
 
 
 void cpuplayer::initTable()
 {
+    _priorityShots.clear();
     initOneTable(_gameTable);
     initOneTable(_enemyGameTable);
 }
@@ -52,6 +63,7 @@ void cpuplayer::initOneTable(std::vector<std::vector<Area>> &t)
 
 void cpuplayer::resetTable()
 {
+    _priorityShots.clear();
     resetOneTable(_gameTable);
     resetOneTable(_enemyGameTable);
 }
@@ -64,6 +76,38 @@ void cpuplayer::resetOneTable(std::vector<std::vector<Area>> &t)
         {
             t[i][j].isShot = false;
             t[i][j].shipID = 0;
+        }
+    }
+}
+
+void cpuplayer::shotResponse(bool hit)
+{
+    if(hit)
+    {
+        std::vector<Coordinate> tmpcoords; // ideiglenes koordináták a lehetséges találatoknak
+
+        if(_lastShot.x != 0)
+            tmpcoords.push_back(Coordinate{_lastShot.x-1, _lastShot.y});
+        if(_lastShot.y != 0)
+            tmpcoords.push_back(Coordinate{_lastShot.x, _lastShot.y-1});
+        if(_lastShot.x != _data.areaSize-1)
+            tmpcoords.push_back(Coordinate{_lastShot.x+1, _lastShot.y});
+        if(_lastShot.y != _data.areaSize-1)
+            tmpcoords.push_back(Coordinate{_lastShot.x, _lastShot.y+1});
+
+        if (_priorityShots.find(Coordinate{_lastShot.x, _lastShot.y}) == _priorityShots.end())
+        {
+            std::pair<Coordinate, bool> p(Coordinate{_lastShot.x, _lastShot.y}, false);
+            _priorityShots.insert(p);
+        }
+
+        for(size_t i = 0; i < tmpcoords.size();i++)
+        {
+            if (_priorityShots.find(tmpcoords[i]) == _priorityShots.end())
+            {
+                std::pair<Coordinate, bool> p(tmpcoords[i], true);
+                _priorityShots.insert(p);
+            }
         }
     }
 }

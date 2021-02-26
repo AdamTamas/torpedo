@@ -17,11 +17,13 @@ public:
     void getShot(Coordinate c);
     void newField(NewGameData data);
     virtual Coordinate makeShot(){Coordinate a; a.x = 0; a.y = 0; return a;};
+    virtual void shotResponse(bool){};
 
 protected:
     std::vector<std::vector<Area>> _gameTable; // saját játéktábla
     std::vector<Ship> _ships; // saját hajók
     NewGameData _data;
+    Coordinate _lastShot;
 };
 
 #endif // BASEPLAYER_H

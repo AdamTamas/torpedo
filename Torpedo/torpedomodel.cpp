@@ -60,7 +60,10 @@ void Torpedomodel::stepGame(Coordinate c)
     if(!playerTwo->getField(c).isShot)
     {
         playerTwo->getShot(c);
-        playerOne->getShot(playerTwo->makeShot());
+        playerOne->shotResponse(playerTwo->getField(c).shipID);
+        Coordinate tmp = playerTwo->makeShot();
+        playerOne->getShot(tmp);
+        playerTwo->shotResponse(playerOne->getField(tmp).shipID);
     }
     checkGame();
 }

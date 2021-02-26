@@ -4,6 +4,14 @@
 struct Coordinate {
     int x;
     int y;
+
+    bool operator==(const Coordinate &o) const {
+        return x == o.x && y == o.y;
+    }
+
+    bool operator<(const Coordinate &o) const {
+        return x < o.x || (x == o.x && y < o.y);
+    }
 };
 
 struct Area {
