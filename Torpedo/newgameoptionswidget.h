@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include "basebuildingblocks.h"
 #include "torpedomodel.h"
+#include "shippplacewidget.h"
 
 class newgameoptionswidget : public QDialog // Új játékhoz beállítások ablak
 {
@@ -33,6 +34,7 @@ private:
     int _maxShipQuantity = 3;
     int _maxBoardSize = 16;
     Torpedomodel* _model;
+    shippplacewidget* _shippplacewidget; // a mentést biztosító ablak
 };
 
 

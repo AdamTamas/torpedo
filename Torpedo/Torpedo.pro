@@ -14,6 +14,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     newgameoptionswidget.cpp \
+    shippplacewidget.cpp \
     torpedomodel.cpp
 
 HEADERS += \
@@ -22,6 +23,7 @@ HEADERS += \
     cpuplayer.h \
     mainwindow.h \
     newgameoptionswidget.h \
+    shippplacewidget.h \
     torpedomodel.h
 
 # Default rules for deployment.

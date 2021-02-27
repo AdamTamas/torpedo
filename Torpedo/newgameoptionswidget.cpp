@@ -6,6 +6,7 @@
 newgameoptionswidget::newgameoptionswidget(Torpedomodel* model, QWidget *parent) :
     QDialog(parent)
 {
+    _shippplacewidget = NULL;
     _model = model;
     setFixedSize(300, 200);
     setWindowTitle("Játékbeállítások");
@@ -68,5 +69,12 @@ void newgameoptionswidget::_newGameSlot()
         data.shipNumForSizes[i] = _shipQuantitiesComboBoxes[i]->currentText().toInt();
     }
     data.online = _isOnline->isChecked();
-    _model->newGameData(data);
+
+    if (_shippplacewidget == NULL) // ha még egyszer sem nyitották meg az ablakot
+    {
+        _shippplacewidget = new shippplacewidget(data/*, &_model*/);
+
+    }
+    _shippplacewidget->open();
+    //_model->newGameData(data);
 }

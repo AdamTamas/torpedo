@@ -15,7 +15,7 @@ public:
     void fillShips();
     void resetShips();
     void getShot(Coordinate c);
-    void newField(NewGameData data);
+    virtual void newField(NewGameData data);
     virtual Coordinate makeShot(){Coordinate a; a.x = 0; a.y = 0; return a;};
     virtual void shotResponse(bool){};
 
