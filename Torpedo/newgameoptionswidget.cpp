@@ -72,9 +72,10 @@ void newgameoptionswidget::_newGameSlot()
 
     if (_shippplacewidget == NULL) // ha még egyszer sem nyitották meg az ablakot
     {
-        _shippplacewidget = new shippplacewidget(data/*, &_model*/);
+        _shippplacewidget = new shippplacewidget(_model->playerOne);
 
     }
-    _shippplacewidget->open();
+    _model->newGameData(data);
+    //_shippplacewidget->open();
     //_model->newGameData(data);
 }

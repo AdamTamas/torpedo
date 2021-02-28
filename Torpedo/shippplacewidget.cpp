@@ -4,20 +4,14 @@
 #include <QVBoxLayout>
  #include <QPixmap>
 
-shippplacewidget::shippplacewidget(NewGameData &data/*baseplayer* player*/, QWidget *parent) :
+shippplacewidget::shippplacewidget(baseplayer* player, QWidget *parent) :
     QDialog(parent)
 {
     setMinimumSize(_boardHW + _boardSide*2, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
-    setGraphics(data);
+    _p = player;
+    setGraphics(_p->_data);
 }
-
-void shippplacewidget::placeShips(NewGameData data, std::vector<std::vector<Area>> &board)
-{
-
-    setGraphics(data);
-}
-
 
 void shippplacewidget::setGraphics(NewGameData data)
 {
@@ -36,25 +30,35 @@ void shippplacewidget::setGraphics(NewGameData data)
     }
 
     // teljes hajógrafikák
-    for (int i = 0; i < 4; i++) {
-        _shipGraphics[i] = QRectF(0, 0, (_boardHW / areaSize), (_boardHW / areaSize)*(i+2));
-    }
+        _shipblock = QRectF(0, 0, (_boardHW / areaSize), (_boardHW / areaSize));
 
 }
 
 void shippplacewidget::paintEvent(QPaintEvent *)
 {
+    setGraphics(_p->_data);
     QPainter painter(this); // rajzoló objektum
     painter.setRenderHint(QPainter::Antialiasing); // élsimítás használata
     painter.scale(width() / (float)(_boardHW + _boardSide*2), height() / (float)(_boardHW + _boardSide*2)); // skálázás
 
     painter.setPen(QPen(Qt::black, 1)); // toll beállítása
     painter.drawLines(_tableGraphics); // tábla kirajzolása
-    painter.save(); // elmentjük a rajztulajdonságokat
-    /*
-    painter.translate( _boardHW  + _boardSide ,  0); // elmozdítjuk a rajzpontot a megfelelő mezőre
-    painter.drawLines(_tableGraphics); // ellenfél tábla kirajzolása
-    */
-    painter.restore(); // visszatöltjük a korábbi állapotot
+    for(int i = 0; i < _p->_data.areaSize; i++)
+    {
+        for(int j = 0; j < _p->_data.areaSize; j++)
+        {
+            painter.save(); // elmentjük a rajztulajdonságokat
+            painter.translate((i * _boardHW / _p->_data.areaSize) + _boardSide ,
+                              (j * _boardHW / _p->_data.areaSize) + _boardSide); // elmozdítjuk a rajzpontot a megfelelő mezőre
+            Coordinate c{i,j};
+            // hajó felrajzolása
+            if ( _p->getField(c).shipID)
+            {
+                painter.fillRect(_shipblock,QBrush(Qt::black)); // hajógrafika kiválasztása
+            }
+            painter.restore(); // visszatöltjük a korábbi állapotot
+        }
+    }
 
 }
+

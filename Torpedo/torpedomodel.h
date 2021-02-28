@@ -19,6 +19,8 @@ public:
     void stepGame(Coordinate c);
     void checkGame();
     void newGameData(NewGameData data);
+    baseplayer* playerOne;
+    baseplayer* playerTwo;
 
 signals:
     void gameWon(int won); // játékos győzelmének eseménye
@@ -26,8 +28,6 @@ signals:
 
 private:
     int _shipNum = 4;
-    baseplayer* playerOne;
-    baseplayer* playerTwo;
 };
 
 #endif // TORPEDOMODEL_H
