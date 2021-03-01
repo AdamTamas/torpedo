@@ -147,3 +147,33 @@ void baseplayer::newField(NewGameData data)
     randomTable();
 }
 
+void baseplayer::rotate(Coordinate c)
+{
+    int shipID = _gameTable[c.x][c.y].shipID;
+    if(shipID)
+    {
+        //megkeresi és kiveszi a kiválasztott hajót
+        std::vector<Coordinate> oldCoords;
+        for(int i = 0; i < _data.areaSize; i++)
+        {
+            for(int j = 0; j < _data.areaSize; j++)
+            {
+                if(_gameTable[i][j].shipID == shipID)
+                {
+                    oldCoords.push_back(Coordinate{i,j});
+                    _gameTable[i][j].shipID = 0;
+                }
+            }
+        }
+        // kiválasztott hajó elforgatása a koordináta körül
+        std::vector<Coordinate> newCoords;
+        for(size_t i = 0; i < oldCoords.size(); i++)
+        {
+            newCoords.push_back(Coordinate{oldCoords[i].y-c.y+c.x, oldCoords[i].x-c.x+c.y});
+        }
+        for(size_t i = 0; i < newCoords.size(); i++)
+        {
+            _gameTable[newCoords[i].x][newCoords[i].y].shipID = shipID;
+        }
+    }
+}

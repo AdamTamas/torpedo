@@ -76,6 +76,6 @@ void newgameoptionswidget::_newGameSlot()
 
     }
     _model->newGameData(data);
-    //_shippplacewidget->open();
+    _shippplacewidget->open();
     //_model->newGameData(data);
 }

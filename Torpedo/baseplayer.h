@@ -18,6 +18,7 @@ public:
     virtual void newField(NewGameData data);
     virtual Coordinate makeShot(){Coordinate a; a.x = 0; a.y = 0; return a;};
     virtual void shotResponse(bool){};
+    void rotate(Coordinate c);
     NewGameData _data;
 
 protected:

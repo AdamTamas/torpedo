@@ -16,7 +16,7 @@ public:
     void paintEvent(QPaintEvent *);
 
 private:
-    void mousePressEvent(QMouseEvent *event);
+    void mouseDoubleClickEvent( QMouseEvent *event);
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
     int _boardHW = 200;
     int _boardSide = 10;

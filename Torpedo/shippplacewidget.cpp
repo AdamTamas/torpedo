@@ -1,8 +1,9 @@
 #include "shippplacewidget.h"
 #include "baseplayer.h"
 #include <QPainter>
+#include <QMouseEvent>
 #include <QVBoxLayout>
- #include <QPixmap>
+#include <math.h>
 
 shippplacewidget::shippplacewidget(baseplayer* player, QWidget *parent) :
     QDialog(parent)
@@ -59,6 +60,25 @@ void shippplacewidget::paintEvent(QPaintEvent *)
             painter.restore(); // visszatöltjük a korábbi állapotot
         }
     }
-
 }
 
+
+void shippplacewidget::mouseDoubleClickEvent( QMouseEvent *event)
+{
+    if ( event->button() == Qt::LeftButton )
+    {
+        float newWidthUnit = width()/220.0;
+        float newHeightUnit = height()/220.0;
+        int x = floor((event->pos().x() - newWidthUnit*_boardSide) * _p->_data.areaSize / (newWidthUnit*_boardHW));
+        int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _p->_data.areaSize / (newHeightUnit*_boardHW));
+
+        if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
+        {
+            Coordinate c; c.x = x; c.y = y;
+            _p->rotate(c); // játék léptetése
+            update();
+        }
+        update();
+    }
+
+}
