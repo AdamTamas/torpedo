@@ -17,6 +17,7 @@ public:
 protected:
     std::vector<std::vector<Area>> _enemyGameTable; // saját játéktábla
     std::map<Coordinate, bool> _priorityShots;
+    Coordinate _lastShot;
 };
 
 #endif // CPUPLAYER_H

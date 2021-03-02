@@ -171,6 +171,29 @@ void baseplayer::rotate(Coordinate c)
         {
             newCoords.push_back(Coordinate{oldCoords[i].y-c.y+c.x, oldCoords[i].x-c.x+c.y});
         }
+
+        // ha kilóg az elforgatás után, akkor visszacsúsztatja a táblára
+        int moveX = 0;
+        if(newCoords[0].x<0){
+            moveX = newCoords[0].x;
+        }
+        if(newCoords[newCoords.size()-1].x>=_data.areaSize){
+            moveX = newCoords[newCoords.size()-1].x-(_data.areaSize-1);
+        }
+        int moveY = 0;
+        if(newCoords[0].y<0){
+            moveY = newCoords[0].y;
+        }
+        if(newCoords[newCoords.size()-1].y>=_data.areaSize){
+            moveY = newCoords[newCoords.size()-1].y-(_data.areaSize-1);
+        }
+        for(size_t i = 0; i < newCoords.size(); i++)
+        {
+            newCoords[i].x = newCoords[i].x-moveX;
+            newCoords[i].y = newCoords[i].y-moveY;
+        }
+
+        // haó visszatétele a táblára
         for(size_t i = 0; i < newCoords.size(); i++)
         {
             _gameTable[newCoords[i].x][newCoords[i].y].shipID = shipID;

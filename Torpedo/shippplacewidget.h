@@ -11,11 +11,11 @@ class shippplacewidget : public QDialog // Új játékhoz beállítások ablak
     Q_OBJECT
 public:
     explicit shippplacewidget(baseplayer* player, QWidget *parent = 0);
+
+private:
     void placeShips(NewGameData data, std::vector<std::vector<Area>> &board);
     void setGraphics(NewGameData data);
     void paintEvent(QPaintEvent *);
-
-private:
     void mouseDoubleClickEvent( QMouseEvent *event);
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
     int _boardHW = 200;

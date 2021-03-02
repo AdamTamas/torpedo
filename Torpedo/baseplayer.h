@@ -24,7 +24,6 @@ public:
 protected:
     std::vector<std::vector<Area>> _gameTable; // saját játéktábla
     std::vector<Ship> _ships; // saját hajók
-    Coordinate _lastShot;
 };
 
 #endif // BASEPLAYER_H
