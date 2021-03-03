@@ -193,10 +193,51 @@ void baseplayer::rotate(Coordinate c)
             newCoords[i].y = newCoords[i].y-moveY;
         }
 
-        // haó visszatétele a táblára
-        for(size_t i = 0; i < newCoords.size(); i++)
-        {
-            _gameTable[newCoords[i].x][newCoords[i].y].shipID = shipID;
+        // helykeresés ameddig olyat nem találunk ahol nem ütközik
+        bool foundGoodPlace = false;
+        // egyre messzebbi pontokban nézzük meg jó e a hely a hajónak
+        for(int distance = 0; distance < _data.areaSize && !foundGoodPlace; distance++){
+            // x tengelyen elmozdulás
+            for(int i = -distance; i <= distance && !foundGoodPlace; i++){
+                // y tengelyen elmozdulás
+                for(int j = -distance; j <= distance && !foundGoodPlace; j++){
+                    // ellenőrizzük, hogy nem lógunk-e ki a tábláról az új helyel
+                    if(newCoords[0].x+i >= 0 && newCoords[0].y+j >= 0 &&
+                        newCoords[newCoords.size()-1].x+i < _data.areaSize &&
+                        newCoords[newCoords.size()-1].y+j < _data.areaSize)
+                    {
+                        // feltételezzük, hogy az új hely jó és ellenőrizzük
+                        foundGoodPlace = true;
+                        for(size_t k = 0; k < newCoords.size() && foundGoodPlace; k++)
+                        {
+                            if(_gameTable[newCoords[k].x+i][newCoords[k].y+j].shipID != 0){
+                                foundGoodPlace = false;
+                            };
+                        }
+                        // ha találtunk helyet beállítjuk a koordinátákat
+                        if (foundGoodPlace){
+                            for(size_t k = 0; k < newCoords.size() && foundGoodPlace; k++)
+                            {
+                                newCoords[k].x = newCoords[k].x+i;
+                                newCoords[k].y = newCoords[k].y+j;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // hajó visszatétele a táblára
+        if(foundGoodPlace){
+            for(size_t i = 0; i < newCoords.size(); i++)
+            {
+                _gameTable[newCoords[i].x][newCoords[i].y].shipID = shipID;
+            }
+        } else {
+            for(size_t i = 0; i < newCoords.size(); i++)
+            {
+                _gameTable[oldCoords[i].x][oldCoords[i].y].shipID = shipID;
+            }
         }
     }
 }
