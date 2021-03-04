@@ -22,6 +22,14 @@ Ship baseplayer::getShipByID(int ID) const
     return _ships[ID-1];
 }
 
+std::vector<Coordinate> baseplayer::getShipInHandCoords() const{
+    std::vector<Coordinate> ret;
+    for(size_t i = 0; i < _shipInHandNewCoords.size(); i++){
+        ret.push_back(_shipInHandNewCoords[i]);
+    }
+    return ret;
+}
+
 void baseplayer::randomTable()
 {
     resetTable();
@@ -152,6 +160,7 @@ void baseplayer::rotate(Coordinate c)
     pickUp(c);
     if(_shipInHandID)
     {
+        _shipInHandNewCoords.clear();
         // kiválasztott hajó elforgatása a koordináta körül
         for(size_t i = 0; i < _shipInHand.size(); i++)
         {
@@ -162,8 +171,11 @@ void baseplayer::rotate(Coordinate c)
 }
 
 void baseplayer::pickUp(Coordinate c){
+    _shipInHand.clear();
+    _shipInHandNewCoords.clear();
     _shipInHandID = _gameTable[c.x][c.y].shipID;
     if(_shipInHandID){
+        _previousCoord = c;
         //megkeresi és kiveszi a kiválasztott hajót
         for(int i = 0; i < _data.areaSize; i++)
         {
@@ -181,7 +193,12 @@ void baseplayer::pickUp(Coordinate c){
 }
 
 void baseplayer::moveShip(Coordinate c){
-
+    for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
+    {
+        _shipInHandNewCoords[i].x = _shipInHandNewCoords[i].x + (c.x-_previousCoord.x);
+        _shipInHandNewCoords[i].y = _shipInHandNewCoords[i].y + (c.y-_previousCoord.y);
+    }
+    _previousCoord = c;
 }
 
 void baseplayer::putDownShip(){

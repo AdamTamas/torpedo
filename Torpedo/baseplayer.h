@@ -9,6 +9,7 @@ public:
     baseplayer(int areaSize, int shipNum);
     Area getField(Coordinate c) const; // saját játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
+    std::vector<Coordinate> getShipInHandCoords() const; // saját hajó adatainak lekérése ID alapján
     void randomTable();
     virtual void initTable();
     virtual void resetTable();
@@ -32,6 +33,7 @@ protected:
     std::vector<Coordinate> _shipInHand;    // az ideiglenesen kézbentartott hajó eredeti helye
     std::vector<Coordinate> _shipInHandNewCoords;    // az ideiglenesen kézbentartott hajó új helye
     int _shipInHandID;    // az ideiglenesen kézbentartott hajó ID-je
+    Coordinate _previousCoord;
 };
 
 #endif // BASEPLAYER_H

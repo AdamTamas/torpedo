@@ -61,6 +61,15 @@ void shippplacewidget::paintEvent(QPaintEvent *)
             painter.restore(); // visszatöltjük a korábbi állapotot
         }
     }
+    std::vector<Coordinate> shipInHand = _p->getShipInHandCoords();
+    for (size_t i = 0; i < shipInHand.size(); i++) {
+        painter.save(); // elmentjük a rajztulajdonságokat
+        painter.translate((shipInHand[i].x * _boardHW / _p->_data.areaSize) + _boardSide ,
+                          (shipInHand[i].y * _boardHW / _p->_data.areaSize) + _boardSide); // elmozdítjuk a rajzpontot a megfelelő mezőre
+
+        painter.fillRect(_shipblock,QBrush(Qt::blue)); // hajógrafika kiválasztása
+        painter.restore(); // visszatöltjük a korábbi állapotot
+    }
 }
 
 void shippplacewidget::mousePressEvent(QMouseEvent *event)
@@ -88,7 +97,7 @@ void shippplacewidget::mousePressEvent(QMouseEvent *event)
 
 void shippplacewidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if ( event->button() == Qt::LeftButton && HoldingShip )
+    if ( HoldingShip )
     {
         float newWidthUnit = width()/220.0;
         float newHeightUnit = height()/220.0;
@@ -99,11 +108,9 @@ void shippplacewidget::mouseMoveEvent(QMouseEvent *event)
         {
             Coordinate c; c.x = x; c.y = y;
             _p->moveShip(c); // elmozgatjuk a hajót az aktuális egérpozícióra
-            update();
         }
         update();
     }
-
 }
 
 void shippplacewidget::mouseReleaseEvent(QMouseEvent *event)
@@ -122,7 +129,6 @@ void shippplacewidget::mouseReleaseEvent(QMouseEvent *event)
             HoldingShip = false;
             update();
         }
-        update();
     }
 
 }
