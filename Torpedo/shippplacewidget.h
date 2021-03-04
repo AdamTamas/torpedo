@@ -16,7 +16,9 @@ private:
     void placeShips(NewGameData data, std::vector<std::vector<Area>> &board);
     void setGraphics(NewGameData data);
     void paintEvent(QPaintEvent *);
-    void mouseDoubleClickEvent( QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent( QMouseEvent *event);
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
     int _boardHW = 200;
     int _boardSide = 10;
@@ -24,6 +26,7 @@ private:
     QRectF _shipGraphics[4]; // Hajók
     QRectF _shipblock; // hajókocka
     baseplayer* _p;
+    bool HoldingShip;
 };
 
 #endif // SHIPPPLACEWIDGET_H

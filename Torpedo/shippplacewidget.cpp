@@ -11,6 +11,7 @@ shippplacewidget::shippplacewidget(baseplayer* player, QWidget *parent) :
     setMinimumSize(_boardHW + _boardSide*2, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
     _p = player;
+    HoldingShip = false;
     setGraphics(_p->_data);
 }
 
@@ -62,8 +63,50 @@ void shippplacewidget::paintEvent(QPaintEvent *)
     }
 }
 
+void shippplacewidget::mousePressEvent(QMouseEvent *event)
+{
+    float newWidthUnit = width()/220.0;
+    float newHeightUnit = height()/220.0;
+    int x = floor((event->pos().x() - newWidthUnit*_boardSide) * _p->_data.areaSize / (newWidthUnit*_boardHW));
+    int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _p->_data.areaSize / (newHeightUnit*_boardHW));
+    if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
+    {
+        Coordinate c; c.x = x; c.y = y;
+        if ( event->button() == Qt::LeftButton )
+        {
+            _p->pickUp(c); // hajó megfogása
+            HoldingShip = true;
+        }
+        if ( event->button() == Qt::RightButton )
+        {
+            _p->rotate(c); // hajó megfogása
+        }
+        update();
+    }
 
-void shippplacewidget::mouseDoubleClickEvent( QMouseEvent *event)
+}
+
+void shippplacewidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if ( event->button() == Qt::LeftButton && HoldingShip )
+    {
+        float newWidthUnit = width()/220.0;
+        float newHeightUnit = height()/220.0;
+        int x = floor((event->pos().x() - newWidthUnit*_boardSide) * _p->_data.areaSize / (newWidthUnit*_boardHW));
+        int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _p->_data.areaSize / (newHeightUnit*_boardHW));
+
+        if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
+        {
+            Coordinate c; c.x = x; c.y = y;
+            _p->moveShip(c); // elmozgatjuk a hajót az aktuális egérpozícióra
+            update();
+        }
+        update();
+    }
+
+}
+
+void shippplacewidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if ( event->button() == Qt::LeftButton )
     {
@@ -75,10 +118,12 @@ void shippplacewidget::mouseDoubleClickEvent( QMouseEvent *event)
         if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
         {
             Coordinate c; c.x = x; c.y = y;
-            _p->rotate(c); // játék léptetése
+            _p->putDownShip(); // letesszük a hajót
+            HoldingShip = false;
             update();
         }
         update();
     }
 
 }
+
