@@ -3,6 +3,8 @@
 cpuplayer::cpuplayer(int areaSize, int shipNum) : baseplayer(areaSize, shipNum)
 {
     initTable();
+    _lastShot.x = 0;
+    _lastShot.y = 0;
 }
 
 Coordinate cpuplayer::makeShot()
@@ -47,6 +49,7 @@ void cpuplayer::initTable()
 
 void cpuplayer::initOneTable(std::vector<std::vector<Area>> &t)
 {
+    t.clear();
     for (int i = 0; i < _data.areaSize; ++i)
     {
         std::vector<Area> tmpVec;

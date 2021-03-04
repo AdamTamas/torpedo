@@ -74,25 +74,27 @@ void shippplacewidget::paintEvent(QPaintEvent *)
 
 void shippplacewidget::mousePressEvent(QMouseEvent *event)
 {
-    float newWidthUnit = width()/220.0;
-    float newHeightUnit = height()/220.0;
-    int x = floor((event->pos().x() - newWidthUnit*_boardSide) * _p->_data.areaSize / (newWidthUnit*_boardHW));
-    int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _p->_data.areaSize / (newHeightUnit*_boardHW));
-    if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
+    if(!HoldingShip)
     {
-        Coordinate c; c.x = x; c.y = y;
-        if ( event->button() == Qt::LeftButton )
+        float newWidthUnit = width()/220.0;
+        float newHeightUnit = height()/220.0;
+        int x = floor((event->pos().x() - newWidthUnit*_boardSide) * _p->_data.areaSize / (newWidthUnit*_boardHW));
+        int y = floor((event->pos().y() - newHeightUnit*_boardSide) * _p->_data.areaSize / (newHeightUnit*_boardHW));
+        if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
         {
-            _p->pickUp(c); // hajó megfogása
-            HoldingShip = true;
+            Coordinate c; c.x = x; c.y = y;
+            if ( event->button() == Qt::LeftButton )
+            {
+                _p->pickUp(c); // hajó megfogása
+                HoldingShip = true;
+            }
+            if ( event->button() == Qt::RightButton )
+            {
+                _p->rotate(c); // hajó megfogása
+            }
+            update();
         }
-        if ( event->button() == Qt::RightButton )
-        {
-            _p->rotate(c); // hajó megfogása
-        }
-        update();
     }
-
 }
 
 void shippplacewidget::mouseMoveEvent(QMouseEvent *event)

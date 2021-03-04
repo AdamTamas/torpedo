@@ -2,6 +2,7 @@
 
 baseplayer::baseplayer(int areaSize, int shipNum)
 {
+    _shipInHandID = 0;
     _data.areaSize = areaSize;
     for(int i = 0; i < shipNum; i++)
     {
@@ -202,75 +203,76 @@ void baseplayer::moveShip(Coordinate c){
 }
 
 void baseplayer::putDownShip(){
+    if(_shipInHandID){
+        // ha kilóg a hajó, akkor visszacsúsztatja a táblára
+        int moveX = 0;
+        if(_shipInHandNewCoords[0].x<0){
+            moveX = _shipInHandNewCoords[0].x;
+        }
+        if(_shipInHandNewCoords[_shipInHandNewCoords.size()-1].x>=_data.areaSize){
+            moveX = _shipInHandNewCoords[_shipInHandNewCoords.size()-1].x-(_data.areaSize-1);
+        }
+        int moveY = 0;
+        if(_shipInHandNewCoords[0].y<0){
+            moveY = _shipInHandNewCoords[0].y;
+        }
+        if(_shipInHandNewCoords[_shipInHandNewCoords.size()-1].y>=_data.areaSize){
+            moveY = _shipInHandNewCoords[_shipInHandNewCoords.size()-1].y-(_data.areaSize-1);
+        }
+        for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
+        {
+            _shipInHandNewCoords[i].x = _shipInHandNewCoords[i].x-moveX;
+            _shipInHandNewCoords[i].y = _shipInHandNewCoords[i].y-moveY;
+        }
 
-    // ha kilóg a hajó, akkor visszacsúsztatja a táblára
-    int moveX = 0;
-    if(_shipInHandNewCoords[0].x<0){
-        moveX = _shipInHandNewCoords[0].x;
-    }
-    if(_shipInHandNewCoords[_shipInHandNewCoords.size()-1].x>=_data.areaSize){
-        moveX = _shipInHandNewCoords[_shipInHandNewCoords.size()-1].x-(_data.areaSize-1);
-    }
-    int moveY = 0;
-    if(_shipInHandNewCoords[0].y<0){
-        moveY = _shipInHandNewCoords[0].y;
-    }
-    if(_shipInHandNewCoords[_shipInHandNewCoords.size()-1].y>=_data.areaSize){
-        moveY = _shipInHandNewCoords[_shipInHandNewCoords.size()-1].y-(_data.areaSize-1);
-    }
-    for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
-    {
-        _shipInHandNewCoords[i].x = _shipInHandNewCoords[i].x-moveX;
-        _shipInHandNewCoords[i].y = _shipInHandNewCoords[i].y-moveY;
-    }
-
-    // helykeresés ameddig olyat nem találunk ahol nem ütközik
-    bool foundGoodPlace = false;
-    // egyre messzebbi pontokban nézzük meg jó e a hely a hajónak
-    for(int distance = 0; distance < _data.areaSize && !foundGoodPlace; distance++){
-        // x tengelyen elmozdulás
-        for(int i = -distance; i <= distance && !foundGoodPlace; i++){
-            // y tengelyen elmozdulás
-            for(int j = -distance; j <= distance && !foundGoodPlace; j++){
-                // ellenőrizzük, hogy nem lógunk-e ki a tábláról az új helyel
-                if(_shipInHandNewCoords[0].x+i >= 0 && _shipInHandNewCoords[0].y+j >= 0 &&
-                    _shipInHandNewCoords[_shipInHandNewCoords.size()-1].x+i < _data.areaSize &&
-                    _shipInHandNewCoords[_shipInHandNewCoords.size()-1].y+j < _data.areaSize)
-                {
-                    // feltételezzük, hogy az új hely jó és ellenőrizzük
-                    foundGoodPlace = true;
-                    for(size_t k = 0; k < _shipInHandNewCoords.size() && foundGoodPlace; k++)
+        // helykeresés ameddig olyat nem találunk ahol nem ütközik
+        bool foundGoodPlace = false;
+        // egyre messzebbi pontokban nézzük meg jó e a hely a hajónak
+        for(int distance = 0; distance < _data.areaSize && !foundGoodPlace; distance++){
+            // x tengelyen elmozdulás
+            for(int i = -distance; i <= distance && !foundGoodPlace; i++){
+                // y tengelyen elmozdulás
+                for(int j = -distance; j <= distance && !foundGoodPlace; j++){
+                    // ellenőrizzük, hogy nem lógunk-e ki a tábláról az új helyel
+                    if(_shipInHandNewCoords[0].x+i >= 0 && _shipInHandNewCoords[0].y+j >= 0 &&
+                        _shipInHandNewCoords[_shipInHandNewCoords.size()-1].x+i < _data.areaSize &&
+                        _shipInHandNewCoords[_shipInHandNewCoords.size()-1].y+j < _data.areaSize)
                     {
-                        if(_gameTable[_shipInHandNewCoords[k].x+i][_shipInHandNewCoords[k].y+j].shipID != 0){
-                            foundGoodPlace = false;
-                        };
-                    }
-                    // ha találtunk helyet beállítjuk a koordinátákat
-                    if (foundGoodPlace){
+                        // feltételezzük, hogy az új hely jó és ellenőrizzük
+                        foundGoodPlace = true;
                         for(size_t k = 0; k < _shipInHandNewCoords.size() && foundGoodPlace; k++)
                         {
-                            _shipInHandNewCoords[k].x = _shipInHandNewCoords[k].x+i;
-                            _shipInHandNewCoords[k].y = _shipInHandNewCoords[k].y+j;
+                            if(_gameTable[_shipInHandNewCoords[k].x+i][_shipInHandNewCoords[k].y+j].shipID != 0){
+                                foundGoodPlace = false;
+                            };
+                        }
+                        // ha találtunk helyet beállítjuk a koordinátákat
+                        if (foundGoodPlace){
+                            for(size_t k = 0; k < _shipInHandNewCoords.size() && foundGoodPlace; k++)
+                            {
+                                _shipInHandNewCoords[k].x = _shipInHandNewCoords[k].x+i;
+                                _shipInHandNewCoords[k].y = _shipInHandNewCoords[k].y+j;
+                            }
                         }
                     }
                 }
             }
         }
-    }
 
-    // hajó visszatétele a táblára
-    if(foundGoodPlace){
-        for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
-        {
-            _gameTable[_shipInHandNewCoords[i].x][_shipInHandNewCoords[i].y].shipID = _shipInHandID;
+        // hajó visszatétele a táblára
+        if(foundGoodPlace){
+            for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
+            {
+                _gameTable[_shipInHandNewCoords[i].x][_shipInHandNewCoords[i].y].shipID = _shipInHandID;
+            }
+        } else {
+            for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
+            {
+                _gameTable[_shipInHand[i].x][_shipInHand[i].y].shipID = _shipInHandID;
+            }
         }
-    } else {
-        for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
-        {
-            _gameTable[_shipInHand[i].x][_shipInHand[i].y].shipID = _shipInHandID;
-        }
+        _shipInHandID = 0;
+        _shipInHand.clear();
+        _shipInHandNewCoords.clear();
     }
-    _shipInHandID = 0;
-    _shipInHand.clear();
-    _shipInHandNewCoords.clear();
 }

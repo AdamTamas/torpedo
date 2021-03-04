@@ -32,7 +32,7 @@ private slots:
 private:
     int _maxShipSize = 5;
     int _maxShipQuantity = 3;
-    int _maxBoardSize = 16;
+    int _maxBoardSize = 17;
     Torpedomodel* _model;
     shippplacewidget* _shippplacewidget; // a mentést biztosító ablak
 };
