@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     baseplayer.cpp \
+    connectgameoptionswidget.cpp \
     cpuplayer.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     basebuildingblocks.h \
     baseplayer.h \
+    connectgameoptionswidget.h \
     cpuplayer.h \
     mainwindow.h \
     newgameoptionswidget.h \

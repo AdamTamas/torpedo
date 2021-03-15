@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
     _newGameOptionsWidget = NULL;
+    _connectGameOptionsWidget = NULL;
     setGraphics();
 
     // model eseményeinek feldolgozása
@@ -122,7 +123,7 @@ void MainWindow::paintEvent(QPaintEvent *)
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
-{       
+{
     // lekezeljük a Ctrl+N kombinációt
     if (event->key() == Qt::Key_N && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
@@ -132,6 +133,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         }
         _newGameOptionsWidget->open();
+    }
+    // lekezeljük a Ctrl+C kombinációt
+    if (event->key() == Qt::Key_C && QApplication::keyboardModifiers() == Qt::ControlModifier)
+    {
+        if (_connectGameOptionsWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
+        {
+            _connectGameOptionsWidget = new connectgameoptionswidget();
+
+        }
+        _connectGameOptionsWidget->open();
     }
 }
 

@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "torpedomodel.h" 
+#include "torpedomodel.h"
 #include "newgameoptionswidget.h"
+#include "connectgameoptionswidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -30,7 +31,8 @@ private:
     Torpedomodel _model; // a játékot megvalósító modell
     int _boardHW; // tábla szélessége és magassága (NxN)
     int _boardSide; // "margó"
-    newgameoptionswidget* _newGameOptionsWidget; // a mentést biztosító ablak
+    newgameoptionswidget* _newGameOptionsWidget; // új játék beálítás ablakot biztosító ablak
+    connectgameoptionswidget* _connectGameOptionsWidget;
     bool _newGameStarted;
 };
 #endif // MAINWINDOW_H
