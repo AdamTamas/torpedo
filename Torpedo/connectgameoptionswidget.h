@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QPushButton>
+#include <QPlainTextEdit>
 
 class connectgameoptionswidget : public QDialog // online catlakozás beállítások ablak
 {
@@ -16,6 +17,8 @@ public:
 protected:
     QPushButton* _okButton;
     QPushButton* _cancelButton;
+    QPlainTextEdit* _IP;
+    QPlainTextEdit* _Port;
 
 private slots:
     void _connectGameSlot(); // eseménykezelők a modell eseményeire
