@@ -6,7 +6,7 @@
 class cpuplayer : public baseplayer
 {
 public:
-    cpuplayer(int areaSize, int shipNum);
+    cpuplayer(NewGameData newdata);
     Coordinate makeShot() override;
     virtual void initTable() override;
     void initOneTable(std::vector<std::vector<Area>> &t);

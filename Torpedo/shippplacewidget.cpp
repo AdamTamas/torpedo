@@ -126,7 +126,6 @@ void shippplacewidget::mouseReleaseEvent(QMouseEvent *event)
 
         if(x < _p->_data.areaSize && x >= 0 && y < _p->_data.areaSize && y >= 0)
         {
-            Coordinate c; c.x = x; c.y = y;
             _p->putDownShip(); // letesszük a hajót
             HoldingShip = false;
             update();

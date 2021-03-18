@@ -1,14 +1,9 @@
 #include "baseplayer.h"
 
-baseplayer::baseplayer(int areaSize, int shipNum)
+baseplayer::baseplayer(NewGameData newdata, QObject *parent) : QObject(parent)
 {
     _shipInHandID = 0;
-    _data.areaSize = areaSize;
-    for(int i = 0; i < shipNum; i++)
-    {
-        _data.shipNumForSizes[i] = 1;
-    }
-    _data.online = false;
+    _data = newdata;
     initTable();
     fillShips();
 }

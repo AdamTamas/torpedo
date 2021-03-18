@@ -2,11 +2,13 @@
 #define BASEPLAYER_H
 #include "basebuildingblocks.h"
 #include <QVector>
+#include <QObject>
 
-class baseplayer
+class baseplayer : public QObject
 {
+    Q_OBJECT
 public:
-    baseplayer(int areaSize, int shipNum);
+    baseplayer(NewGameData newdata, QObject *parent = 0);
     Area getField(Coordinate c) const; // saját játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     std::vector<Coordinate> getShipInHandCoords() const; // saját hajó adatainak lekérése ID alapján
@@ -15,7 +17,7 @@ public:
     virtual void resetTable();
     void fillShips();
     void resetShips();
-    void getShot(Coordinate c);
+    virtual void getShot(Coordinate c);
     virtual void newField(NewGameData data);
     virtual Coordinate makeShot(){Coordinate a; a.x = 0; a.y = 0; return a;};
     virtual void shotResponse(bool){};

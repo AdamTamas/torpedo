@@ -1,13 +1,21 @@
 #include "torpedomodel.h"
 #include <stdlib.h>
 #include "cpuplayer.h"
+#include "onlineplayer.h"
 
 Torpedomodel::Torpedomodel()
 {
     areaSize = 8;
     _shipNum = 4;
-    playerOne = new baseplayer(areaSize, _shipNum);
-    playerTwo = new cpuplayer(areaSize, _shipNum);
+    NewGameData d;
+    d.areaSize = areaSize;
+    for(int i = 0; i < _shipNum; i++)
+    {
+        d.shipNumForSizes[i] = 1;
+    }
+    d.online = false;
+    playerOne = new baseplayer(d);
+    playerTwo = new cpuplayer(d);
 }
 
 Torpedomodel::~Torpedomodel()
@@ -30,8 +38,15 @@ void Torpedomodel::newGameData(NewGameData data)
     {
         _shipNum+= data.shipNumForSizes[i];
     }
-    playerOne->newField(data);
-    playerTwo->newField(data);
+    if(data.online){
+        playerTwo = new onlineplayer(data);
+        playerOne->newField(data);
+        playerTwo->newField(data);
+    }else{
+        playerTwo = new cpuplayer(data);
+        playerOne->newField(data);
+        playerTwo->newField(data);
+    }
     needNewGraphics();
 }
 

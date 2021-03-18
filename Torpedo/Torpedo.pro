@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     newgameoptionswidget.cpp \
+    onlineplayer.cpp \
     shippplacewidget.cpp \
     torpedomodel.cpp
 
@@ -25,6 +26,7 @@ HEADERS += \
     cpuplayer.h \
     mainwindow.h \
     newgameoptionswidget.h \
+    onlineplayer.h \
     shippplacewidget.h \
     torpedomodel.h
 

@@ -1,6 +1,6 @@
 #include "cpuplayer.h"
 
-cpuplayer::cpuplayer(int areaSize, int shipNum) : baseplayer(areaSize, shipNum)
+cpuplayer::cpuplayer(NewGameData newdata) : baseplayer(newdata)
 {
     initTable();
     _lastShot.x = 0;
