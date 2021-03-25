@@ -1,4 +1,4 @@
-#include "connectgameoptionswidget.h"
+#include "widgetConnectGameOptions.h"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -17,7 +17,7 @@ void setHeight (QPlainTextEdit *ptxt, int nRows)
     ptxt->setFixedWidth(nHeight*7);
 }
 
-connectgameoptionswidget::connectgameoptionswidget(QWidget *parent) :
+widgetConnectGameOptions::widgetConnectGameOptions(QWidget *parent) :
     QDialog(parent)
 {
     setFixedSize(300, 200);
@@ -54,6 +54,6 @@ connectgameoptionswidget::connectgameoptionswidget(QWidget *parent) :
     connect(_okButton, SIGNAL(clicked()), this, SLOT(_connectGameSlot()));
     connect(_cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
-void connectgameoptionswidget::_connectGameSlot()
+void widgetConnectGameOptions::_connectGameSlot()
 {
 }

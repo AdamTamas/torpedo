@@ -1,15 +1,15 @@
 #ifndef ONLINEPLAYER_H
 #define ONLINEPLAYER_H
-#include "baseplayer.h"
+#include "playerBase.h"
 #include <map>
 #include <QTcpSocket>
 
-class onlineplayer : public baseplayer
+class playerOnline : public playerBase
 {
     Q_OBJECT
 public:
-    onlineplayer(NewGameData newdata);
-    ~onlineplayer();
+    playerOnline(NewGameData newdata);
+    ~playerOnline();
     virtual Coordinate makeShot() override;
     virtual void getShot(Coordinate c) override;
     virtual void shotResponse(bool hit) override;

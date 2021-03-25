@@ -4,11 +4,11 @@
 #include <QVector>
 #include <QObject>
 
-class baseplayer : public QObject
+class playerBase : public QObject
 {
     Q_OBJECT
 public:
-    baseplayer(NewGameData newdata, QObject *parent = 0);
+    playerBase(NewGameData newdata, QObject *parent = 0);
     Area getField(Coordinate c) const; // saját játékmező lekérdezése
     Ship getShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     std::vector<Coordinate> getShipInHandCoords() const; // saját hajó adatainak lekérése ID alapján

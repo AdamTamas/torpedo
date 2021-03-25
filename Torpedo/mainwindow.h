@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "torpedomodel.h"
-#include "newgameoptionswidget.h"
-#include "connectgameoptionswidget.h"
+#include "modelTorpedo.h"
+#include "widgetNewGameOptions.h"
+#include "widgetConnectGameOptions.h"
 
 class MainWindow : public QMainWindow
 {
@@ -28,11 +28,11 @@ private:
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat
     QVector<QLineF> _missGraphics; // kereszt grafikája (ha nem találtunk)
     QRectF _shipGraphics; // hajókocka
-    Torpedomodel _model; // a játékot megvalósító modell
+    modelTorpedo _model; // a játékot megvalósító modell
     int _boardHW; // tábla szélessége és magassága (NxN)
     int _boardSide; // "margó"
-    newgameoptionswidget* _newGameOptionsWidget; // új játék beálítás ablakot biztosító ablak
-    connectgameoptionswidget* _connectGameOptionsWidget;
+    widgetNewGameOptions* _newGameOptionsWidget; // új játék beálítás ablakot biztosító ablak
+    widgetConnectGameOptions* _connectGameOptionsWidget;
     bool _newGameStarted;
 };
 #endif // MAINWINDOW_H

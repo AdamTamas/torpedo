@@ -1,9 +1,9 @@
-#include "newgameoptionswidget.h"
+#include "widgetNewGameOptions.h"
 
 #include <QVBoxLayout>
 #include <QLabel>
 
-newgameoptionswidget::newgameoptionswidget(Torpedomodel* model, QWidget *parent) :
+widgetNewGameOptions::widgetNewGameOptions(modelTorpedo* model, QWidget *parent) :
     QDialog(parent)
 {
     _shippplacewidget = NULL;
@@ -60,7 +60,7 @@ newgameoptionswidget::newgameoptionswidget(Torpedomodel* model, QWidget *parent)
     connect(_okButton, SIGNAL(clicked()), this, SLOT(_newGameSlot()));
     connect(_cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
-void newgameoptionswidget::_newGameSlot()
+void widgetNewGameOptions::_newGameSlot()
 {
     NewGameData data;
     data.areaSize = _comboBoxBoard->currentText().toInt();
@@ -72,7 +72,7 @@ void newgameoptionswidget::_newGameSlot()
 
     if (_shippplacewidget == NULL) // ha még egyszer sem nyitották meg az ablakot
     {
-        _shippplacewidget = new shippplacewidget(_model->playerOne);
+        _shippplacewidget = new widgetShippPlace(_model->playerOne);
 
     }
     _model->newGameData(data);

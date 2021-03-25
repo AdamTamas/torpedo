@@ -9,26 +9,26 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    baseplayer.cpp \
-    connectgameoptionswidget.cpp \
-    cpuplayer.cpp \
     main.cpp \
     mainwindow.cpp \
-    newgameoptionswidget.cpp \
-    onlineplayer.cpp \
-    shippplacewidget.cpp \
-    torpedomodel.cpp
+    modelTorpedo.cpp \
+    playerBase.cpp \
+    playerCPU.cpp \
+    playerOnline.cpp \
+    widgetConnectGameOptions.cpp \
+    widgetNewGameOptions.cpp \
+    widgetShippPlace.cpp
 
 HEADERS += \
     basebuildingblocks.h \
-    baseplayer.h \
-    connectgameoptionswidget.h \
-    cpuplayer.h \
     mainwindow.h \
-    newgameoptionswidget.h \
-    onlineplayer.h \
-    shippplacewidget.h \
-    torpedomodel.h
+    modelTorpedo.h \
+    playerBase.h \
+    playerCPU.h \
+    playerOnline.h \
+    widgetConnectGameOptions.h \
+    widgetNewGameOptions.h \
+    widgetShippPlace.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

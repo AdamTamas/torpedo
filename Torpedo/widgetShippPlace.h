@@ -1,16 +1,16 @@
 #ifndef SHIPPPLACEWIDGET_H
 #define SHIPPPLACEWIDGET_H
 #include "basebuildingblocks.h"
-#include "baseplayer.h"
+#include "playerBase.h"
 #include <QVector>
 #include <QDialog>
 #include <QPushButton>
 
-class shippplacewidget : public QDialog // Új játékhoz beállítások ablak
+class widgetShippPlace : public QDialog // Új játékhoz beállítások ablak
 {
     Q_OBJECT
 public:
-    explicit shippplacewidget(baseplayer* player, QWidget *parent = 0);
+    explicit widgetShippPlace(playerBase* player, QWidget *parent = 0);
 
 private:
     void placeShips(NewGameData data, std::vector<std::vector<Area>> &board);
@@ -25,7 +25,7 @@ private:
     int areaSize = 8;
     QRectF _shipGraphics[4]; // Hajók
     QRectF _shipblock; // hajókocka
-    baseplayer* _p;
+    playerBase* _p;
     bool HoldingShip;
 };
 

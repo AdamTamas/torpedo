@@ -1,9 +1,9 @@
-#include "torpedomodel.h"
+#include "modelTorpedo.h"
 #include <stdlib.h>
-#include "cpuplayer.h"
-#include "onlineplayer.h"
+#include "playerCPU.h"
+#include "playerOnline.h"
 
-Torpedomodel::Torpedomodel()
+modelTorpedo::modelTorpedo()
 {
     areaSize = 8;
     _shipNum = 4;
@@ -14,15 +14,15 @@ Torpedomodel::Torpedomodel()
         d.shipNumForSizes[i] = 1;
     }
     d.online = false;
-    playerOne = new baseplayer(d);
-    playerTwo = new cpuplayer(d);
+    playerOne = new playerBase(d);
+    playerTwo = new playerCPU(d);
 }
 
-Torpedomodel::~Torpedomodel()
+modelTorpedo::~modelTorpedo()
 {
 }
 
-void Torpedomodel::newGame()
+void modelTorpedo::newGame()
 {
     playerOne->resetShips();
     playerTwo->resetShips();
@@ -30,7 +30,7 @@ void Torpedomodel::newGame()
     playerTwo->randomTable();
 }
 
-void Torpedomodel::newGameData(NewGameData data)
+void modelTorpedo::newGameData(NewGameData data)
 {
     areaSize = data.areaSize;
     _shipNum = 0;
@@ -39,38 +39,38 @@ void Torpedomodel::newGameData(NewGameData data)
         _shipNum+= data.shipNumForSizes[i];
     }
     if(data.online){
-        playerTwo = new onlineplayer(data);
+        playerTwo = new playerOnline(data);
         playerOne->newField(data);
         playerTwo->newField(data);
     }else{
-        playerTwo = new cpuplayer(data);
+        playerTwo = new playerCPU(data);
         playerOne->newField(data);
         playerTwo->newField(data);
     }
     needNewGraphics();
 }
 
-Area Torpedomodel::getField(Coordinate c) const
+Area modelTorpedo::getField(Coordinate c) const
 {
     return playerOne->getField(c);
 }
 
-Area Torpedomodel::getEnemyField(Coordinate c) const
+Area modelTorpedo::getEnemyField(Coordinate c) const
 {
     return playerTwo->getField(c);
 }
 
-Ship Torpedomodel::getShipByID(int ID)  const
+Ship modelTorpedo::getShipByID(int ID)  const
 {
     return playerOne->getShipByID(ID);
 }
 
-Ship Torpedomodel::getEnemyShipByID(int ID)  const
+Ship modelTorpedo::getEnemyShipByID(int ID)  const
 {
     return playerTwo->getShipByID(ID);
 }
 
-void Torpedomodel::stepGame(Coordinate c)
+void modelTorpedo::stepGame(Coordinate c)
 {
     if(!playerTwo->getField(c).isShot)
     {
@@ -83,7 +83,7 @@ void Torpedomodel::stepGame(Coordinate c)
     checkGame();
 }
 
-void Torpedomodel::checkGame()
+void modelTorpedo::checkGame()
 {
     bool player1won = true;
     for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása

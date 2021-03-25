@@ -5,13 +5,13 @@
 #include <QPushButton>
 #include <QPlainTextEdit>
 
-class connectgameoptionswidget : public QDialog // online catlakozás beállítások ablak
+class widgetConnectGameOptions : public QDialog // online catlakozás beállítások ablak
 {
     Q_OBJECT
 public:
     // Explicit specifies that the constructor is explicit,
     // it cannot be used for implicit conversions and copy-initialization.
-    explicit connectgameoptionswidget(QWidget *parent = 0);
+    explicit widgetConnectGameOptions(QWidget *parent = 0);
 
 
 protected:

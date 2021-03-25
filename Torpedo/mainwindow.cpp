@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QApplication>
-#include "torpedomodel.h"
+#include "modelTorpedo.h"
 #include <math.h>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -129,7 +129,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         if (_newGameOptionsWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
         {
-            _newGameOptionsWidget = new newgameoptionswidget(&_model);
+            _newGameOptionsWidget = new widgetNewGameOptions(&_model);
 
         }
         _newGameOptionsWidget->open();
@@ -139,7 +139,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         if (_connectGameOptionsWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
         {
-            _connectGameOptionsWidget = new connectgameoptionswidget();
+            _connectGameOptionsWidget = new widgetConnectGameOptions();
 
         }
         _connectGameOptionsWidget->open();

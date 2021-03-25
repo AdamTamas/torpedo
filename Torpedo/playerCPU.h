@@ -1,12 +1,12 @@
 #ifndef CPUPLAYER_H
 #define CPUPLAYER_H
-#include "baseplayer.h"
+#include "playerBase.h"
 #include <map>
 
-class cpuplayer : public baseplayer
+class playerCPU : public playerBase
 {
 public:
-    cpuplayer(NewGameData newdata);
+    playerCPU(NewGameData newdata);
     Coordinate makeShot() override;
     virtual void initTable() override;
     void initOneTable(std::vector<std::vector<Area>> &t);

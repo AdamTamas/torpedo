@@ -1,6 +1,6 @@
-#include "baseplayer.h"
+#include "playerBase.h"
 
-baseplayer::baseplayer(NewGameData newdata, QObject *parent) : QObject(parent)
+playerBase::playerBase(NewGameData newdata, QObject *parent) : QObject(parent)
 {
     _shipInHandID = 0;
     _data = newdata;
@@ -8,17 +8,17 @@ baseplayer::baseplayer(NewGameData newdata, QObject *parent) : QObject(parent)
     fillShips();
 }
 
-Area baseplayer::getField(Coordinate c) const
+Area playerBase::getField(Coordinate c) const
 {
     return _gameTable[c.x][c.y];
 }
 
-Ship baseplayer::getShipByID(int ID) const
+Ship playerBase::getShipByID(int ID) const
 {
     return _ships[ID-1];
 }
 
-std::vector<Coordinate> baseplayer::getShipInHandCoords() const{
+std::vector<Coordinate> playerBase::getShipInHandCoords() const{
     std::vector<Coordinate> ret;
     for(size_t i = 0; i < _shipInHandNewCoords.size(); i++){
         ret.push_back(_shipInHandNewCoords[i]);
@@ -26,7 +26,7 @@ std::vector<Coordinate> baseplayer::getShipInHandCoords() const{
     return ret;
 }
 
-void baseplayer::randomTable()
+void playerBase::randomTable()
 {
     resetTable();
     for (size_t i = 0; i < _ships.size(); i++)
@@ -83,7 +83,7 @@ void baseplayer::randomTable()
     }
 }
 
-void baseplayer::initTable()
+void playerBase::initTable()
 {
     for (int i = 0; i < _data.areaSize; ++i)
     {
@@ -99,7 +99,7 @@ void baseplayer::initTable()
     }
 }
 
-void baseplayer::resetTable()
+void playerBase::resetTable()
 {
     for (int i = 0; i < _data.areaSize; i++)
     {
@@ -111,7 +111,7 @@ void baseplayer::resetTable()
     }
 }
 
-void baseplayer::fillShips()
+void playerBase::fillShips()
 {
     int ID = 1;
     for(int i = 0; i < 4; i++)
@@ -126,7 +126,7 @@ void baseplayer::fillShips()
             }
 }
 
-void baseplayer::resetShips()
+void playerBase::resetShips()
 {
     for(size_t i = 0; i < _ships.size(); i++)
     {
@@ -134,14 +134,14 @@ void baseplayer::resetShips()
     }
 }
 
-void baseplayer::getShot(Coordinate c)
+void playerBase::getShot(Coordinate c)
 {
     _gameTable[c.x][c.y].isShot = true;
     if(_gameTable[c.x][c.y].shipID)
         _ships[_gameTable[c.x][c.y].shipID-1].hitPoint--;
 }
 
-void baseplayer::newField(NewGameData data)
+void playerBase::newField(NewGameData data)
 {
     _gameTable.clear();
     _ships.clear();
@@ -151,7 +151,7 @@ void baseplayer::newField(NewGameData data)
     randomTable();
 }
 
-void baseplayer::rotate(Coordinate c)
+void playerBase::rotate(Coordinate c)
 {
     pickUp(c);
     if(_shipInHandID)
@@ -166,7 +166,7 @@ void baseplayer::rotate(Coordinate c)
     putDownShip();
 }
 
-void baseplayer::pickUp(Coordinate c){
+void playerBase::pickUp(Coordinate c){
     _shipInHand.clear();
     _shipInHandNewCoords.clear();
     _shipInHandID = _gameTable[c.x][c.y].shipID;
@@ -188,7 +188,7 @@ void baseplayer::pickUp(Coordinate c){
     }
 }
 
-void baseplayer::moveShip(Coordinate c){
+void playerBase::moveShip(Coordinate c){
     for(size_t i = 0; i < _shipInHandNewCoords.size(); i++)
     {
         _shipInHandNewCoords[i].x = _shipInHandNewCoords[i].x + (c.x-_previousCoord.x);
@@ -197,7 +197,7 @@ void baseplayer::moveShip(Coordinate c){
     _previousCoord = c;
 }
 
-void baseplayer::putDownShip(){
+void playerBase::putDownShip(){
     if(_shipInHandID){
         // ha kilóg a hajó, akkor visszacsúsztatja a táblára
         int moveX = 0;

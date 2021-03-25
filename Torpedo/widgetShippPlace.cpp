@@ -1,11 +1,11 @@
-#include "shippplacewidget.h"
-#include "baseplayer.h"
+#include "widgetShippPlace.h"
+#include "playerBase.h"
 #include <QPainter>
 #include <QMouseEvent>
 #include <QVBoxLayout>
 #include <math.h>
 
-shippplacewidget::shippplacewidget(baseplayer* player, QWidget *parent) :
+widgetShippPlace::widgetShippPlace(playerBase* player, QWidget *parent) :
     QDialog(parent)
 {
     setMinimumSize(_boardHW + _boardSide*2, _boardHW + _boardSide*2);
@@ -15,7 +15,7 @@ shippplacewidget::shippplacewidget(baseplayer* player, QWidget *parent) :
     setGraphics(_p->_data);
 }
 
-void shippplacewidget::setGraphics(NewGameData data)
+void widgetShippPlace::setGraphics(NewGameData data)
 {
     areaSize = data.areaSize;
     _tableGraphics.clear();
@@ -36,7 +36,7 @@ void shippplacewidget::setGraphics(NewGameData data)
 
 }
 
-void shippplacewidget::paintEvent(QPaintEvent *)
+void widgetShippPlace::paintEvent(QPaintEvent *)
 {
     setGraphics(_p->_data);
     QPainter painter(this); // rajzoló objektum
@@ -72,7 +72,7 @@ void shippplacewidget::paintEvent(QPaintEvent *)
     }
 }
 
-void shippplacewidget::mousePressEvent(QMouseEvent *event)
+void widgetShippPlace::mousePressEvent(QMouseEvent *event)
 {
     if(!HoldingShip)
     {
@@ -97,7 +97,7 @@ void shippplacewidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void shippplacewidget::mouseMoveEvent(QMouseEvent *event)
+void widgetShippPlace::mouseMoveEvent(QMouseEvent *event)
 {
     if ( HoldingShip )
     {
@@ -115,7 +115,7 @@ void shippplacewidget::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void shippplacewidget::mouseReleaseEvent(QMouseEvent *event)
+void widgetShippPlace::mouseReleaseEvent(QMouseEvent *event)
 {
     if ( event->button() == Qt::LeftButton )
     {

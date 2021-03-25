@@ -1,16 +1,16 @@
 #ifndef TORPEDOMODEL_H
 #define TORPEDOMODEL_H
 #include <QObject>
-#include "baseplayer.h"
+#include "playerBase.h"
 #include "basebuildingblocks.h"
 
-class Torpedomodel : public QObject
+class modelTorpedo : public QObject
 {
     Q_OBJECT
 public:
     int areaSize = 8;
-    Torpedomodel();
-    ~Torpedomodel();
+    modelTorpedo();
+    ~modelTorpedo();
     void newGame();
     Area getField(Coordinate c) const; // saját játékmező lekérdezése
     Area getEnemyField(Coordinate c) const; // ellenséges játékmező lekérdezése
@@ -19,8 +19,8 @@ public:
     void stepGame(Coordinate c);
     void checkGame();
     void newGameData(NewGameData data);
-    baseplayer* playerOne;
-    baseplayer* playerTwo;
+    playerBase* playerOne;
+    playerBase* playerTwo;
 
 signals:
     void gameWon(int won); // játékos győzelmének eseménye

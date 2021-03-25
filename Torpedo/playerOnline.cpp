@@ -1,7 +1,7 @@
 
-#include "onlineplayer.h"
+#include "playerOnline.h"
 
-onlineplayer::onlineplayer(NewGameData newdata) : baseplayer(newdata)
+playerOnline::playerOnline(NewGameData newdata) : playerBase(newdata)
 {
     initTable();
     _lastShot.x = 0;
@@ -9,19 +9,19 @@ onlineplayer::onlineplayer(NewGameData newdata) : baseplayer(newdata)
     socket = new QTcpSocket(this);
 }
 
-onlineplayer::~onlineplayer(){
+playerOnline::~playerOnline(){
     if(socket->state() == QTcpSocket::ConnectedState)
         socket->close();
 };
 
-void onlineplayer::connect(){
+void playerOnline::connect(){
     socket->connectToHost("localhost",4747);
     if(socket->waitForConnected(5000)){
 
     };
 }
 
-Coordinate onlineplayer::makeShot()
+Coordinate playerOnline::makeShot()
 {
     Coordinate c{0,0};
     //socket->read(c);
@@ -30,7 +30,7 @@ Coordinate onlineplayer::makeShot()
 }
 
 
-void onlineplayer::getShot(Coordinate c){
+void playerOnline::getShot(Coordinate c){
     char x[3];
     char y[3];
     itoa(c.x,x,10);
@@ -39,7 +39,7 @@ void onlineplayer::getShot(Coordinate c){
     socket->write(y);
 }
 
-void onlineplayer::shotResponse(bool hit)
+void playerOnline::shotResponse(bool hit)
 {
     if(hit)
         _gameTable[_lastShot.x][_lastShot.y].shipID = -1;

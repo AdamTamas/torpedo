@@ -1,13 +1,13 @@
-#include "cpuplayer.h"
+#include "playerCPU.h"
 
-cpuplayer::cpuplayer(NewGameData newdata) : baseplayer(newdata)
+playerCPU::playerCPU(NewGameData newdata) : playerBase(newdata)
 {
     initTable();
     _lastShot.x = 0;
     _lastShot.y = 0;
 }
 
-Coordinate cpuplayer::makeShot()
+Coordinate playerCPU::makeShot()
 {
     for (auto x : _priorityShots)
     {
@@ -40,14 +40,14 @@ Coordinate cpuplayer::makeShot()
 }
 
 
-void cpuplayer::initTable()
+void playerCPU::initTable()
 {
     _priorityShots.clear();
     initOneTable(_gameTable);
     initOneTable(_enemyGameTable);
 }
 
-void cpuplayer::initOneTable(std::vector<std::vector<Area>> &t)
+void playerCPU::initOneTable(std::vector<std::vector<Area>> &t)
 {
     t.clear();
     for (int i = 0; i < _data.areaSize; ++i)
@@ -64,14 +64,14 @@ void cpuplayer::initOneTable(std::vector<std::vector<Area>> &t)
     }
 }
 
-void cpuplayer::resetTable()
+void playerCPU::resetTable()
 {
     _priorityShots.clear();
     resetOneTable(_gameTable);
     resetOneTable(_enemyGameTable);
 }
 
-void cpuplayer::resetOneTable(std::vector<std::vector<Area>> &t)
+void playerCPU::resetOneTable(std::vector<std::vector<Area>> &t)
 {
     for (int i = 0; i < _data.areaSize; i++)
     {
@@ -83,7 +83,7 @@ void cpuplayer::resetOneTable(std::vector<std::vector<Area>> &t)
     }
 }
 
-void cpuplayer::shotResponse(bool hit)
+void playerCPU::shotResponse(bool hit)
 {
     if(hit)
     {
