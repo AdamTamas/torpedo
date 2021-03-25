@@ -15,6 +15,7 @@ public:
 
 
 protected:
+    void setHeight (QPlainTextEdit *ptxt, int nRows);
     QPushButton* _okButton;
     QPushButton* _cancelButton;
     QPlainTextEdit* _IP;

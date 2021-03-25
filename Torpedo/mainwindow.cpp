@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setWindowTitle(tr("Torpedo"));
     _newGameOptionsWidget = NULL;
     _connectGameOptionsWidget = NULL;
+    _chatWidget = NULL;
     setGraphics();
 
     // model eseményeinek feldolgozása
@@ -143,6 +144,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         }
         _connectGameOptionsWidget->open();
+    }
+    // lekezeljük a Ctrl+U kombinációt
+    if (event->key() == Qt::Key_U && QApplication::keyboardModifiers() == Qt::ControlModifier)
+    {
+        if (_chatWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
+        {
+            _chatWidget = new widgetChat();
+
+        }
+        _chatWidget->open();
     }
 }
 

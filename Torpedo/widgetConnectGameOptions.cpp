@@ -5,7 +5,7 @@
 
 
 // Helper átméretezni a textEdit paneleket
-void setHeight (QPlainTextEdit *ptxt, int nRows)
+void widgetConnectGameOptions::setHeight (QPlainTextEdit *ptxt, int nRows)
 {
     QTextDocument *pdoc = ptxt->document ();
     QFontMetrics fm (pdoc->defaultFont ());

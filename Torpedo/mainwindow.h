@@ -5,6 +5,7 @@
 #include "modelTorpedo.h"
 #include "widgetNewGameOptions.h"
 #include "widgetConnectGameOptions.h"
+#include "widgetChat.h"
 
 class MainWindow : public QMainWindow
 {
@@ -33,6 +34,7 @@ private:
     int _boardSide; // "margó"
     widgetNewGameOptions* _newGameOptionsWidget; // új játék beálítás ablakot biztosító ablak
     widgetConnectGameOptions* _connectGameOptionsWidget;
+    widgetChat* _chatWidget;
     bool _newGameStarted;
 };
 #endif // MAINWINDOW_H

@@ -15,6 +15,7 @@ SOURCES += \
     playerBase.cpp \
     playerCPU.cpp \
     playerOnline.cpp \
+    widgetChat.cpp \
     widgetConnectGameOptions.cpp \
     widgetNewGameOptions.cpp \
     widgetShippPlace.cpp
@@ -26,6 +27,7 @@ HEADERS += \
     playerBase.h \
     playerCPU.h \
     playerOnline.h \
+    widgetChat.h \
     widgetConnectGameOptions.h \
     widgetNewGameOptions.h \
     widgetShippPlace.h
