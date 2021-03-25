@@ -29,7 +29,7 @@ std::vector<Coordinate> playerBase::getShipInHandCoords() const{
 void playerBase::randomTable()
 {
     resetTable();
-    for (size_t i = 0; i < _ships.size(); i++)
+    for (int i = _ships.size()-1; i >= 0 ; i--)
     {
         bool notPlaced = true;
         while (notPlaced)
