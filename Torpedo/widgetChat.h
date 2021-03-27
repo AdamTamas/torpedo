@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QPlainTextEdit>
+#include "modelChat.h"
 
 class widgetChat : public QDialog // online catlakozás beállítások ablak
 {
@@ -19,6 +20,7 @@ protected:
     QPushButton* _cancelButton;
     QPlainTextEdit* _messengeField;
     QPlainTextEdit* _chatField;
+    modelChat _cModel;
     void setHeight (QPlainTextEdit *ptxt, int nRows);
 
 private slots:

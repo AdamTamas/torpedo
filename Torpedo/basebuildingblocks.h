@@ -1,6 +1,9 @@
 #ifndef BASEBUILDINGBLOCKS_H
 #define BASEBUILDINGBLOCKS_H
 
+#include <QString>
+#include <ctime>
+
 struct Coordinate {
     int x;
     int y;
@@ -30,6 +33,13 @@ struct NewGameData {
     int areaSize;
     int shipNumForSizes[4];
     bool online;
+};
+
+
+struct messenge {
+    QString sender;
+    QString messenge;
+    time_t sendTime;
 };
 
 #endif // BASEBUILDINGBLOCKS_H

@@ -26,6 +26,7 @@ widgetChat::widgetChat(QWidget *parent) :
     _sendButton = new QPushButton("Küld");
     _messengeField = new QPlainTextEdit();
     _chatField  = new QPlainTextEdit();
+    _chatField->setReadOnly(true);
     setHeight(_messengeField, 1);
 
     // függőleges layout az elemeknek
@@ -43,6 +44,18 @@ widgetChat::widgetChat(QWidget *parent) :
 
     connect(_sendButton, SIGNAL(clicked()), this, SLOT(_send()));
 }
+
 void widgetChat::_send()
 {
+    // szövegszín beállítás
+     QPalette p = _chatField->palette();
+     p.setColor(QPalette::Text, Qt::red);
+     _chatField->setPalette(p);
+
+     // üzenetküldés meghívás
+    _cModel.senndMessenge(_messengeField->toPlainText());
+    // üzenet kiírása magunknál
+    _chatField->insertPlainText(_messengeField->toPlainText()+"\n");
+    // írható mező kitisztítása
+    _messengeField->clear();
 }

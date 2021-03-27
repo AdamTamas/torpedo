@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    modelChat.cpp \
     modelTorpedo.cpp \
     playerBase.cpp \
     playerCPU.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 HEADERS += \
     basebuildingblocks.h \
     mainwindow.h \
+    modelChat.h \
     modelTorpedo.h \
     playerBase.h \
     playerCPU.h \
