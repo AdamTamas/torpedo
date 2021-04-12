@@ -1,16 +1,15 @@
 #include "modelChat.h"
 #include <time.h>
 
-modelChat::modelChat()
+AModelChat::AModelChat(qintptr handle, QObject *parent)
+    : QTcpSocket(parent)
 {
-
+    setSocketDescriptor(handle);
+    connect(this, &AModelChat::readyRead, [&]() {
+       emit AReadyRead(this);
+    });
+    connect(this, &AModelChat::stateChanged, [&](int S){
+        emit AStateChanged(this, S);
+    });
 }
 
-void modelChat::senndMessenge(QString s){
-    messenge newMessenge{"Én",s,time(NULL)};
-    messenges.push_back(newMessenge);
-}
-
-void modelChat::readmessenge(){
-
-}

@@ -20,7 +20,7 @@ protected:
     QPushButton* _cancelButton;
     QPlainTextEdit* _messengeField;
     QPlainTextEdit* _chatField;
-    modelChat _cModel;
+    //modelChat _cModel;
     void setHeight (QPlainTextEdit *ptxt, int nRows);
 
 private slots:

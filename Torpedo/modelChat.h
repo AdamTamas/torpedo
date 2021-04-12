@@ -1,19 +1,16 @@
 #ifndef MODELCHAT_H
 #define MODELCHAT_H
 
-#include <QVector>
-#include "basebuildingblocks.h"
+#include <QTcpSocket>
 
-
-
-class modelChat
+class AModelChat : public QTcpSocket
 {
+    Q_OBJECT
 public:
-    modelChat();
-    std::vector<messenge> messenges;    // az üzenetek vektora
-    void senndMessenge(QString s);
-private:
-    void readmessenge();
+    AModelChat(qintptr handle, QObject *parent = nullptr);
+signals:
+    void AReadyRead(AModelChat *);
+    void AStateChanged(AModelChat *, int);
 };
 
 #endif // MODELCHAT_H
