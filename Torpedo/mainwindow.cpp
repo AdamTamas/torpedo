@@ -180,5 +180,6 @@ void MainWindow::model_gameWon(int won)
         _model.newGame();
     }
 }
+
 void MainWindow::model_needNewGraphics()
 { setGraphics(); }

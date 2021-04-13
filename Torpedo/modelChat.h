@@ -12,6 +12,10 @@ public:
     modelChat();
     void send(QString);
     void connectToHost(QString hostname, quint16 port);
+
+signals:
+    void msgRecieved(QString msg); // játékos győzelmének eseménye
+
 private:
     QTcpSocket *mSocket;
 };

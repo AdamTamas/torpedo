@@ -16,6 +16,9 @@ public:
     void append(QString S);
     void connectToHost(QString hostname, quint16 port);
 
+public slots:
+    void model_msgRecieved(QString msg);
+
 protected:
     QPushButton* _sendButton;
     QPushButton* _cancelButton;

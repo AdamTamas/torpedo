@@ -9,7 +9,7 @@ modelChat::modelChat()
         QTextStream T(mSocket);
         auto text = T.readAll();
         qDebug() << "client got:" << text << " from:" << mSocket;
-        //_chatWidget->append(text);
+        msgRecieved(text);
     });
 }
 

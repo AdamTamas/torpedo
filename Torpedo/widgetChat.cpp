@@ -43,28 +43,30 @@ widgetChat::widgetChat(QWidget *parent) :
     setLayout(vlayout);
 
     connect(_sendButton, SIGNAL(clicked()), this, SLOT(_send()));
+    connect(&_cModel, SIGNAL(msgRecieved(QString)), this, SLOT(model_msgRecieved(QString)));
 }
 
 void widgetChat::_send()
 {
+    /*
     // szövegszín beállítás
      QPalette p = _chatField->palette();
      p.setColor(QPalette::Text, Qt::red);
      _chatField->setPalette(p);
-
+     */
      // üzenetküldés meghívás
     _cModel.send(_messengeField->toPlainText());
-    // üzenet kiírása magunknál
-    _chatField->insertPlainText(_messengeField->toPlainText()+"\n");
     // írható mező kitisztítása
     _messengeField->clear();
-}
-
-void widgetChat::append(QString S){
-    _chatField->appendPlainText(S);
 }
 
 void widgetChat::connectToHost(QString hostname, quint16 port)
 {
     _cModel.connectToHost(hostname, port);
+}
+
+
+void widgetChat::model_msgRecieved(QString msg)
+{
+    _chatField->appendPlainText(msg);
 }
