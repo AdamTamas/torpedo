@@ -5,6 +5,12 @@
 
 tcpServer::tcpServer(QObject *parent) : QTcpServer(parent)
 {
+    qDebug() << "Server started...";
+}
+
+tcpServer::~tcpServer()
+{
+    qDebug() << "Server stopped...";
 }
 
 bool tcpServer::startServer(quint16 port){
@@ -28,6 +34,7 @@ void tcpServer::incomingConnection(qintptr handle)
         qDebug() << "readyRead";
         QTextStream T(S);
         auto text = T.readAll();
+        qDebug() << "read:" << text;
 
         for(auto i : mSockets){
             QTextStream K (i);

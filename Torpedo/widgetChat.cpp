@@ -53,7 +53,7 @@ void widgetChat::_send()
      _chatField->setPalette(p);
 
      // üzenetküldés meghívás
-    //_cModel.senndMessenge(_messengeField->toPlainText());
+    _cModel.send(_messengeField->toPlainText());
     // üzenet kiírása magunknál
     _chatField->insertPlainText(_messengeField->toPlainText()+"\n");
     // írható mező kitisztítása

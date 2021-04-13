@@ -46,6 +46,10 @@ void modelTorpedo::newGameData(NewGameData data)
         playerTwo = new playerCPU(data);
         playerOne->newField(data);
         playerTwo->newField(data);
+        if(!server.startServer(3333)){
+            qDebug() << "ERROR:" << server.errorString();
+            return;
+        }
     }
     needNewGraphics();
 }

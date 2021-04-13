@@ -9,6 +9,7 @@ class tcpServer : public QTcpServer
 {
 public:
     tcpServer(QObject *parent = nullptr);
+    ~tcpServer();
     bool startServer(quint16 port);
 protected:
     void incomingConnection(qintptr handle);

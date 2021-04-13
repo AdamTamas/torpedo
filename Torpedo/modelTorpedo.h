@@ -3,6 +3,7 @@
 #include <QObject>
 #include "playerBase.h"
 #include "basebuildingblocks.h"
+#include "tcpServer.h"
 
 class modelTorpedo : public QObject
 {
@@ -28,6 +29,7 @@ signals:
 
 private:
     int _shipNum = 4;
+    tcpServer server;
 };
 
 #endif // TORPEDOMODEL_H
