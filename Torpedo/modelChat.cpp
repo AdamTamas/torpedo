@@ -1,12 +1,14 @@
 #include "modelChat.h"
 
+#include <QDebug>
 
 modelChat::modelChat()
 {
     mSocket = new QTcpSocket(this);
     connect(mSocket, &QTcpSocket::readyRead, [&](){
-        QTextStream T;
+        QTextStream T(mSocket);
         auto text = T.readAll();
+        qDebug() << "client got:" << text << " from:" << mSocket;
         //_chatWidget->append(text);
     });
 }
