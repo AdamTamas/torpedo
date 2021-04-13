@@ -1,15 +1,22 @@
 #include "modelChat.h"
-#include <time.h>
 
-AModelChat::AModelChat(qintptr handle, QObject *parent)
-    : QTcpSocket(parent)
+
+modelChat::modelChat()
 {
-    setSocketDescriptor(handle);
-    connect(this, &AModelChat::readyRead, [&]() {
-       emit AReadyRead(this);
-    });
-    connect(this, &AModelChat::stateChanged, [&](int S){
-        emit AStateChanged(this, S);
+    mSocket = new QTcpSocket(this);
+    connect(mSocket, &QTcpSocket::readyRead, [&](){
+        QTextStream T;
+        auto text = T.readAll();
+        //_chatWidget->append(text);
     });
 }
 
+void modelChat::send(QString S){
+    QTextStream T(mSocket);
+    T << S;
+    mSocket->flush();
+}
+
+void modelChat::connectToHost(QString hostname, quint16 port){
+    mSocket->connectToHost(hostname, port);
+}

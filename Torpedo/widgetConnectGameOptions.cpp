@@ -50,10 +50,20 @@ widgetConnectGameOptions::widgetConnectGameOptions(QWidget *parent) :
 
     setLayout(vlayout);
 
-    connect(_okButton, SIGNAL(clicked()), this, SLOT(accept()));
     connect(_okButton, SIGNAL(clicked()), this, SLOT(_connectGameSlot()));
     connect(_cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
 void widgetConnectGameOptions::_connectGameSlot()
 {
+    mHostname = _IP->toPlainText();
+    mPort = _Port->toPlainText().toUShort();
+    accept();
+}
+
+QString widgetConnectGameOptions::hostname() const{
+    return mHostname;
+}
+
+quint16 widgetConnectGameOptions::port() const{
+    return mPort;
 }

@@ -1,21 +1,29 @@
 #include "tcpServer.h"
-#include "modelChat.h"
+#include "tcpSocket.h"
 #include <QTextStream>
 #include <QDebug>
 
-ATcpServer::ATcpServer(QObject *parent) : QTcpServer(parent)
+tcpServer::tcpServer(QObject *parent) : QTcpServer(parent)
 {
 }
 
-bool ATcpServer::startServer(quint16 port){
+bool tcpServer::startServer(quint16 port){
     return listen(QHostAddress::Any, port);
 }
 
-void ATcpServer::incomingConnection(qintptr handle)
+void tcpServer::incomingConnection(qintptr handle)
 {
-    auto socket = new AModelChat(handle, this);
+    qDebug () << "Client connected with handle: " << handle;
+    auto socket = new tcpSocket(handle, this);
     mSockets << socket;
-    connect(socket, &AModelChat::AReadyRead, [&](AModelChat *S)
+
+    for(auto i : mSockets){
+        QTextStream T(i);
+        T << "Server: Connected:" << handle;
+        i->flush();
+    }
+
+    connect(socket, &tcpSocket::AReadyRead, [&](tcpSocket *S)
     {
         qDebug() << "readyRead";
         QTextStream T(S);
@@ -28,10 +36,10 @@ void ATcpServer::incomingConnection(qintptr handle)
         }
     });
 
-    connect(socket, &AModelChat::AStateChanged, [&](AModelChat *S, int ST){
-        qDebug() << "stateChanged";
+    connect(socket, &tcpSocket::AStateChanged, [&](tcpSocket *S, int ST){
+        qDebug() << "stateChanged with handle: " << S->socketDescriptor();
         if(ST == QTcpSocket::UnconnectedState){
-            qDebug() << "unconnected state";
+            qDebug() << "unconnected state with handle: " << S->socketDescriptor();
             mSockets.removeOne(S);
             for(auto i :mSockets){
                 QTextStream K(i);

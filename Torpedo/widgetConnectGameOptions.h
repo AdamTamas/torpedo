@@ -12,7 +12,8 @@ public:
     // Explicit specifies that the constructor is explicit,
     // it cannot be used for implicit conversions and copy-initialization.
     explicit widgetConnectGameOptions(QWidget *parent = 0);
-
+    QString hostname() const;
+    quint16 port() const;
 
 protected:
     void setHeight (QPlainTextEdit *ptxt, int nRows);
@@ -25,6 +26,8 @@ private slots:
     void _connectGameSlot(); // eseménykezelők a modell eseményeire
 
 private:
+    QString mHostname;
+    quint16 mPort;
 };
 
 

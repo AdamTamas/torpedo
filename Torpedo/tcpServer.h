@@ -3,17 +3,17 @@
 
 #include <QTcpServer>
 
-class AModelChat;
+class tcpSocket;
 
-class ATcpServer : public QTcpServer
+class tcpServer : public QTcpServer
 {
 public:
-    ATcpServer(QObject *parent = nullptr);
+    tcpServer(QObject *parent = nullptr);
     bool startServer(quint16 port);
 protected:
     void incomingConnection(qintptr handle);
 private :
-    QList<AModelChat * > mSockets;
+    QList<tcpSocket * > mSockets;
 };
 
 #endif // TCPSERVER_H

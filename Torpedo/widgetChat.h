@@ -13,14 +13,15 @@ public:
     // Explicit specifies that the constructor is explicit,
     // it cannot be used for implicit conversions and copy-initialization.
     explicit widgetChat(QWidget *parent = 0);
-
+    void append(QString S);
+    void connectToHost(QString hostname, quint16 port);
 
 protected:
     QPushButton* _sendButton;
     QPushButton* _cancelButton;
     QPlainTextEdit* _messengeField;
     QPlainTextEdit* _chatField;
-    //modelChat _cModel;
+    modelChat _cModel;
     void setHeight (QPlainTextEdit *ptxt, int nRows);
 
 private slots:

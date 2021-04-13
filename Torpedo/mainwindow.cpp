@@ -5,6 +5,8 @@
 #include <QApplication>
 #include "modelTorpedo.h"
 #include <math.h>
+#include <QTextStream>
+#include <QTcpSocket>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -14,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
     _newGameOptionsWidget = NULL;
-    _connectGameOptionsWidget = NULL;
-    _chatWidget = NULL;
+    _chatWidget = new widgetChat();
     setGraphics();
 
     // model eseményeinek feldolgozása
@@ -138,21 +139,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // lekezeljük a Ctrl+C kombinációt
     if (event->key() == Qt::Key_C && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
-        if (_connectGameOptionsWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
-        {
-            _connectGameOptionsWidget = new widgetConnectGameOptions();
-
+        widgetConnectGameOptions connectGameOptionsWidget(this);
+        if(connectGameOptionsWidget.exec() == QDialog::Rejected){
+            return;
         }
-        _connectGameOptionsWidget->open();
+        _chatWidget->connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
     }
     // lekezeljük a Ctrl+U kombinációt
     if (event->key() == Qt::Key_U && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
-        if (_chatWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
-        {
-            _chatWidget = new widgetChat();
-
-        }
         _chatWidget->open();
     }
 }

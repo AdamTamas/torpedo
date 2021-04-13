@@ -60,3 +60,11 @@ void widgetChat::_send()
     _messengeField->clear();
 }
 
+void widgetChat::append(QString S){
+    _chatField->appendPlainText(S);
+}
+
+void widgetChat::connectToHost(QString hostname, quint16 port)
+{
+    _cModel.connectToHost(hostname, port);
+}

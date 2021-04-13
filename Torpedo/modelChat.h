@@ -3,14 +3,17 @@
 
 #include <QTcpSocket>
 
-class AModelChat : public QTcpSocket
+//class QTcpSocket;
+
+class modelChat : public QObject
 {
     Q_OBJECT
 public:
-    AModelChat(qintptr handle, QObject *parent = nullptr);
-signals:
-    void AReadyRead(AModelChat *);
-    void AStateChanged(AModelChat *, int);
+    modelChat();
+    void send(QString);
+    void connectToHost(QString hostname, quint16 port);
+private:
+    QTcpSocket *mSocket;
 };
 
 #endif // MODELCHAT_H
