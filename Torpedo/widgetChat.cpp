@@ -70,3 +70,7 @@ void widgetChat::model_msgRecieved(QString msg)
 {
     _chatField->appendPlainText(msg);
 }
+
+void widgetChat::setNickName(QString name){
+    _cModel.setNickName(name);
+}

@@ -33,6 +33,7 @@ private:
     int _boardHW; // tábla szélessége és magassága (NxN)
     int _boardSide; // "margó"
     widgetNewGameOptions* _newGameOptionsWidget; // új játék beálítás ablakot biztosító ablak
+    widgetShippPlace* _shippplacewidget; // a mentést biztosító ablak
     widgetChat* _chatWidget;
     bool _newGameStarted;
 };

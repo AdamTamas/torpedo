@@ -15,6 +15,7 @@ public:
     explicit widgetChat(QWidget *parent = 0);
     void append(QString S);
     void connectToHost(QString hostname, quint16 port);
+    void setNickName(QString name);
 
 public slots:
     void model_msgRecieved(QString msg);

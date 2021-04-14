@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
     _newGameOptionsWidget = NULL;
+    _shippplacewidget = NULL;
     _chatWidget = new widgetChat();
     setGraphics();
 
@@ -129,6 +130,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // lekezeljük a Ctrl+N kombinációt
     if (event->key() == Qt::Key_N && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
+        this->hide();
         widgetNewGameOptions newGameOptionsWidget(&_model, this);
         if(newGameOptionsWidget.exec() == QDialog::Rejected)
         {
@@ -137,8 +139,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if(_model.playerOne->_data.online)
         {
             _chatWidget->connectToHost("localhost", 3333);
+            _chatWidget->setNickName("Player1");
             _chatWidget->open();
         }
+
+
+        widgetShippPlace shipPlaceWidget(_model.playerOne, this);
+        shipPlaceWidget.exec();
+        this->show();
     }
     // lekezeljük a Ctrl+C kombinációt
     if (event->key() == Qt::Key_C && QApplication::keyboardModifiers() == Qt::ControlModifier)
@@ -148,6 +156,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             return;
         }
         _chatWidget->connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
+        _chatWidget->setNickName("Player2");
         _chatWidget->open();
     }
     // lekezeljük a Ctrl+U kombinációt

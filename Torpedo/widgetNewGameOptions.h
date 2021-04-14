@@ -34,7 +34,6 @@ private:
     int _maxShipQuantity = 3;
     int _maxBoardSize = 17;
     modelTorpedo* _model;
-    widgetShippPlace* _shippplacewidget; // a mentést biztosító ablak
 };
 
 
