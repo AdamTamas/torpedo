@@ -10,4 +10,4 @@ windeployqt	-- ha egy olyan mappában van futtatva ahol csak az exe van akkor be
 Ismert bugok: 
 - Ha túl sok halyó van felrakva kifagy,
 - Ha hajófelrakás menüben a hajó kék mikor bezárjuk akkor a hajó "eltűnik",
-- Hajófelrakás közben már lőhető a játéktábla
+- Hajófelrakás közben már lőhető a játéktábla -> Javítva, mainWindow mostmár nem elérhető miközben hajót rakunk fel.
