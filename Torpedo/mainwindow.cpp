@@ -137,6 +137,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if(_model.playerOne->_data.online)
         {
             _chatWidget->connectToHost("localhost", 3333);
+            _chatWidget->open();
         }
     }
     // lekezeljük a Ctrl+C kombinációt
@@ -147,6 +148,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             return;
         }
         _chatWidget->connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
+        _chatWidget->open();
     }
     // lekezeljük a Ctrl+U kombinációt
     if (event->key() == Qt::Key_U && QApplication::keyboardModifiers() == Qt::ControlModifier)

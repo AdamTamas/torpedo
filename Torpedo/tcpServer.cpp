@@ -5,7 +5,7 @@
 
 tcpServer::tcpServer(QObject *parent) : QTcpServer(parent)
 {
-    qDebug() << "Server started...";
+    qDebug() << "Server init...";
 }
 
 tcpServer::~tcpServer()
