@@ -129,12 +129,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // lekezeljük a Ctrl+N kombinációt
     if (event->key() == Qt::Key_N && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
-        if (_newGameOptionsWidget == NULL) // ha még egyszer sem nyitották meg az ablakot
+        widgetNewGameOptions newGameOptionsWidget(&_model, this);
+        if(newGameOptionsWidget.exec() == QDialog::Rejected)
         {
-            _newGameOptionsWidget = new widgetNewGameOptions(&_model);
-
+            return;
         }
-        _newGameOptionsWidget->open();
+        if(_model.playerOne->_data.online)
+        {
+            _chatWidget->connectToHost("localhost", 3333);
+        }
     }
     // lekezeljük a Ctrl+C kombinációt
     if (event->key() == Qt::Key_C && QApplication::keyboardModifiers() == Qt::ControlModifier)

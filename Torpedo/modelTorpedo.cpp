@@ -42,14 +42,16 @@ void modelTorpedo::newGameData(NewGameData data)
         playerTwo = new playerOnline(data);
         playerOne->newField(data);
         playerTwo->newField(data);
+        if(!server.startServer(3333)){
+            qDebug() << "ERROR:" << server.errorString();
+            return;
+        }else{
+            qDebug() << "Server connected to port 3333";
+        }
     }else{
         playerTwo = new playerCPU(data);
         playerOne->newField(data);
         playerTwo->newField(data);
-        if(!server.startServer(3333)){
-            qDebug() << "ERROR:" << server.errorString();
-            return;
-        }
     }
     needNewGraphics();
 }
