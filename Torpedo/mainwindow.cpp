@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setBaseSize(_boardHW*2 + _boardSide*3, _boardHW + _boardSide*2);
     setWindowTitle(tr("Torpedo"));
     _newGameOptionsWidget = NULL;
-    _shippplacewidget = NULL;
     _chatWidget = new widgetChat();
     setGraphics();
 
