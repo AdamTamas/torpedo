@@ -48,12 +48,6 @@ widgetChat::widgetChat(QWidget *parent) :
 
 void widgetChat::_send()
 {
-    /*
-    // szövegszín beállítás
-     QPalette p = _chatField->palette();
-     p.setColor(QPalette::Text, Qt::red);
-     _chatField->setPalette(p);
-     */
      // üzenetküldés meghívás
     _cModel.send(_messengeField->toPlainText());
     // írható mező kitisztítása
@@ -68,6 +62,12 @@ void widgetChat::connectToHost(QString hostname, quint16 port)
 
 void widgetChat::model_msgRecieved(QString msg)
 {
+    /*
+    // szövegszín beállítás
+     QPalette p = _chatField->palette();
+     p.setColor(QPalette::Text, Qt::red);
+     _chatField->setPalette(p);
+     */
     _chatField->appendPlainText(msg);
 }
 

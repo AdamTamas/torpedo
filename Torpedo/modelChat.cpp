@@ -7,15 +7,18 @@ modelChat::modelChat()
     mSocket = new QTcpSocket(this);
     connect(mSocket, &QTcpSocket::readyRead, [&](){
         QTextStream T(mSocket);
+        auto messengeType = T.readLine();
+        auto from = T.readLine();
         auto text = T.readAll();
-        qDebug() << "client got:" << text << " from:" << mSocket;
-        msgRecieved(text);
+        qDebug() << "client got:" << text << " from:" << from;
+        if(messengeType == "chat")
+            msgRecieved(from + text);
     });
 }
 
 void modelChat::send(QString S){
     QTextStream T(mSocket);
-    T << nickName << ":" << S;
+    T << "chat\n" << nickName << ":\n" << S;
     mSocket->flush();
 }
 
