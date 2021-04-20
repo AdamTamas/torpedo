@@ -48,6 +48,8 @@ void modelTorpedo::newGameData(NewGameData data)
         }else{
             qDebug() << "Server connected to port 3333";
         }
+        qDebug() << "Sending data to server";
+        server.getData(data);
     }else{
         playerTwo = new playerCPU(data);
         playerOne->newField(data);

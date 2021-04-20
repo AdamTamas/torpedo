@@ -2,8 +2,8 @@
 #define MODELCHAT_H
 
 #include <QTcpSocket>
+#include "basebuildingblocks.h"
 
-//class QTcpSocket;
 
 class modelChat : public QObject
 {

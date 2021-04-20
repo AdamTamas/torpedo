@@ -10,10 +10,11 @@ modelChat::modelChat()
         auto messengeType = T.readLine();
         auto from = T.readLine();
         auto text = T.readAll();
-        qDebug() << "client got:" << text << " from:" << from;
+        qDebug() << "client got:" << messengeType + " " + text << " from:" << from;
         if(messengeType == "chat")
             msgRecieved(from + text);
     });
+
 }
 
 void modelChat::send(QString S){

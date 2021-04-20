@@ -25,7 +25,11 @@ void tcpServer::incomingConnection(qintptr handle)
 
     for(auto i : mSockets){
         QTextStream T(i);
-        T << "Server: Connected:" << handle;
+        T << "data\nServer:\n" << _data.areaSize <<"\n"
+          << _data.shipNumForSizes[0] << "\n"
+          << _data.shipNumForSizes[1] << "\n"
+          << _data.shipNumForSizes[2] << "\n"
+          << _data.shipNumForSizes[3] << "\n";
         i->flush();
     }
 
@@ -57,4 +61,15 @@ void tcpServer::incomingConnection(qintptr handle)
             }
         }
     });
+}
+
+
+void tcpServer::getData(NewGameData data){
+    _data = data;
+    qDebug() << "Server got the following new game data:\nareaSize:"
+             << data.areaSize <<"\nshipNumbers"
+             << data.shipNumForSizes[0] << " "
+             << data.shipNumForSizes[1] << " "
+             << data.shipNumForSizes[2] << " "
+             << data.shipNumForSizes[3] << " ";
 }

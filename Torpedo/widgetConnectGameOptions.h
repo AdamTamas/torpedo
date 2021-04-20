@@ -25,6 +25,7 @@ protected:
 private slots:
     void _connectGameSlot(); // eseménykezelők a modell eseményeire
 
+
 private:
     QString mHostname;
     quint16 mPort;
