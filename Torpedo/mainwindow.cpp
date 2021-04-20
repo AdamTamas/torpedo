@@ -133,6 +133,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         widgetNewGameOptions newGameOptionsWidget(&_model, this);
         if(newGameOptionsWidget.exec() == QDialog::Rejected)
         {
+            this->show();
             return;
         }
         if(_model.playerOne->_data.online)
