@@ -8,13 +8,38 @@ modelConnection::modelConnection()
     connect(mSocket, &QTcpSocket::readyRead, [&](){
         QTextStream T(mSocket);
         auto messengeType = T.readLine();
-        auto from = T.readLine();
-        auto text = T.readAll();
-        qDebug() << "client got:" << messengeType + " " + text << " from:" << from;
-        if(messengeType == "chat")
-            msgRecieved(from + text);
-    });
 
+        if(messengeType == "chat"){
+            auto from = T.readLine();
+            auto text = T.readAll();
+            qDebug() << "client got:" << messengeType + " " + text << " from:" << from;
+            msgRecieved(from + text);
+        }
+
+        if(messengeType == "step"){
+            auto from = T.readLine();
+            auto x = T.readLine();
+            auto y = T.readLine();
+            qDebug() << "client got:" << messengeType + " " + x + " " + y + " from:" + from;
+            if(from != nickName){
+                Coordinate coordinate = {x.toInt(),y.toInt()};
+                //stepRecieved(coordinate);
+            }
+        }
+
+        if(messengeType == "data"){
+            auto from = T.readLine();
+            NewGameData data;
+            data.areaSize = T.readLine().toInt();
+            data.shipNumForSizes[0] = T.readLine().toInt();
+            data.shipNumForSizes[1] = T.readLine().toInt();
+            data.shipNumForSizes[2] = T.readLine().toInt();
+            data.shipNumForSizes[3] = T.readLine().toInt();
+            data.online = true;
+            qDebug() << "client got:" << messengeType + " from:" + from;
+            dataRecieved(data);
+        }
+    });
 }
 
 void modelConnection::sendMessenge(QString S){

@@ -36,9 +36,9 @@ struct NewGameData {
 };
 
 
-struct messenge {
+struct Messenge {
     QString sender;
-    QString messenge;
+    QString Messenge;
     time_t sendTime;
 };
 

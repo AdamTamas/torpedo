@@ -41,8 +41,6 @@ widgetChat::widgetChat(QWidget *parent) :
     vlayout->addLayout(hlayout);
 
     setLayout(vlayout);
-
-    connect(_sendButton, SIGNAL(clicked()), this, SLOT(_send()));
 }
 
 QString widgetChat::_send()

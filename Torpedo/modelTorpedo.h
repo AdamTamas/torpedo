@@ -26,6 +26,9 @@ public:
     playerBase* playerTwo;
     modelConnection cModel;
 
+private slots:
+    void connection_dataRecieved(NewGameData data); // eseménykezelők a modell eseményeire
+
 signals:
     void gameWon(int won); // játékos győzelmének eseménye
     void needNewGraphics(); // játékos győzelmének eseménye

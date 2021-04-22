@@ -16,6 +16,7 @@ modelTorpedo::modelTorpedo()
     d.online = false;
     playerOne = new playerBase(d);
     playerTwo = new playerCPU(d);
+    connect(&cModel, SIGNAL(dataRecieved(NewGameData)), this, SLOT(connection_dataRecieved(NewGameData)));
 }
 
 modelTorpedo::~modelTorpedo()
@@ -56,6 +57,23 @@ void modelTorpedo::newGameData(NewGameData data)
         playerTwo->newField(data);
     }
     needNewGraphics();
+}
+
+
+void modelTorpedo::connection_dataRecieved(NewGameData data){
+    qDebug() << "Data:" << data.areaSize
+             <<" "<< data.shipNumForSizes[0]
+             <<" "<< data.shipNumForSizes[1]
+             <<" "<< data.shipNumForSizes[2]
+             <<" "<< data.shipNumForSizes[3];
+    areaSize = data.areaSize;
+    _shipNum = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        _shipNum+= data.shipNumForSizes[i];
+    }
+    playerOne->newField(data);
+
 }
 
 Area modelTorpedo::getField(Coordinate c) const

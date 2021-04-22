@@ -19,6 +19,7 @@ public:
 
 signals:
     void msgRecieved(QString msg);
+    void dataRecieved(NewGameData data);
 
 private:
     QTcpSocket *mSocket;
