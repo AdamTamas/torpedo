@@ -5,17 +5,20 @@
 #include "basebuildingblocks.h"
 
 
-class modelChat : public QObject
+class modelConnection : public QObject
 {
     Q_OBJECT
 public:
-    modelChat();
-    void send(QString);
+    modelConnection();
+    void sendMessenge(QString);
+    void sendStep(QString);
     void connectToHost(QString hostname, quint16 port);
     void setNickName(QString name);
+    QTcpSocket* getSocket() const;
+    void setSocket(QTcpSocket* S);
 
 signals:
-    void msgRecieved(QString msg); // játékos győzelmének eseménye
+    void msgRecieved(QString msg);
 
 private:
     QTcpSocket *mSocket;

@@ -117,3 +117,10 @@ void modelTorpedo::checkGame()
         gameWon(0); // esemény kiváltása
     }
 }
+
+//online játék kiegészítői
+
+void modelTorpedo::connectToHost(QString hostname, quint16 port)
+{
+    cModel.connectToHost(hostname, port);
+}

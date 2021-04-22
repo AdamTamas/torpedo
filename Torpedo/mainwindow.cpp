@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // model eseményeinek feldolgozása
     connect(&_model, SIGNAL(gameWon(int)), this, SLOT(model_gameWon(int)));
     connect(&_model, SIGNAL(needNewGraphics()), this, SLOT(model_needNewGraphics()));
+    connect(&_model.cModel, SIGNAL(msgRecieved(QString)), this, SLOT(model_msgRecieved(QString)));
+    connect(_chatWidget->_sendButton, SIGNAL(clicked()), this, SLOT(_sendMSG()));
 
     // új játék kezdése első alkalomhoz
     _model.newGame();
@@ -138,8 +140,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         if(_model.playerOne->_data.online)
         {
-            _chatWidget->connectToHost("localhost", 3333);
-            _chatWidget->setNickName("Player1");
+            _model.connectToHost("localhost", 3333);
+            _model.cModel.setNickName("Player1");
             _chatWidget->open();
         }
 
@@ -155,8 +157,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if(connectGameOptionsWidget.exec() == QDialog::Rejected){
             return;
         }
-        _chatWidget->connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
-        _chatWidget->setNickName("Player2");
+        _model.connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
+        _model.cModel.setNickName("Player2");
         _chatWidget->open();
     }
     // lekezeljük a Ctrl+U kombinációt
@@ -164,6 +166,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         _chatWidget->open();
     }
+}
+
+void MainWindow::model_msgRecieved(QString S){
+    _chatWidget->msgRecieved(S);
+}
+
+void MainWindow::_sendMSG(){
+    _model.cModel.sendMessenge(_chatWidget->_send());
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)

@@ -1,8 +1,8 @@
-#include "modelChat.h"
+#include "modelConnection.h"
 
 #include <QDebug>
 
-modelChat::modelChat()
+modelConnection::modelConnection()
 {
     mSocket = new QTcpSocket(this);
     connect(mSocket, &QTcpSocket::readyRead, [&](){
@@ -17,16 +17,29 @@ modelChat::modelChat()
 
 }
 
-void modelChat::send(QString S){
+void modelConnection::sendMessenge(QString S){
     QTextStream T(mSocket);
     T << "chat\n" << nickName << ":\n" << S;
     mSocket->flush();
 }
 
-void modelChat::connectToHost(QString hostname, quint16 port){
+void modelConnection::sendStep(QString S){
+    QTextStream T(mSocket);
+    T << "step\n" << nickName << ":\n" << S;
+    mSocket->flush();
+}
+
+void modelConnection::connectToHost(QString hostname, quint16 port){
     mSocket->connectToHost(hostname, port);
 }
 
-void modelChat::setNickName(QString name){
+void modelConnection::setNickName(QString name){
     nickName = name;
+}
+
+QTcpSocket* modelConnection::getSocket() const{
+    return mSocket;
+}
+void modelConnection::setSocket(QTcpSocket* S){
+    mSocket = S;
 }

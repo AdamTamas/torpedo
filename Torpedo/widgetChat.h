@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QPlainTextEdit>
-#include "modelChat.h"
+#include "modelConnection.h"
 
 class widgetChat : public QDialog // online catlakozás beállítások ablak
 {
@@ -14,22 +14,18 @@ public:
     // it cannot be used for implicit conversions and copy-initialization.
     explicit widgetChat(QWidget *parent = 0);
     void append(QString S);
-    void connectToHost(QString hostname, quint16 port);
+    void connectToHost(QTcpSocket* S);
     void setNickName(QString name);
-
-public slots:
-    void model_msgRecieved(QString msg);
+    void msgRecieved(QString msg);
+    QPushButton* _sendButton;
+    QString _send();
 
 protected:
-    QPushButton* _sendButton;
     QPushButton* _cancelButton;
     QPlainTextEdit* _messengeField;
     QPlainTextEdit* _chatField;
-    modelChat _cModel;
     void setHeight (QPlainTextEdit *ptxt, int nRows);
 
-private slots:
-    void _send(); // eseménykezelők a modell eseményeire
 
 private:
 };

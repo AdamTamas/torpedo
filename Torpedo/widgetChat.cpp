@@ -43,24 +43,18 @@ widgetChat::widgetChat(QWidget *parent) :
     setLayout(vlayout);
 
     connect(_sendButton, SIGNAL(clicked()), this, SLOT(_send()));
-    connect(&_cModel, SIGNAL(msgRecieved(QString)), this, SLOT(model_msgRecieved(QString)));
 }
 
-void widgetChat::_send()
+QString widgetChat::_send()
 {
      // üzenetküldés meghívás
-    _cModel.send(_messengeField->toPlainText());
+    QString s = _messengeField->toPlainText();
     // írható mező kitisztítása
     _messengeField->clear();
+    return s;
 }
 
-void widgetChat::connectToHost(QString hostname, quint16 port)
-{
-    _cModel.connectToHost(hostname, port);
-}
-
-
-void widgetChat::model_msgRecieved(QString msg)
+void widgetChat::msgRecieved(QString msg)
 {
     /*
     // szövegszín beállítás
@@ -71,6 +65,3 @@ void widgetChat::model_msgRecieved(QString msg)
     _chatField->appendPlainText(msg);
 }
 
-void widgetChat::setNickName(QString name){
-    _cModel.setNickName(name);
-}

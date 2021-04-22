@@ -4,6 +4,7 @@
 #include "playerBase.h"
 #include "basebuildingblocks.h"
 #include "tcpServer.h"
+#include "modelConnection.h"
 
 class modelTorpedo : public QObject
 {
@@ -20,8 +21,10 @@ public:
     void stepGame(Coordinate c);
     void checkGame();
     void newGameData(NewGameData data);
+    void connectToHost(QString hostname, quint16 port);
     playerBase* playerOne;
     playerBase* playerTwo;
+    modelConnection cModel;
 
 signals:
     void gameWon(int won); // játékos győzelmének eseménye
