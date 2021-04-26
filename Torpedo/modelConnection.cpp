@@ -62,6 +62,11 @@ void modelConnection::setNickName(QString name){
     nickName = name;
 }
 
+
+QString modelConnection::getNickName(){
+    return nickName;
+}
+
 QTcpSocket* modelConnection::getSocket() const{
     return mSocket;
 }

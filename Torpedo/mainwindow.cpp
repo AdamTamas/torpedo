@@ -160,6 +160,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         _model.connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
         _model.cModel.setNickName("Player2");
         _chatWidget->open();
+        widgetShippPlace shipPlaceWidget(_model.playerOne, this);
+        shipPlaceWidget.exec();
+        this->show();
     }
     // lekezeljük a Ctrl+U kombinációt
     if (event->key() == Qt::Key_U && QApplication::keyboardModifiers() == Qt::ControlModifier)

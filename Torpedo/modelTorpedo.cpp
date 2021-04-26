@@ -40,7 +40,7 @@ void modelTorpedo::newGameData(NewGameData data)
         _shipNum+= data.shipNumForSizes[i];
     }
     if(data.online){
-        playerTwo = new playerOnline(data);
+        playerTwo = new playerCPU(data);
         playerOne->newField(data);
         playerTwo->newField(data);
         if(!server.startServer(3333)){
@@ -61,19 +61,21 @@ void modelTorpedo::newGameData(NewGameData data)
 
 
 void modelTorpedo::connection_dataRecieved(NewGameData data){
-    qDebug() << "Data:" << data.areaSize
+    if(cModel.getNickName() != "Player1"){
+        qDebug() << "Data:" << data.areaSize
              <<" "<< data.shipNumForSizes[0]
              <<" "<< data.shipNumForSizes[1]
              <<" "<< data.shipNumForSizes[2]
              <<" "<< data.shipNumForSizes[3];
-    areaSize = data.areaSize;
-    _shipNum = 0;
-    for(int i = 0; i < 4; i++)
-    {
-        _shipNum+= data.shipNumForSizes[i];
+        areaSize = data.areaSize;
+        _shipNum = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            _shipNum+= data.shipNumForSizes[i];
+        }
+        playerOne->newField(data);
+        needNewGraphics();
     }
-    playerOne->newField(data);
-
 }
 
 Area modelTorpedo::getField(Coordinate c) const

@@ -14,6 +14,7 @@ public:
     void sendStep(QString);
     void connectToHost(QString hostname, quint16 port);
     void setNickName(QString name);
+    QString getNickName();
     QTcpSocket* getSocket() const;
     void setSocket(QTcpSocket* S);
 
