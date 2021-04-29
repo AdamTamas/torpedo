@@ -154,8 +154,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // lekezeljük a Ctrl+C kombinációt
     if (event->key() == Qt::Key_C && QApplication::keyboardModifiers() == Qt::ControlModifier)
     {
+        this->hide();
         widgetConnectGameOptions connectGameOptionsWidget(this);
         if(connectGameOptionsWidget.exec() == QDialog::Rejected){
+            this->show();
             return;
         }
         _model.connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
