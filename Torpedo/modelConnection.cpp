@@ -13,7 +13,7 @@ modelConnection::modelConnection()
             auto from = T.readLine();
             auto text = T.readAll();
             qDebug() << "client got:" << messengeType + " " + text << " from:" << from;
-            msgRecieved(from + text);
+            emit msgRecieved(from + ":" + text);
         }
 
         if(messengeType == "step"){
@@ -23,7 +23,16 @@ modelConnection::modelConnection()
             qDebug() << "client got:" << messengeType + " " + x + " " + y + " from:" + from;
             if(from != nickName){
                 Coordinate coordinate = {x.toInt(),y.toInt()};
-                //stepRecieved(coordinate);
+                emit stepRecieved(coordinate);
+            }
+        }
+
+        if(messengeType == "response"){
+            auto from = T.readLine();
+            auto ID = T.readLine();
+            qDebug() << "client got:" << messengeType + ": " + ID + " from:" + from;
+            if(from != nickName){
+                emit shotResponseRecieved(ID.toInt());
             }
         }
 
@@ -37,20 +46,26 @@ modelConnection::modelConnection()
             data.shipNumForSizes[3] = T.readLine().toInt();
             data.online = true;
             qDebug() << "client got:" << messengeType + " from:" + from;
-            dataRecieved(data);
+            emit dataRecieved(data);
         }
     });
 }
 
 void modelConnection::sendMessenge(QString S){
     QTextStream T(mSocket);
-    T << "chat\n" << nickName << ":\n" << S;
+    T << "chat\n" << nickName << "\n" << S;
     mSocket->flush();
 }
 
 void modelConnection::sendStep(QString S){
     QTextStream T(mSocket);
-    T << "step\n" << nickName << ":\n" << S;
+    T << "step\n" << nickName << "\n" << S;
+    mSocket->flush();
+}
+
+void modelConnection::sendShotResponse(QString S){
+    QTextStream T(mSocket);
+    T << "response\n" << nickName << "\n" << S;
     mSocket->flush();
 }
 

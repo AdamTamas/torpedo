@@ -24,6 +24,7 @@ protected:
 private slots:
     void model_gameWon(int won); // eseménykezelők a modell eseményeire
     void model_needNewGraphics(); // eseménykezelők a modell eseményeire
+    void model_needGraphicsUpdate(); // eseménykezelők a modell eseményeire
     void model_msgRecieved(QString); // eseménykezelők a modell eseményeire
     void _sendMSG(); // eseménykezelők a modell eseményeire
 

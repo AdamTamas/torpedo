@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // model eseményeinek feldolgozása
     connect(&_model, SIGNAL(gameWon(int)), this, SLOT(model_gameWon(int)));
     connect(&_model, SIGNAL(needNewGraphics()), this, SLOT(model_needNewGraphics()));
+    connect(&_model, SIGNAL(needGraphicsUpdate()), this, SLOT(model_needGraphicsUpdate()));
     connect(&_model.cModel, SIGNAL(msgRecieved(QString)), this, SLOT(model_msgRecieved(QString)));
     connect(_chatWidget->_sendButton, SIGNAL(clicked()), this, SLOT(_sendMSG()));
 
@@ -210,3 +211,7 @@ void MainWindow::model_gameWon(int won)
 
 void MainWindow::model_needNewGraphics()
 { setGraphics(); }
+
+
+void MainWindow::model_needGraphicsUpdate()
+{ update(); }

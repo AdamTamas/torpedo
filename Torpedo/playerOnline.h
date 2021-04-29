@@ -9,17 +9,11 @@ class playerOnline : public playerBase
     Q_OBJECT
 public:
     playerOnline(NewGameData newdata);
-    ~playerOnline();
-    virtual Coordinate makeShot() override;
     virtual void getShot(Coordinate c) override;
-    virtual void shotResponse(bool hit) override;
-    void connect();
+    virtual void shotResponse(int hit) override;
 
-public slots:
-
-protected:
-    Coordinate _lastShot;
-    QTcpSocket *socket;
+private:
+    Coordinate shotCoord;
 };
 
 #endif // ONLINEPLAYER_H

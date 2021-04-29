@@ -17,6 +17,8 @@ modelTorpedo::modelTorpedo()
     playerOne = new playerBase(d);
     playerTwo = new playerCPU(d);
     connect(&cModel, SIGNAL(dataRecieved(NewGameData)), this, SLOT(connection_dataRecieved(NewGameData)));
+    connect(&cModel, SIGNAL(stepRecieved(Coordinate)), this, SLOT(connection_stepRecieved(Coordinate)));
+    connect(&cModel, SIGNAL(shotResponseRecieved(int)), this, SLOT(connection_shotResponseRecieved(int)));
 }
 
 modelTorpedo::~modelTorpedo()
@@ -40,25 +42,27 @@ void modelTorpedo::newGameData(NewGameData data)
         _shipNum+= data.shipNumForSizes[i];
     }
     if(data.online){
-        playerTwo = new playerCPU(data);
+        online = true;
+        _myTurn = true;
+        playerTwo = new playerOnline(data);
         playerOne->newField(data);
         playerTwo->newField(data);
-        if(!server.startServer(3333)){
-            qDebug() << "ERROR:" << server.errorString();
+        if(!_server.startServer(3333)){
+            qDebug() << "ERROR:" << _server.errorString();
             return;
         }else{
             qDebug() << "Server connected to port 3333";
         }
         qDebug() << "Sending data to server";
-        server.getData(data);
+        _server.getData(data);
     }else{
+        online = false;
         playerTwo = new playerCPU(data);
         playerOne->newField(data);
         playerTwo->newField(data);
     }
-    needNewGraphics();
+    emit needNewGraphics();
 }
-
 
 void modelTorpedo::connection_dataRecieved(NewGameData data){
     if(cModel.getNickName() != "Player1"){
@@ -73,8 +77,8 @@ void modelTorpedo::connection_dataRecieved(NewGameData data){
         {
             _shipNum+= data.shipNumForSizes[i];
         }
-        playerOne->newField(data);
-        needNewGraphics();
+        prepareToOnlineGame(data);
+        emit needNewGraphics();
     }
 }
 
@@ -100,6 +104,10 @@ Ship modelTorpedo::getEnemyShipByID(int ID)  const
 
 void modelTorpedo::stepGame(Coordinate c)
 {
+    (online) ? stepOnline(c) : stepOffline(c);
+}
+
+void modelTorpedo::stepOffline(Coordinate c){
     if(!playerTwo->getField(c).isShot)
     {
         playerTwo->getShot(c);
@@ -111,30 +119,40 @@ void modelTorpedo::stepGame(Coordinate c)
     checkGame();
 }
 
+void modelTorpedo::stepOnline(Coordinate c){
+    if(!playerTwo->getField(c).isShot && _myTurn)
+    {
+        cModel.sendStep(QString::number(c.x) + "\n" + QString::number(c.y));
+        playerTwo->getShot(c);
+        _myTurn = false;
+    }
+    checkGame();
+}
+
 void modelTorpedo::checkGame()
 {
     bool player1won = true;
-    for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása
+    for(int i = 1; i <= _shipNum && player1won; ++i) // ellenőrzések végrehajtása
     {
-        if (playerTwo->getShipByID(i).hitPoint && player1won)
+        if (playerTwo->getShipByID(i).hitPoint)
         {
             player1won = false;
         }
     }
     bool player2won = true;
-    for(int i = 1; i <= _shipNum; ++i) // ellenőrzések végrehajtása
+    for(int i = 1; i <= _shipNum && player2won; ++i) // ellenőrzések végrehajtása
     {
-        if (playerOne->getShipByID(i).hitPoint && player2won)
+        if (playerOne->getShipByID(i).hitPoint)
             player2won = false;
     }
 
     if (player1won) // ha a játékos
     {
-        gameWon(1); // esemény kiváltása
+        emit gameWon(1); // esemény kiváltása
     }
     else if (player2won) // ha az ellenfél győzött
     {
-        gameWon(0); // esemény kiváltása
+        emit gameWon(0); // esemény kiváltása
     }
 }
 
@@ -143,4 +161,30 @@ void modelTorpedo::checkGame()
 void modelTorpedo::connectToHost(QString hostname, quint16 port)
 {
     cModel.connectToHost(hostname, port);
+}
+
+
+void modelTorpedo::prepareToOnlineGame(NewGameData data)
+{
+    online = true;
+    playerTwo = new playerOnline(data);
+    playerOne->newField(data);
+    playerTwo->newField(data);
+}
+
+void modelTorpedo::connection_stepRecieved(Coordinate c){
+    playerOne->getShot(c);
+    emit needGraphicsUpdate();
+    qDebug() << "Elküldött ID: " << playerOne->getField(c).shipID << "\n";
+    cModel.sendShotResponse(QString::number(playerOne->getField(c).shipID));
+    checkGame();
+    _myTurn = true;
+}
+
+
+void modelTorpedo::connection_shotResponseRecieved(int hit){
+    qDebug() << "Kapott ID: " << hit << "\n";
+    playerTwo->shotResponse(hit);
+    emit needGraphicsUpdate();
+    checkGame();
 }

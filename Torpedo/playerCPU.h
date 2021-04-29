@@ -12,7 +12,7 @@ public:
     void initOneTable(std::vector<std::vector<Area>> &t);
     virtual void resetTable() override;
     void resetOneTable(std::vector<std::vector<Area>> &t);
-    virtual void shotResponse(bool hit) override;
+    virtual void shotResponse(int hit) override;
 
 protected:
     std::vector<std::vector<Area>> _enemyGameTable; // saját játéktábla

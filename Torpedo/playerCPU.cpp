@@ -83,7 +83,7 @@ void playerCPU::resetOneTable(std::vector<std::vector<Area>> &t)
     }
 }
 
-void playerCPU::shotResponse(bool hit)
+void playerCPU::shotResponse(int hit)
 {
     if(hit)
     {
@@ -112,5 +112,6 @@ void playerCPU::shotResponse(bool hit)
                 _priorityShots.insert(p);
             }
         }
+    _enemyGameTable[_lastShot.x][_lastShot.y].shipID = hit;
     }
 }

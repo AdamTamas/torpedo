@@ -20,22 +20,29 @@ public:
     Ship getEnemyShipByID(int ID) const; // saját hajó adatainak lekérése ID alapján
     void stepGame(Coordinate c);
     void checkGame();
+    void prepareToOnlineGame(NewGameData data);
     void newGameData(NewGameData data);
     void connectToHost(QString hostname, quint16 port);
     playerBase* playerOne;
     playerBase* playerTwo;
     modelConnection cModel;
+    bool online = false;
 
 private slots:
-    void connection_dataRecieved(NewGameData data); // eseménykezelők a modell eseményeire
-
+    void connection_dataRecieved(NewGameData data); // online játék adatok érkezése
+    void connection_stepRecieved(Coordinate c);
+    void connection_shotResponseRecieved(int hit);
 signals:
     void gameWon(int won); // játékos győzelmének eseménye
-    void needNewGraphics(); // játékos győzelmének eseménye
+    void needNewGraphics(); // tábla újrarajzolása
+    void needGraphicsUpdate(); // kijelző frissítése
 
 private:
+    void stepOffline(Coordinate c);
+    void stepOnline(Coordinate c);
     int _shipNum = 4;
-    tcpServer server;
+    tcpServer _server;
+    bool _myTurn = false;
 };
 
 #endif // TORPEDOMODEL_H

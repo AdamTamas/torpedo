@@ -20,7 +20,9 @@ public:
     virtual void getShot(Coordinate c);
     virtual void newField(NewGameData data);
     virtual Coordinate makeShot(){Coordinate a; a.x = 0; a.y = 0; return a;};
-    virtual void shotResponse(bool){};
+    virtual void shotResponse(int){};
+
+    // hajó elhelyezés
     void rotate(Coordinate c);
     void pickUp(Coordinate c);
     void moveShip(Coordinate c);
