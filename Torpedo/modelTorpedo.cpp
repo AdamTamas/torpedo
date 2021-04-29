@@ -65,24 +65,6 @@ void modelTorpedo::newGameData(NewGameData data)
     emit needNewGraphics();
 }
 
-void modelTorpedo::connection_dataRecieved(NewGameData data){
-    if(cModel.getNickName() != "Player1"){
-        qDebug() << "Data:" << data.areaSize
-             <<" "<< data.shipNumForSizes[0]
-             <<" "<< data.shipNumForSizes[1]
-             <<" "<< data.shipNumForSizes[2]
-             <<" "<< data.shipNumForSizes[3];
-        areaSize = data.areaSize;
-        _shipNum = 0;
-        for(int i = 0; i < 4; i++)
-        {
-            _shipNum+= data.shipNumForSizes[i];
-        }
-        prepareToOnlineGame(data);
-        emit needNewGraphics();
-    }
-}
-
 Area modelTorpedo::getField(Coordinate c) const
 {
     return playerOne->getField(c);
@@ -158,6 +140,25 @@ void modelTorpedo::checkGame()
 }
 
 //online játék kiegészítői
+
+void modelTorpedo::connection_dataRecieved(NewGameData data){
+    if(cModel.getNickName() != "Player1"){
+        qDebug() << "Data:" << data.areaSize
+             <<" "<< data.shipNumForSizes[0]
+             <<" "<< data.shipNumForSizes[1]
+             <<" "<< data.shipNumForSizes[2]
+             <<" "<< data.shipNumForSizes[3];
+        areaSize = data.areaSize;
+        _shipNum = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            _shipNum+= data.shipNumForSizes[i];
+        }
+        prepareToOnlineGame(data);
+        emit needNewGraphics();
+        emit gotNewData();
+    }
+}
 
 void modelTorpedo::connectToHost(QString hostname, quint16 port)
 {

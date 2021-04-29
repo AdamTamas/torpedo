@@ -10,7 +10,6 @@ class modelTorpedo : public QObject
 {
     Q_OBJECT
 public:
-    int areaSize = 8;
     modelTorpedo();
     ~modelTorpedo();
     void newGame();
@@ -26,6 +25,7 @@ public:
     playerBase* playerOne;
     playerBase* playerTwo;
     modelConnection cModel;
+    int areaSize = 8;
 
 private slots:
     void connection_dataRecieved(NewGameData data); // online játék adatok érkezése
@@ -36,6 +36,7 @@ signals:
     void gameWon(int won); // játékos győzelmének eseménye
     void needNewGraphics(); // tábla újrarajzolása
     void needGraphicsUpdate(); // kijelző frissítése
+    void gotNewData(); // kijelző frissítése
 
 private:
     void stepOffline(Coordinate c);

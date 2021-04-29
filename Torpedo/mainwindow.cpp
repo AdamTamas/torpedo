@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(&_model, SIGNAL(gameWon(int)), this, SLOT(model_gameWon(int)));
     connect(&_model, SIGNAL(needNewGraphics()), this, SLOT(model_needNewGraphics()));
     connect(&_model, SIGNAL(needGraphicsUpdate()), this, SLOT(model_needGraphicsUpdate()));
+    connect(&_model, SIGNAL(gotNewData()), this, SLOT(model_gotNewData()));
     connect(&_model.cModel, SIGNAL(msgRecieved(QString)), this, SLOT(model_msgRecieved(QString)));
     connect(_chatWidget->_sendButton, SIGNAL(clicked()), this, SLOT(_sendMSG()));
 
@@ -163,10 +164,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         _model.connectToHost(connectGameOptionsWidget.hostname(), connectGameOptionsWidget.port());
         _model.cModel.setNickName("Player2");
         _chatWidget->open();
+/*
         widgetShippPlace shipPlaceWidget(_model.playerOne, this);
         shipPlaceWidget.exec();
         _model.cModel.sendReady();
-        this->show();
+        this->show();*/
+
     }
     // lekezeljük a Ctrl+U kombinációt
     if (event->key() == Qt::Key_U && QApplication::keyboardModifiers() == Qt::ControlModifier)
@@ -177,6 +180,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::model_msgRecieved(QString S){
     _chatWidget->msgRecieved(S);
+}
+
+
+
+void MainWindow::model_gotNewData(){
+    this->hide();
+    widgetShippPlace shipPlaceWidget(_model.playerOne, this);
+    shipPlaceWidget.exec();
+    _model.cModel.sendReady();
+    this->show();
 }
 
 void MainWindow::_sendMSG(){
