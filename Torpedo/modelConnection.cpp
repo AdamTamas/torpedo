@@ -101,3 +101,9 @@ QTcpSocket* modelConnection::getSocket() const{
 void modelConnection::setSocket(QTcpSocket* S){
     mSocket = S;
 }
+
+
+void modelConnection::abort()
+{
+    mSocket->abort();
+}

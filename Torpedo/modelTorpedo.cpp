@@ -161,6 +161,7 @@ void modelTorpedo::checkGame()
 
 void modelTorpedo::connectToHost(QString hostname, quint16 port)
 {
+    cModel.abort();
     cModel.connectToHost(hostname, port);
 }
 
