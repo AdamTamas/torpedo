@@ -37,6 +37,5 @@ private:
     int _boardSide; // "margó"
     widgetNewGameOptions* _newGameOptionsWidget; // új játék beálítás ablakot biztosító ablak
     widgetChat* _chatWidget;
-    bool _newGameStarted;
 };
 #endif // MAINWINDOW_H

@@ -19,6 +19,7 @@ modelTorpedo::modelTorpedo()
     connect(&cModel, SIGNAL(dataRecieved(NewGameData)), this, SLOT(connection_dataRecieved(NewGameData)));
     connect(&cModel, SIGNAL(stepRecieved(Coordinate)), this, SLOT(connection_stepRecieved(Coordinate)));
     connect(&cModel, SIGNAL(shotResponseRecieved(int)), this, SLOT(connection_shotResponseRecieved(int)));
+    connect(&cModel, SIGNAL(readyRecieved()), this, SLOT(connection_readyRecieved()));
 }
 
 modelTorpedo::~modelTorpedo()
@@ -42,7 +43,7 @@ void modelTorpedo::newGameData(NewGameData data)
         _shipNum+= data.shipNumForSizes[i];
     }
     if(data.online){
-        online = true;
+        _online = true;
         _myTurn = true;
         playerTwo = new playerOnline(data);
         playerOne->newField(data);
@@ -56,7 +57,7 @@ void modelTorpedo::newGameData(NewGameData data)
         qDebug() << "Sending data to server";
         _server.getData(data);
     }else{
-        online = false;
+        _online = false;
         playerTwo = new playerCPU(data);
         playerOne->newField(data);
         playerTwo->newField(data);
@@ -104,7 +105,7 @@ Ship modelTorpedo::getEnemyShipByID(int ID)  const
 
 void modelTorpedo::stepGame(Coordinate c)
 {
-    (online) ? stepOnline(c) : stepOffline(c);
+    (_online) ? stepOnline(c) : stepOffline(c);
 }
 
 void modelTorpedo::stepOffline(Coordinate c){
@@ -166,7 +167,7 @@ void modelTorpedo::connectToHost(QString hostname, quint16 port)
 
 void modelTorpedo::prepareToOnlineGame(NewGameData data)
 {
-    online = true;
+    _online = true;
     playerTwo = new playerOnline(data);
     playerOne->newField(data);
     playerTwo->newField(data);
@@ -187,4 +188,9 @@ void modelTorpedo::connection_shotResponseRecieved(int hit){
     playerTwo->shotResponse(hit);
     emit needGraphicsUpdate();
     checkGame();
+}
+
+void modelTorpedo::connection_readyRecieved()
+{
+    _myTurn = true;
 }

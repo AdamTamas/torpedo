@@ -165,6 +165,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         _chatWidget->open();
         widgetShippPlace shipPlaceWidget(_model.playerOne, this);
         shipPlaceWidget.exec();
+        _model.cModel.sendReady();
         this->show();
     }
     // lekezeljük a Ctrl+U kombinációt

@@ -36,6 +36,14 @@ modelConnection::modelConnection()
             }
         }
 
+        if(messengeType == "ready"){
+            auto from = T.readLine();
+            qDebug() << "client got:" << messengeType + " from:" + from;
+            if(from != nickName){
+                emit readyRecieved();
+            }
+        }
+
         if(messengeType == "data"){
             auto from = T.readLine();
             NewGameData data;
@@ -69,6 +77,12 @@ void modelConnection::sendShotResponse(QString S){
     mSocket->flush();
 }
 
+void modelConnection::sendReady(){
+    QTextStream T(mSocket);
+    T << "ready\n" << nickName;
+    mSocket->flush();
+};
+
 void modelConnection::connectToHost(QString hostname, quint16 port){
     mSocket->connectToHost(hostname, port);
 }
@@ -76,7 +90,6 @@ void modelConnection::connectToHost(QString hostname, quint16 port){
 void modelConnection::setNickName(QString name){
     nickName = name;
 }
-
 
 QString modelConnection::getNickName(){
     return nickName;

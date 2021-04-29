@@ -13,6 +13,7 @@ public:
     void sendMessenge(QString);
     void sendStep(QString);
     void sendShotResponse(QString);
+    void sendReady();
     void connectToHost(QString hostname, quint16 port);
     void setNickName(QString name);
     QString getNickName();
@@ -24,6 +25,7 @@ signals:
     void dataRecieved(NewGameData data);
     void stepRecieved(Coordinate c);
     void shotResponseRecieved(int shot);
+    void readyRecieved();
 
 private:
     QTcpSocket *mSocket;

@@ -26,12 +26,12 @@ public:
     playerBase* playerOne;
     playerBase* playerTwo;
     modelConnection cModel;
-    bool online = false;
 
 private slots:
     void connection_dataRecieved(NewGameData data); // online játék adatok érkezése
     void connection_stepRecieved(Coordinate c);
     void connection_shotResponseRecieved(int hit);
+    void connection_readyRecieved();
 signals:
     void gameWon(int won); // játékos győzelmének eseménye
     void needNewGraphics(); // tábla újrarajzolása
@@ -43,6 +43,7 @@ private:
     int _shipNum = 4;
     tcpServer _server;
     bool _myTurn = false;
+    bool _online = false;
 };
 
 #endif // TORPEDOMODEL_H
