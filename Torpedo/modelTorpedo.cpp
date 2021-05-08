@@ -132,10 +132,12 @@ void modelTorpedo::checkGame()
     if (player1won) // ha a játékos
     {
         emit gameWon(1); // esemény kiváltása
+        _myTurn = false;
     }
     else if (player2won) // ha az ellenfél győzött
     {
         emit gameWon(0); // esemény kiváltása
+        _myTurn = false;
     }
 }
 

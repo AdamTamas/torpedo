@@ -188,7 +188,10 @@ void MainWindow::model_gotNewData(){
     this->hide();
     widgetShippPlace shipPlaceWidget(_model.playerOne, this);
     shipPlaceWidget.exec();
-    _model.cModel.sendReady();
+    if(_model.playerOne->_data.online){
+        _model.cModel.sendReady();
+    }
+    setGraphics();
     this->show();
 }
 
@@ -218,11 +221,11 @@ void MainWindow::model_gameWon(int won)
     if (won)
     {
         QMessageBox::information(this, ("Torpedo"), ("Játék vége! Nyertél!"));
-        _model.newGame();
     }else{
         QMessageBox::information(this, ("Torpedo"), ("Játék vége! Vesztettél!"));
-        _model.newGame();
     }
+    _model.newGame();
+    model_gotNewData();
 }
 
 void MainWindow::model_needNewGraphics()
