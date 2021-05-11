@@ -20,7 +20,7 @@ protected:
     QPushButton* _okButton;
     QPushButton* _cancelButton;
     QPlainTextEdit* _IP;
-    QPlainTextEdit* _Port;
+    //QPlainTextEdit* _Port;
 
 private slots:
     void _connectGameSlot(); // eseménykezelők a modell eseményeire

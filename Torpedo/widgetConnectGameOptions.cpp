@@ -26,9 +26,9 @@ widgetConnectGameOptions::widgetConnectGameOptions(QWidget *parent) :
     _okButton = new QPushButton("Ok");
     _cancelButton = new QPushButton("Mégse");
     _IP = new QPlainTextEdit();
-    _Port  = new QPlainTextEdit();
+    //_Port  = new QPlainTextEdit();
     setHeight(_IP, 1);
-    setHeight(_Port, 1);
+    //setHeight(_Port, 1);
 
     // függőleges layout az elemeknek
     QVBoxLayout* vlayout = new QVBoxLayout();
@@ -37,15 +37,15 @@ widgetConnectGameOptions::widgetConnectGameOptions(QWidget *parent) :
     QHBoxLayout* hlayout = new QHBoxLayout();
     hlayout->addWidget(new QLabel("IP cím:"));
     hlayout->addWidget(_IP);
-    QHBoxLayout* hlayout1 = new QHBoxLayout();
-    hlayout1->addWidget(new QLabel("Port:"));
-    hlayout1->addWidget(_Port);
+    //QHBoxLayout* hlayout1 = new QHBoxLayout();
+    //hlayout1->addWidget(new QLabel("Port:"));
+    //hlayout1->addWidget(_Port);
     // alsó gombok
     QHBoxLayout* hlayout2 = new QHBoxLayout();
     hlayout2->addWidget(_okButton);
     hlayout2->addWidget(_cancelButton);
     vlayout->addLayout(hlayout);
-    vlayout->addLayout(hlayout1);
+    //vlayout->addLayout(hlayout1);
     vlayout->addLayout(hlayout2);
 
     setLayout(vlayout);
@@ -56,7 +56,7 @@ widgetConnectGameOptions::widgetConnectGameOptions(QWidget *parent) :
 void widgetConnectGameOptions::_connectGameSlot()
 {
     mHostname = _IP->toPlainText();
-    mPort = _Port->toPlainText().toUShort();
+    mPort = 3333; //_Port->toPlainText().toUShort();
     accept();
 }
 
