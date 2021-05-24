@@ -14,14 +14,12 @@ public:
     // it cannot be used for implicit conversions and copy-initialization.
     explicit widgetChat(QWidget *parent = 0);
     void append(QString S);
-    void connectToHost(QTcpSocket* S);
     void setNickName(QString name);
     void msgRecieved(QString msg);
-    QPushButton* _sendButton;
+    QPushButton* sendButton;
     QString _send();
 
 protected:
-    QPushButton* _cancelButton;
     QPlainTextEdit* _messengeField;
     QPlainTextEdit* _chatField;
     void setHeight (QPlainTextEdit *ptxt, int nRows);

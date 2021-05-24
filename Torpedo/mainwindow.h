@@ -27,7 +27,7 @@ private slots:
     void model_needGraphicsUpdate(); // eseménykezelők a modell eseményeire
     void model_msgRecieved(QString); // eseménykezelők a modell eseményeire
     void model_gotNewData();
-    void _sendMSG(); // eseménykezelők a modell eseményeire
+    void _sendMSG(); // eseménykezelők a chat üzenetküldés eseményeire
 
 private:
     QVector<QLineF> _tableGraphics; // mező grafikája, egy vektorban tárljuk a kirajzoló vonalakat

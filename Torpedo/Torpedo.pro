@@ -21,7 +21,7 @@ SOURCES += \
     widgetChat.cpp \
     widgetConnectGameOptions.cpp \
     widgetNewGameOptions.cpp \
-    widgetShippPlace.cpp
+    widgetShipPlace.cpp
 
 HEADERS += \
     basebuildingblocks.h \
@@ -36,7 +36,7 @@ HEADERS += \
     widgetChat.h \
     widgetConnectGameOptions.h \
     widgetNewGameOptions.h \
-    widgetShippPlace.h
+    widgetShipPlace.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

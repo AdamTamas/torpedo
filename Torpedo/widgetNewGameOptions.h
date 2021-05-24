@@ -7,7 +7,7 @@
 #include <QCheckBox>
 #include "basebuildingblocks.h"
 #include "modelTorpedo.h"
-#include "widgetShippPlace.h"
+#include "widgetShipPlace.h"
 
 class widgetNewGameOptions : public QDialog // Új játékhoz beállítások ablak
 {

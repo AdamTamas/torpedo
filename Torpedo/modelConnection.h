@@ -18,7 +18,6 @@ public:
     void setNickName(QString name);
     QString getNickName();
     QTcpSocket* getSocket() const;
-    void setSocket(QTcpSocket* S);
     void abort();
 
 signals:

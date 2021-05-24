@@ -23,7 +23,7 @@ widgetChat::widgetChat(QWidget *parent) :
     setBaseSize(300, 200);
     setWindowTitle("Csevegés");
 
-    _sendButton = new QPushButton("Küld");
+    sendButton = new QPushButton("Küld");
     _messengeField = new QPlainTextEdit();
     _chatField  = new QPlainTextEdit();
     _chatField->setReadOnly(true);
@@ -35,7 +35,7 @@ widgetChat::widgetChat(QWidget *parent) :
 
     QHBoxLayout* hlayout = new QHBoxLayout();
     hlayout->addWidget(_messengeField);
-    hlayout->addWidget(_sendButton);
+    hlayout->addWidget(sendButton);
 
     vlayout->addWidget(_chatField);
     vlayout->addLayout(hlayout);

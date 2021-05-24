@@ -98,10 +98,6 @@ QString modelConnection::getNickName(){
 QTcpSocket* modelConnection::getSocket() const{
     return mSocket;
 }
-void modelConnection::setSocket(QTcpSocket* S){
-    mSocket = S;
-}
-
 
 void modelConnection::abort()
 {

@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(&_model, SIGNAL(needGraphicsUpdate()), this, SLOT(model_needGraphicsUpdate()));
     connect(&_model, SIGNAL(gotNewData()), this, SLOT(model_gotNewData()));
     connect(&_model.cModel, SIGNAL(msgRecieved(QString)), this, SLOT(model_msgRecieved(QString)));
-    connect(_chatWidget->_sendButton, SIGNAL(clicked()), this, SLOT(_sendMSG()));
+    connect(_chatWidget->sendButton, SIGNAL(clicked()), this, SLOT(_sendMSG()));
 
     // új játék kezdése első alkalomhoz
     _model.newGame();
@@ -148,7 +148,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
 
-        widgetShippPlace shipPlaceWidget(_model.playerOne, this);
+        widgetShipPlace shipPlaceWidget(_model.playerOne, this);
         shipPlaceWidget.exec();
         this->show();
     }
@@ -176,23 +176,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         _chatWidget->open();
     }
-}
-
-void MainWindow::model_msgRecieved(QString S){
-    _chatWidget->msgRecieved(S);
-}
-
-
-
-void MainWindow::model_gotNewData(){
-    this->hide();
-    widgetShippPlace shipPlaceWidget(_model.playerOne, this);
-    shipPlaceWidget.exec();
-    if(_model.playerOne->_data.online){
-        _model.cModel.sendReady();
-    }
-    setGraphics();
-    this->show();
 }
 
 void MainWindow::_sendMSG(){
@@ -228,9 +211,23 @@ void MainWindow::model_gameWon(int won)
     model_gotNewData();
 }
 
+void MainWindow::model_msgRecieved(QString S){
+    _chatWidget->msgRecieved(S);
+}
+
+void MainWindow::model_gotNewData(){
+    this->hide();
+    widgetShipPlace shipPlaceWidget(_model.playerOne, this);
+    shipPlaceWidget.exec();
+    if(_model.playerOne->_data.online){
+        _model.cModel.sendReady();
+    }
+    setGraphics();
+    this->show();
+}
+
 void MainWindow::model_needNewGraphics()
 { setGraphics(); }
-
 
 void MainWindow::model_needGraphicsUpdate()
 { update(); }

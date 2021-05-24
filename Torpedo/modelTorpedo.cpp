@@ -168,7 +168,6 @@ void modelTorpedo::connectToHost(QString hostname, quint16 port)
     cModel.connectToHost(hostname, port);
 }
 
-
 void modelTorpedo::prepareToOnlineGame(NewGameData data)
 {
     _online = true;
@@ -185,7 +184,6 @@ void modelTorpedo::connection_stepRecieved(Coordinate c){
     checkGame();
     _myTurn = true;
 }
-
 
 void modelTorpedo::connection_shotResponseRecieved(int hit){
     qDebug() << "Kapott ID: " << hit << "\n";

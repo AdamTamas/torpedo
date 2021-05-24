@@ -39,7 +39,6 @@ Coordinate playerCPU::makeShot()
     return _lastShot;
 }
 
-
 void playerCPU::initTable()
 {
     _priorityShots.clear();

@@ -36,10 +36,4 @@ struct NewGameData {
 };
 
 
-struct Messenge {
-    QString sender;
-    QString Messenge;
-    time_t sendTime;
-};
-
 #endif // BASEBUILDINGBLOCKS_H
